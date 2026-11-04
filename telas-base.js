@@ -172,3 +172,108 @@ const CONV_TAB=CONVENIOS;
 
 /* O modal de recoleta da biblioteca serve a todas as telas */
 const modalRecoleta=()=>modalForm();
+
+/* ======================================================================
+   Rodada 3 (04/11, anotações 182 a 200): modelo do tubo e ordem de coleta, prévia da etiqueta,
+   triagem que acompanha o tubo, foto do pedido, assinatura na tela, caixa com não faturados.
+   ====================================================================== */
+document.head.insertAdjacentHTML('beforeend',`<style>
+.tubo-ord{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
+.tubo-ord li{display:flex;gap:10px;align-items:center;padding:6px 10px;border:1px solid var(--border);border-radius:12px;background:var(--surface);font-size:13px}
+.tubo-ord .on{flex:none;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-weight:800;font-size:12px}
+.tubo-ord li.fr .on{background:var(--surface2);color:var(--fg2)}
+.tubo-ord .tx{flex:1;min-width:0;line-height:1.35}.tubo-ord .tx b{color:var(--fg-strong)}.tubo-ord .tx small{display:block;color:var(--fg2);font-size:12px}
+.tubo-svg{flex:none}
+.etqs{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.etq{border:1px dashed var(--fg2);border-radius:10px;padding:10px 12px;background:#fff;color:#111;display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.3}
+.etq .eb{flex:1;min-width:0}.etq .eb b{font-size:13px;display:block}.etq .mono{font-size:12px;letter-spacing:.04em}
+.etq svg.bc{display:block;width:100%;height:34px;margin:4px 0 2px}
+.etq .em{margin-top:4px;padding-top:4px;border-top:1px solid #ddd;color:#444;font-size:11px}
+.tri-box{border:1px solid var(--warn);background:var(--warn-soft);border-radius:12px;padding:10px 12px;font-size:13px;display:flex;flex-direction:column;gap:6px}
+.tri-box b{color:var(--fg-strong)}
+.tri-chks{display:flex;flex-wrap:wrap;gap:6px 14px}
+.sigpad{width:100%;height:180px;border:1px dashed var(--fg2);border-radius:12px;background:#fff;touch-action:none;cursor:crosshair;display:block}
+.foto-prev{max-width:100%;max-height:260px;border-radius:12px;border:1px solid var(--border);display:block}
+.file-btn{position:relative;overflow:hidden}.file-btn input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.col-ex{display:flex;flex-direction:column;gap:6px}
+.col-ex .ce{border:1px solid var(--border);border-radius:12px;padding:8px 10px;background:var(--surface);font-size:13px}
+.col-ex .ce.pend{border-color:var(--warn);background:var(--warn-soft)}
+.col-ex .ce .row{gap:8px}
+.col-ex .ce .cobs{display:none;margin-top:6px;gap:6px;flex-wrap:wrap}.col-ex .ce.pend .cobs{display:flex}
+.falt-ic{display:inline-flex;align-items:center;gap:4px;color:var(--err);font-weight:700;font-size:12px;white-space:nowrap}
+.falt-ic svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+.naofat{border:1px solid var(--warn);background:var(--warn-soft);border-radius:12px;padding:10px 12px;font-size:13px;display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.naofat .nf{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.naofat .nf .grow{flex:1;min-width:160px}.naofat small{color:var(--fg2);display:block}
+.relt{border:1px solid var(--border);border-radius:16px;padding:16px;background:var(--surface)}
+</style>`);
+
+/* Modelo de tubo por material e ordem de coleta (citrato → soro → EDTA → fluoreto; urina é frasco à parte) */
+const TUBO_MOD={
+ Citrato:{o:1,n:'Citrato de sódio 3,2%',tampa:'azul-clara',cor:'#6EB5E8',vol:'2,7 mL',inv:'3 a 4 inversões'},
+ Soro:{o:2,n:'Soro com gel separador',tampa:'amarela',cor:'#E8B931',vol:'5 mL',inv:'5 inversões'},
+ EDTA:{o:3,n:'EDTA K2',tampa:'roxa',cor:'#8B5CC7',vol:'4 mL',inv:'8 a 10 inversões'},
+ Fluoreto:{o:4,n:'Fluoreto de sódio',tampa:'cinza',cor:'#9AA3AD',vol:'2 mL',inv:'8 a 10 inversões'},
+ Urina:{o:9,n:'Frasco de urina estéril',tampa:'amarela (frasco)',cor:'#F3D34A',vol:'até 50 mL',inv:'',fr:true}};
+const matDe=c=>(typeof EX!=='undefined'&&EX[c]&&EX[c].m)||'';
+function tubosDe(exs){const g={};(exs||[]).forEach(c=>{const m=matDe(c);if(!m)return;(g[m]=g[m]||[]).push(c)});return Object.entries(g).map(([m,l])=>Object.assign({m,ex:l},TUBO_MOD[m]||{o:8,n:m,tampa:'',cor:'#BBBBBB',vol:'',inv:''})).sort((a,b)=>a.o-b.o)}
+const tuboSvg=(t,h=34)=>t.fr?`<svg class="tubo-svg" width="${Math.round(h*.8)}" height="${h}" viewBox="0 0 24 30" aria-hidden="true"><rect x="3" y="2" width="18" height="6" rx="2" fill="${t.cor}" stroke="#555" stroke-width="1"/><rect x="4" y="8" width="16" height="20" rx="3" fill="#fff" stroke="#555" stroke-width="1"/><rect x="5" y="16" width="14" height="11" rx="2" fill="#F6E58D" opacity=".7"/></svg>`:`<svg class="tubo-svg" width="${Math.round(h*.45)}" height="${h}" viewBox="0 0 14 34" aria-hidden="true"><rect x="1" y="1" width="12" height="7" rx="2" fill="${t.cor}" stroke="#555" stroke-width="1"/><path d="M2.5 8h9v20a4.5 4.5 0 0 1-9 0z" fill="#fff" stroke="#555" stroke-width="1"/><path d="M3.5 18h7v10a3.5 3.5 0 0 1-7 0z" fill="#C0392B" opacity=".75"/></svg>`;
+function ordemColeta(exs,opt={}){const l=tubosDe(exs);if(!l.length)return '<p class="tl">Sem tubo a colher.</p>';let n=0;
+ return `<ol class="tubo-ord">${l.map(t=>`<li class="${t.fr?'fr':''}"><span class="on">${t.fr?'·':++n}</span>${tuboSvg(t,30)}<span class="tx"><b>${t.fr?'Frasco à parte':n+'º tubo'}: ${t.n}</b> · tampa ${t.tampa}${t.vol?' · '+t.vol:''}<small>${t.ex.map(c=>EX[c]?EX[c].n:c).join(', ')}${t.inv?' · homogeneizar com '+t.inv:''}</small></span></li>`).join('')}</ol>${opt.nota===false?'':`<p class="tl" style="margin-top:6px">Ordem de coleta: citrato (azul) → soro (amarela/vermelha) → EDTA (roxa) → fluoreto (cinza). Urina e fezes são frascos à parte e não entram na ordem.</p>`}`}
+
+/* Código de barras de mentira (desenho), só para a prévia */
+function barcodeSvg(code){const d=String(code).replace(/\D/g,'')||'0';let x=2,bars='';for(let i=0;i<d.length;i++){const v=+d[i];[1+(v%3),1,2+(v%2),1].forEach((w,j)=>{if(j%2===0)bars+=`<rect x="${x}" y="0" width="${w}" height="30" fill="#111"/>`;x+=w})}return `<svg class="bc" viewBox="0 0 ${x+2} 30" preserveAspectRatio="none" aria-hidden="true">${bars}</svg>`}
+
+/* Prévia das etiquetas: uma por tubo, com o modelo do tubo (anotações 182, 190 e 195) */
+let ETQ_CTX=null;
+function etiquetaPrev(o){o=Object.assign({n:'Paciente',nasc:'',prot:'10-00018233',exs:['HEMO','COL'],modo:'Impressora do box 1',triagem:true},o||{});ETQ_CTX=o;const ts=tubosDe(o.exs);const [u,p]=String(o.prot).split('-');
+ const lab=ts.map((t,i)=>{const cod=`${u}-${String(+p).padStart(8,'0')}-${String(t.o).padStart(2,'0')}-01`;return `<div class="etq">${tuboSvg(t,58)}<div class="eb"><b>${esc(o.n)}</b>${o.nasc?`<span>Nasc. ${esc(o.nasc)}</span> · `:''}<span>Prot. ${esc(o.prot)}</span>${barcodeSvg(cod)}<span class="mono">${cod}</span><div>${t.ex.join(' · ')}</div><div class="em">${t.fr?'Frasco':'Tubo'}: <b style="display:inline;font-size:11px">${t.n}</b> · tampa ${t.tampa}${t.vol?' · '+t.vol:''}</div></div></div>`}).join('');
+ openModal(`${mh('Prévia das etiquetas · '+esc(o.n.split(' ')[0]))}<div class="mb"><p style="font-size:14px;color:var(--fg2)">${ts.length} etiqueta(s), uma por tubo, na ordem de coleta. Cada etiqueta mostra o modelo do tubo em que deve ser colada. Saída: <b>${esc(o.modo)}</b>.</p><div class="etqs">${lab||'<p class="tl">Nenhum exame laboratorial: não há etiqueta de tubo.</p>'}</div>${o.triagem?`<div class="alert warn"><span><b>A folha de triagem vai junto com o tubo.</b> Medicamentos em uso, doenças crônicas, jejum e observações seguem com a amostra até a área técnica.</span></div>`:''}</div><div class="mf"><button class="btn ghost" onclick="closeModal()">Fechar</button>${o.triagem?`<button class="btn sec" onclick="triagemFolha()">${I.print} Folha de triagem</button>`:''}<button class="btn" onclick="toast('${ts.length} etiqueta(s) enviada(s): ${esc(o.modo).replace(/'/g,'')}');modalVoltar()||closeModal()">${I.print} Imprimir ${ts.length} etiqueta(s)</button></div>`,'wide')}
+
+/* Triagem: o que o paciente toma, doenças crônicas, jejum. Vai impressa com o tubo e a biomédica confere ao bipar. */
+const TRI_DOENCAS=['Diabetes','Hipertensão','Doença da tireoide','Doença renal','Doença do fígado','Cardiopatia','Usa anticoagulante','Gestante'];
+const TRIAGENS={
+ '10-00018233':{med:'Losartana 50 mg (manhã); Sinvastatina 20 mg (noite)',cron:['Hipertensão'],jejum:'10 h',obs:'Tomou a losartana às 6h.',bio:''},
+ '10-00018241':{med:'Metformina 850 mg; AAS 100 mg',cron:['Diabetes','Cardiopatia'],jejum:'12 h',obs:'Idoso, veia difícil.',bio:''},
+ '10-00018262':{med:'Furosemida 40 mg; Espironolactona 25 mg',cron:['Doença renal','Hipertensão'],jejum:'8 h',obs:'Coleta domiciliar às 07:38.',bio:''},
+ '14-00004471':{med:'Levotiroxina 50 mcg',cron:['Doença da tireoide'],jejum:'4 h',obs:'',bio:''},
+ '14-00004502':{med:'Nenhum',cron:[],jejum:'8 h',obs:'',bio:''},
+ '14-00004503':{med:'Anticoncepcional oral',cron:[],jejum:'não exigido',obs:'Urina de jato médio.',bio:''},
+ '10-00018250':{med:'Nenhum',cron:['Gestante'],jejum:'não exigido',obs:'Gestante de 12 semanas.',bio:''},
+ '10-00018255':{med:'Glibenclamida 5 mg',cron:['Diabetes'],jejum:'12 h',obs:'',bio:''}};
+const triDe=prot=>TRIAGENS[prot]||(TRIAGENS[prot]={med:'',cron:[],jejum:'',obs:'',bio:''});
+function triagemCampos(pf,t){t=t||{};return `<div class="formgrid"><div class="field" style="grid-column:1/-1"><label for="${pf}Med">Medicamentos em uso ${info('Nome, dose e horário da última tomada. Vai impresso na folha de triagem junto com o tubo e aparece para a biomédica quando o tubo é bipado na área técnica.')}</label><textarea class="in" id="${pf}Med" rows="2" placeholder="Ex.: Losartana 50 mg às 6h">${esc(t.med||'')}</textarea></div>
+ <div class="field" style="grid-column:1/-1"><label>Doenças crônicas e condições</label><div class="tri-chks">${TRI_DOENCAS.map((d,i)=>`<label class="check"><input type="checkbox" name="${pf}Cr" value="${d}" ${(t.cron||[]).includes(d)?'checked':''}>${d}</label>`).join('')}</div></div>
+ <div class="field"><label for="${pf}Jej">Jejum</label><input class="in" id="${pf}Jej" value="${esc(t.jejum||'')}" placeholder="Ex.: 10 h"></div>
+ <div class="field"><label for="${pf}Obs">Observações</label><input class="in" id="${pf}Obs" value="${esc(t.obs||'')}" placeholder="Ex.: atividade física ontem"></div></div>`}
+function triagemLer(pf){const v=id=>{const e=document.getElementById(pf+id);return e?e.value.trim():''};return {med:v('Med'),cron:[...document.querySelectorAll(`input[name="${pf}Cr"]:checked`)].map(e=>e.value),jejum:v('Jej'),obs:v('Obs')}}
+const triResumo=t=>kvs([['Medicamentos',t.med?esc(t.med):'<span class="tl">não informado</span>'],['Doenças crônicas',(t.cron||[]).length?t.cron.map(esc).join(', '):'<span class="tl">nenhuma informada</span>'],['Jejum',t.jejum?esc(t.jejum):'—'],['Observações',t.obs?esc(t.obs):'—']]);
+function triagemFolha(o){o=o||ETQ_CTX||{};const t=o.tri||(o.prot?triDe(o.prot):{});openModal(`${mh('Folha de triagem · acompanha o tubo')}<div class="mb rel"><div class="row" style="justify-content:space-between"><div><h2>Triagem pré-analítica</h2><span style="color:var(--fg2)">${esc(o.n||'Paciente')} · protocolo ${esc(o.prot||'—')}</span></div></div><div class="alert warn"><span><b>Esta folha deve seguir junto com o tubo</b> até a área técnica. Na bipagem, a biomédica confere e registra estas informações na amostra.</span></div>${triResumo(t)}${o.exs?`<h4>Tubos, na ordem de coleta</h4>${ordemColeta(o.exs,{nota:false})}`:''}<div class="ass"><div>Quem colheu</div><div>Biomédica(o) que conferiu</div></div></div><div class="mf"><button class="btn ghost" onclick="closeModal()">Fechar</button><button class="btn" onclick="window.print()">${I.print} Imprimir folha</button></div>`)}
+
+/* Foto do pedido: câmera do celular ou arquivo (anotação 196) */
+function fotoPedido(nome,cb){openModal(`${mh('Foto do pedido · '+esc(nome))}<div class="mb"><p style="font-size:14px;color:var(--fg2)">Tire a foto do pedido médico pela câmera do celular ou anexe um arquivo (imagem ou PDF). Fica guardada no atendimento e sincroniza quando a rede voltar.</p><div class="row"><label class="btn file-btn">${I.plus} Tirar foto<input type="file" accept="image/*" capture="environment" onchange="fotoMostra(this)" aria-label="Tirar foto do pedido"></label><label class="btn sec file-btn">Anexar arquivo<input type="file" accept="image/*,application/pdf" onchange="fotoMostra(this)" aria-label="Anexar arquivo do pedido"></label></div><div id="fotoPrev" class="tl">Nenhum arquivo ainda.</div></div><div class="mf"><button class="btn ghost" onclick="closeModal()">Cancelar</button><button class="btn" onclick="fotoSalva('${esc(nome).replace(/'/g,'')}')">Guardar no atendimento</button></div>`);FOTO_CB=cb||null;FOTO_OK=false}
+let FOTO_OK=false,FOTO_CB=null;
+function fotoMostra(inp){const f=inp.files&&inp.files[0],box=$('#fotoPrev');if(!f||!box)return;FOTO_OK=true;if(/^image\//.test(f.type)){let u='';try{u=URL.createObjectURL(f)}catch(e){}box.innerHTML=u?`<img class="foto-prev" src="${u}" alt="Prévia do pedido"><small class="tl">${esc(f.name)} · ${Math.round(f.size/1024)} KB</small>`:esc(f.name)}else box.innerHTML=`<div class="doc"><div class="di">${I.doc}</div><div class="dd">${esc(f.name)}<small>${Math.round(f.size/1024)} KB</small></div></div>`}
+function fotoSalva(nome){if(!FOTO_OK){toast('Tire a foto ou escolha um arquivo antes de guardar','warn');return}closeModal();toast('Foto do pedido de '+nome+' guardada no atendimento');if(FOTO_CB)FOTO_CB()}
+
+/* Assinatura do cliente na tela (anotação 197) */
+let SIG_CB=null,SIG_TEM=false;
+function assinaturaModal(nome,cb){SIG_CB=cb||null;SIG_TEM=false;openModal(`${mh('Assinatura · '+esc(nome))}<div class="mb"><p style="font-size:14px;color:var(--fg2)">Peça para ${esc(nome.split(' ')[0])} assinar com o dedo na área abaixo. A assinatura confirma a coleta em casa e fica no atendimento.</p><canvas class="sigpad" id="sigPad" aria-label="Área de assinatura"></canvas><span class="tl">Assine dentro do quadro.</span></div><div class="mf"><button class="btn ghost" onclick="closeModal()">Cancelar</button><button class="btn sec" onclick="sigLimpa()">Limpar</button><button class="btn" onclick="sigSalva('${esc(nome).replace(/'/g,'')}')">Salvar assinatura</button></div>`);setTimeout(sigInit,30)}
+function sigInit(){const c=$('#sigPad');if(!c)return;const r=c.getBoundingClientRect(),dpr=window.devicePixelRatio||1;c.width=Math.max(1,r.width*dpr);c.height=Math.max(1,r.height*dpr);const x=c.getContext('2d');x.scale(dpr,dpr);x.lineWidth=2.2;x.lineCap='round';x.strokeStyle='#111';let on=false;
+ const p=e=>{const b=c.getBoundingClientRect();return [e.clientX-b.left,e.clientY-b.top]};
+ c.addEventListener('pointerdown',e=>{on=true;try{c.setPointerCapture(e.pointerId)}catch(_){}const [a,b]=p(e);x.beginPath();x.moveTo(a,b);e.preventDefault()});
+ c.addEventListener('pointermove',e=>{if(!on)return;const [a,b]=p(e);x.lineTo(a,b);x.stroke();SIG_TEM=true});
+ ['pointerup','pointerleave','pointercancel'].forEach(ev=>c.addEventListener(ev,()=>{on=false}))}
+function sigLimpa(){const c=$('#sigPad');if(!c)return;c.getContext('2d').clearRect(0,0,c.width,c.height);SIG_TEM=false}
+function sigSalva(nome){if(!SIG_TEM){toast('A assinatura está em branco','warn');return}closeModal();toast('Assinatura de '+nome+' guardada no atendimento');if(SIG_CB)SIG_CB()}
+
+/* Baixar um relatório da tela como planilha (CSV) */
+function baixarCsv(nome,linhas){const csv=linhas.map(l=>l.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(';')).join('\r\n');try{const b=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=nome;document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),100);toast('Planilha '+nome+' baixada')}catch(e){toast('Não foi possível baixar aqui; use Imprimir e salve em PDF','warn')}}
+
+/* Janela por cima de janela: guarda a atual (com o que já foi digitado) e põe "Voltar" na nova */
+function modalAberto(){const b=$('#backdrop');return !!(b&&b.classList.contains('show'))}
+function modalGuarda(){if(!modalAberto())return null;const m=$('#modal'),f=document.createDocumentFragment();while(m.firstChild)f.appendChild(m.firstChild);return {f,cls:m.className}}
+function modalRestaura(g){if(!g)return;const m=$('#modal');m.innerHTML='';m.className=g.cls;m.appendChild(g.f);$('#backdrop').classList.add('show')}
+let MODAL_ANT=null;function modalVolta(g,label){if(!g)return;MODAL_ANT=g;const f=$('#modal .mf');if(f)f.insertAdjacentHTML('afterbegin',`<button class="btn ghost" onclick="modalVoltar()">${label||'Voltar'}</button>`)}
+function modalVoltar(){const g=MODAL_ANT;MODAL_ANT=null;if(!g)return false;modalRestaura(g);return true}
+{const _c=closeModal;closeModal=function(){MODAL_ANT=null;return _c.apply(this,arguments)}}
+function sobreModal(abre,label){const g=modalGuarda();abre(g);modalVolta(g,label)}
