@@ -269,7 +269,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 </style>`);
 
 /* ---------- Dr. Deo pequeno com fala por setor (anotação 125): deoFala(nº da brincadeira, {perfil: frase, todos: frase}) ---------- */
-function deoFala(n,m){if(!BRINCA)return '';const t=m[PERFIL]||m.todos;if(!t)return '';return `<div class="deo">${FIG('ok','pq')}<div class="fala"><b>Dr. Deo diz:</b> ${t}<span class="fun">brincadeira ${n}</span></div></div>`}
+function deoFala(n,m){if(!BRINCA)return '';const t=m[PERFIL]||m.todos;if(!t)return '';return `<div class="deo">${FIG('ok','pq')}<div class="fala"><b>Dr. Deo diz:</b> ${t}</div></div>`}
 
 /* ======================= 108. Teste de comunicação do aparelho ======================= */
 function apTestar(nome,conn,proto){const a=APARELHOS.find(x=>x.n===nome)||{};conn=conn||a.conn||'Rede 192.168.0.50:5100';proto=proto||a.proto||'ASTM E1394';const falha=a.hora==='calado há 1h48'||a.hora==='sem integração';

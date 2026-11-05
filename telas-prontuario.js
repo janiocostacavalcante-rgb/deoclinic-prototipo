@@ -353,7 +353,7 @@ function pzEnc(id){if(PZ_ENC[id])return PZ_ENC[id];const a=PZA(id),p=pzPac(a.pac
   anam:{hda:'',ap:p.comorb.join(', '),af:'',hab:'',rs:''},ef:{sis:{}},hip:[],evol:'',laudo:[{v:1,st:'rascunho',tit:(PROC(a.proc)||{n:'Laudo'}).n,tx:''}],salvaMod:false,modTit:'',side:'hist',
   rx:[],rxMod:false,rxModTit:'',ex:[],enc:[],at:{dias:'',mot:'Condição clínica',cid:'',desc:'',aut:p.aut,st:'novo'},decl:'',declMod:false,declModTit:'',
   arq:id===5106?[{n:'atestado-externo-ortoclin.pdf',mb:0.4,tipo:'ATESTADO_EXTERNO',h:'08:52',meu:false}]:[],par:'',parAb:false,
-  ia:{st:'off',cons:false,lin:[],sug:null,seg:0},ctab:'evol',dtab:'atest',htab:'tudo',lab:'GLI',b2b:false,open:{tri:true,anam:true,ef:false,hip:true,amc:true,cond:true,docs:false,hist:false}}}
+  ia:{st:'off',cons:false,lin:[],sug:null,seg:0},ctab:'evol',dtab:'atest',htab:'tudo',lab:'GLI',b2b:false,restab:'todos',open:{tri:true,anam:true,ef:false,hip:true,amc:true,cond:true,docs:false,res:true,hist:false}}}
 function pzSalvo(){const s=$('#pzSave');if(!s)return;s.className='pz-save';s.textContent='Salvando…';clearTimeout(window.pzSvT);window.pzSvT=setTimeout(()=>{if($('#pzSave')){$('#pzSave').className='pz-save ok';$('#pzSave').textContent='Salvo'}},700)}
 function pzSet(path,v){const E=pzEnc(PZ_SEL),k=path.split('.');let o=E;for(let i=0;i<k.length-1;i++)o=o[k[i]];o[k[k.length-1]]=v;pzSalvo()}
 const pzCnt=(id,max)=>{const t=$('#'+id),c=$('#'+id+'C');if(t&&c)c.textContent=t.value.length+' / '+max};
@@ -391,6 +391,7 @@ VIEWS['atendimento-medico']=()=>{
  ${a.tipo==='AVALIACAO'?pzSec('amc','Avaliação médica complementar','atestado externo e parecer',pzAMC(a,E),E):''}
  ${pzSec('cond','Conduta',a.tipo==='EXAME'?'laudo, prescrição, exames, encaminhamentos':'evolução, prescrição, exames, encaminhamentos',pzCond(a,E,p),E)}
  ${pzSec('docs','Documentos','atestado, declaração, arquivos',pzDocs(a,E,p),E)}
+ ${pzSec('res','Resultados de exames',pzResSub(),pzResultados(E),E)}
  ${pzSec('hist','Histórico','linha do tempo do paciente',pzTimeline(a),E)}
  </div>
  ${a.mod==='tele'&&PZ_VIDEO?pzVideoFloat(a):''}
@@ -588,6 +589,31 @@ function pzArqs(a,E){const n=E.arq.length+PZ_ARQ_ANT.reduce((s,g)=>s+g.l.length,
  <div class="pz-grp">Arquivos anteriores do paciente</div>${PZ_ARQ_ANT.map(g=>`<details><summary style="cursor:pointer;font-size:14px;padding:4px 0">Pasta ${g.d} (${g.l.length})</summary><div class="stack" style="gap:6px;margin-top:6px">${g.l.map(f=>lin(f)).join('')}</div></details>`).join('')}
  <small style="color:var(--fg2)">Tipos: EXAME, ATESTADO, ATESTADO_EXTERNO, PARECER_ATESTADO_EXTERNO, LAUDO, RECEITA, DECLARACAO. Só remove quem enviou, no atendimento atual.</small>`}
 function pzUp(fs){const E=pzEnc(PZ_SEL),id=PZ_SEL;[...fs].forEach(f=>{if(f.size>15*1024*1024){toast(f.name+': passa de 15 MB.','err');return}const it={n:f.name,mb:Math.max(.1,f.size/1048576),tipo:/atestado/i.test(f.name)?'ATESTADO_EXTERNO':'EXAME',h:pzHm(PZ_AGORA),meu:true,up:true};E.arq.push(it);setTimeout(()=>{it.up=false;if(PZ_SEL===id)reView()},900)});reView()}
+
+/* ---------- Resultados de exames (notas 1 e 2): situação de cada exame e histórico. O mesmo para todos no protótipo, como a linha do tempo. ---------- */
+const PZ_RES_ST={coleta:['Aguardando coleta','neutral'],digitacao:['Em digitação','info'],conferencia:['Em conferência','acc'],assinar:['Falta o Dr. assinar','warn'],recoleta:['Recoleta pedida','err'],liberado:['Liberado','ok']};
+const PZ_EXRES=[
+ {d:'2026-11-04',n:'Urina tipo 1',st:'coleta',q:'Pedido nesta manhã'},
+ {d:'2026-11-04',n:'TSH',st:'recoleta',q:'Amostra hemolisada · recoleta até 07/11'},
+ {d:'2026-11-04',n:'Vitamina D (25-OH)',st:'digitacao',q:'Bancada de hormônios'},
+ {d:'2026-11-04',n:'Glicose',lab:'GLI',v:'131 mg/dL',alt:true,st:'conferencia',q:'Digitado por Tiago Lira'},
+ {d:'2026-11-04',n:'Potássio',lab:'K',v:'5,0 mmol/L',st:'assinar',q:'Aguarda Dra. Helena Brito'},
+ {d:'2026-10-15',n:'Potássio',lab:'K',v:'4,9 mmol/L',st:'liberado',q:'Dra. Helena Brito'},
+ {d:'2026-10-15',n:'Glicose',lab:'GLI',v:'128 mg/dL',alt:true,st:'liberado',q:'Dra. Helena Brito'},
+ {d:'2026-10-15',n:'Hemoglobina glicada',lab:'HBA1C',v:'7,1 %',alt:true,st:'liberado',q:'Dra. Helena Brito'},
+ {d:'2026-10-15',n:'Creatinina',lab:'CREA',v:'1,1 mg/dL',st:'liberado',q:'Dra. Helena Brito'},
+ {d:'2026-10-15',n:'Colesterol total',lab:'COL',v:'181 mg/dL',st:'liberado',q:'Dra. Helena Brito'},
+ {d:'2026-09-02',n:'US abdome total',v:'Esteatose hepática grau I',st:'liberado',q:'Dr. Paulo Henrique Viana'},
+ {d:'2026-03-03',n:'Eletrocardiograma',v:'Ritmo sinusal, sem alterações',st:'liberado',q:'Dr. Igor Menezes'},
+ {d:'2026-03-03',n:'Hemograma completo',v:'Dentro da referência',st:'liberado',q:'Dra. Helena Brito'}];
+const pzResPend=()=>PZ_EXRES.filter(x=>x.st!=='liberado');
+const pzResSub=()=>{const n=pzResPend().length;return n?'histórico e situação · '+n+' sem liberar':'histórico e situação'};
+function pzResultados(E){const f=E.restab||'todos',l=f==='pend'?pzResPend():f==='lib'?PZ_EXRES.filter(x=>x.st==='liberado'):PZ_EXRES,set=k=>`pzEnc(PZ_SEL).restab='${k}';reView()`;
+ return `<div class="row" style="gap:6px">${[['todos','Todos',PZ_EXRES.length],['pend','Sem liberar',pzResPend().length],['lib','Liberados',PZ_EXRES.length-pzResPend().length]].map(([k,t,n])=>chip(t+' ('+n+')',f===k,set(k))).join('')}</div>
+ ${tabela(['Data','Exame','Resultado','Situação',''],l.map(x=>{const s=PZ_RES_ST[x.st];return `<tr>${td('Data',pzDmy(x.d))}${td('Exame',`<b>${esc(x.n)}</b>`)}${td('Resultado',x.v?`<span ${x.alt?'style="color:var(--err)"':''}>${esc(x.v)}</span>${x.st==='liberado'?'':'<small class="tl" style="display:block">preliminar, ainda não liberado</small>'}`:'<span class="tl">ainda sem resultado</span>')}${td('Situação',`<span class="badge ${s[1]}">${s[0]}</span><small class="tl" style="display:block">${esc(x.q)}</small>`)}${td('',`<button class="btn sm ghost" onclick="pzResHist(${PZ_EXRES.indexOf(x)})">Histórico</button>`)}</tr>`}),'Nenhum exame nesta situação')}`}
+function pzResHist(i){const x=PZ_EXRES[i],l=PZ_EXRES.filter(y=>y.n===x.n),ser=x.lab&&PZ_LAB[x.lab];
+ const ant=ser?ser.s.slice(0,-1).reverse().map(([d,v])=>`<div class="at-row"><div class="grow">${String(v).replace('.',',')} ${ser.u}<small>${d}</small></div><span class="badge ok">Liberado</span></div>`).join(''):'';
+ openDrawer('Histórico · '+x.n,`${ser?pzChart(x.lab):''}<div class="at-list">${l.map(y=>`<div class="at-row"><div class="grow">${y.v?esc(y.v):'<span class="tl">ainda sem resultado</span>'}<small>${pzDmy(y.d)} · ${esc(y.q)}</small></div><span class="badge ${PZ_RES_ST[y.st][1]}">${PZ_RES_ST[y.st][0]}</span></div>`).join('')}${ant}</div>${l.length===1&&!ant?'<p class="tl" style="margin-top:8px">Primeiro registro deste exame no prontuário.</p>':''}`)}
 
 /* ---------- Histórico: linha do tempo única com lab em gráfico (★) ---------- */
 function pzChart(k){const s=PZ_LAB[k],w=320,h=140,pad=28,vals=s.s.map(x=>x[1]),mn=Math.min(s.ref[0],...vals)*0.9,mx=Math.max(s.ref[1],...vals)*1.08,y=v=>h-pad-(v-mn)/(mx-mn)*(h-pad*1.6),x=i=>pad+i*(w-pad*1.6)/(vals.length-1);

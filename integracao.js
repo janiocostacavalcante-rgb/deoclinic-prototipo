@@ -15,6 +15,3 @@ const RETORNOS=[];
  if(typeof IM_RECALL!=='undefined'){const un0=IM_RECALL.unshift.bind(IM_RECALL);
   IM_RECALL.unshift=function(...rs){rs.forEach(r=>{RETORNOS.unshift({pac:r.pac,motivo:r.motivo,quando:r.quando,orig:r.orig});setTimeout(()=>typeof toast==='function'&&toast('Retorno de '+r.pac.split(' ')[0]+' enviado para a recepção agendar','ok'),400)});return un0(...rs)}}
 })();
-/* Retornos a agendar aparecem no topo da Agenda */
-if(VIEWS.agenda){const ag0=VIEWS.agenda;VIEWS.agenda=()=>{const h=ag0();if(!RETORNOS.length)return h;
- return `<div class="alert info"><div><b>${RETORNOS.length} retorno(s) a agendar</b>, gerados pelos laudos de imagem: ${RETORNOS.slice(0,3).map(r=>esc(r.pac)+' ('+esc(r.motivo)+', '+esc(r.quando)+')').join('; ')}${RETORNOS.length>3?'…':''}</div></div>`+h}}

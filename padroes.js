@@ -39,9 +39,6 @@ th.col-cod,td.col-cod{white-space:nowrap}
 .periodo button{height:30px;padding:0 12px;border-radius:999px;border:0;background:transparent;color:var(--fg2);font:600 13px var(--font,inherit);cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
 .periodo button.on{background:var(--accent);color:var(--on-accent)}
 .periodo button:hover:not(.on){background:var(--surface)}
-.periodo .datas{display:none;align-items:center;gap:6px;padding:0 4px}
-.periodo .datas.show{display:inline-flex}
-.periodo .datas input{height:30px;border:1px solid var(--border);border-radius:8px;padding:0 8px;font:13px var(--font,inherit);background:var(--surface);color:var(--fg)}
 .periodo svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .fbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
 .fbar select.in,.fbar .inwrap{height:36px}
@@ -89,15 +86,16 @@ function ajustaColunas(root){(root||document).querySelectorAll('table').forEach(
 const PER_NOMES={hoje:'Hoje',semana:'Semana',mes:'Mês',ano:'Ano',intervalo:'Intervalo'};
 const PERIODO={};  // estado por id
 const CAL='<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>';
-/* periodo(id, ao mudar (string de JS), padrão) → o controle. O estado fica em PERIODO[id] = {k, de, ate}. */
-function periodo(id,onchange,padrao){const st=PERIODO[id]||(PERIODO[id]={k:padrao||'hoje',de:'2026-10-01',ate:'2026-10-29'});const oc=(onchange||'').replace(/"/g,'&quot;');
- return `<span class="periodo" id="per-${id}" role="group" aria-label="Período">${['hoje','semana','mes','ano'].map(k=>`<button type="button" data-k="${k}" class="${st.k===k?'on':''}" onclick="periodoSet('${id}','${k}',&quot;${oc}&quot;)">${PER_NOMES[k]}</button>`).join('')}<button type="button" data-k="intervalo" class="${st.k==='intervalo'?'on':''}" onclick="periodoSet('${id}','intervalo',&quot;${oc}&quot;)" ${tipAttr('Intervalo','Escolha no calendário qualquer intervalo de datas.')}>${CAL} Intervalo</button><span class="datas ${st.k==='intervalo'?'show':''}"><input type="date" value="${st.de}" aria-label="De" onchange="PERIODO['${id}'].de=this.value;${oc}"><span style="font-size:12px;color:var(--fg2)">até</span><input type="date" value="${st.ate}" aria-label="Até" onchange="PERIODO['${id}'].ate=this.value;${oc}"></span></span>`}
-function periodoSet(id,k,oc){PERIODO[id].k=k;const el=document.getElementById('per-'+id);if(el){el.querySelectorAll('button[data-k]').forEach(b=>b.classList.toggle('on',b.dataset.k===k));el.querySelector('.datas').classList.toggle('show',k==='intervalo')}if(k!=='intervalo'||!oc)toast('Período: '+periodoTexto(id));if(oc)try{new Function(oc)()}catch(e){}}
 function periodoTexto(id){const s=PERIODO[id];if(!s)return 'hoje';if(s.k==='intervalo'){const d=x=>x.split('-').reverse().join('/');return s.de===s.ate?d(s.de):d(s.de)+' a '+d(s.ate)}return {hoje:'hoje',semana:'esta semana',mes:'este mês',ano:'este ano'}[s.k]}
 /* Multiplicador de exemplo para os números do protótipo mudarem com o período */
 function periodoFator(id){const s=PERIODO[id];const k=s?s.k:'hoje';if(k==='intervalo'&&s.de&&s.ate){const d=Math.round((new Date(s.ate+'T12:00:00')-new Date(s.de+'T12:00:00'))/864e5)+1;return Math.max(1,Math.round(Math.max(1,d)*0.76*10)/10)}return {hoje:1,semana:5.4,mes:22.6,ano:248,intervalo:19.3}[k]||1}
 /* Dias úteis aproximados do período (para médias por dia) */
 function periodoDias(id){const s=PERIODO[id];const k=s?s.k:'hoje';if(k==='intervalo'&&s.de&&s.ate)return Math.max(1,Math.round((new Date(s.ate+'T12:00:00')-new Date(s.de+'T12:00:00'))/864e5)+1);return {hoje:1,semana:6,mes:26,ano:300}[k]||1}
+/* Data AAAA-MM-DD dentro do período de PERIODO[id]; sem data vale hoje. Semana: segunda a domingo de HOJE. */
+function perDentro(id,d,padrao){const s=PERIODO[id]||(PERIODO[id]={k:padrao||'hoje',de:'2026-10-01',ate:'2026-10-29'}),h=iso(HOJE);d=d||h;
+ if(s.k==='hoje')return d===h;if(s.k==='mes')return d.slice(0,7)===h.slice(0,7);if(s.k==='ano')return d.slice(0,4)===h.slice(0,4);
+ if(s.k==='semana'){const o=new Date(HOJE);o.setDate(o.getDate()-(o.getDay()+6)%7);const ini=iso(o);o.setDate(o.getDate()+6);return d>=ini&&d<=iso(o)}
+ return d>=s.de&&d<=s.ate}
 /* Barra de filtros: filtroBarra({id, periodo:true, unidade:true, bancada:true, exame:true, situacao:[...], convenio:true, busca:'texto', extra:'html', onchange:'js'}) */
 const FILTROS={};  // valores escolhidos, por barra: FILTROS.cf = {bancada:'', exame:'', ...}
 function filtroSet(id,k,v){(FILTROS[id]=FILTROS[id]||{})[k]=v}
@@ -223,11 +221,11 @@ function rangePinta(){const pop=document.getElementById('rng-pop');if(!pop)retur
 function rangeClica(s){if(!RNG.ini||RNG.fim){RNG.ini=s;RNG.fim=null;RNG.hover=null;rangePinta();return}if(s<RNG.ini){RNG.fim=RNG.ini;RNG.ini=s}else RNG.fim=s;rangePinta();rangeAplica()}
 function rangeHover(s){if(RNG.ini&&!RNG.fim&&RNG.hover!==s){RNG.hover=s;rangePinta()}}
 function rangeAtalho(n){const h=new Date();if(n==='mes'){RNG.ini=isoD(new Date(h.getFullYear(),h.getMonth(),1));RNG.fim=isoD(h)}else{RNG.fim=isoD(h);RNG.ini=isoD(new Date(h.getTime()-n*864e5))}rangePinta();rangeAplica()}
-function rangeAplica(){if(!RNG.ini)return;if(!RNG.fim)RNG.fim=RNG.ini;const st=PERIODO[RNG.id];st.de=RNG.ini;st.ate=RNG.fim;st.k='intervalo';rangeFecha();const el=document.getElementById('per-'+RNG.id);if(el){el.querySelectorAll('button[data-k]').forEach(b=>b.classList.toggle('on',b.dataset.k==='intervalo'));const r=el.querySelector('.rng span');if(r)r.textContent=brD(st.de)+' – '+brD(st.ate)}toast('Período: '+periodoTexto(RNG.id));if(RNG.oc)try{new Function(RNG.oc)()}catch(e){}}
+function rangeAplica(){if(!RNG.ini)return;if(!RNG.fim)RNG.fim=RNG.ini;const st=PERIODO[RNG.id];st.de=RNG.ini;st.ate=RNG.fim;st.k='intervalo';rangeFecha();const el=document.getElementById('per-'+RNG.id);if(el){el.querySelectorAll('button[data-k]').forEach(b=>b.classList.toggle('on',b.dataset.k==='intervalo'));const r=el.querySelector('.rng span');if(r)r.textContent=brD(st.de)+' – '+brD(st.ate)}if(RNG.oc)try{new Function(RNG.oc)()}catch(e){}}
 /* O controle de período passa a usar o calendário de intervalo no lugar dos dois campos de data */
 function periodo(id,onchange,padrao){const st=PERIODO[id]||(PERIODO[id]={k:padrao||'hoje',de:'2026-10-01',ate:'2026-10-29'});const oc=(onchange||'').replace(/"/g,'&quot;');
  return `<span class="periodo" id="per-${id}" role="group" aria-label="Período">${['hoje','semana','mes','ano'].map(k=>`<button type="button" data-k="${k}" class="${st.k===k?'on':''}" onclick="periodoSet('${id}','${k}',&quot;${oc}&quot;)">${PER_NOMES[k]}</button>`).join('')}<button type="button" data-k="intervalo" class="rng ${st.k==='intervalo'?'on':''}" onclick="rangeAbre('${id}',&quot;${oc}&quot;,this)" ${tipAttr('Intervalo','Abre o calendário: clique no primeiro dia, passe o mouse e clique no último. Um clique só para cada ponta.')}>${CAL} <span>${st.k==='intervalo'?brD(st.de)+' – '+brD(st.ate):'Intervalo'}</span></button></span>`}
-function periodoSet(id,k,oc){if(k==='intervalo')return;PERIODO[id].k=k;const el=document.getElementById('per-'+id);if(el){el.querySelectorAll('button[data-k]').forEach(b=>b.classList.toggle('on',b.dataset.k===k));const r=el.querySelector('.rng span');if(r)r.textContent='Intervalo'}toast('Período: '+periodoTexto(id));if(oc)try{new Function(oc)()}catch(e){}}
+function periodoSet(id,k,oc){if(k==='intervalo')return;PERIODO[id].k=k;const el=document.getElementById('per-'+id);if(el){el.querySelectorAll('button[data-k]').forEach(b=>b.classList.toggle('on',b.dataset.k===k));const r=el.querySelector('.rng span');if(r)r.textContent='Intervalo'}if(oc)try{new Function(oc)()}catch(e){}}
 
 /* ===== Marcar todos: toda tabela com caixinhas na primeira coluna ganha uma no título ===== */
 function marcarTodos(root){(root||document).querySelectorAll('table').forEach(t=>{const th=t.querySelector('thead th');if(!th||th.querySelector('input'))return;const cbs=[...t.querySelectorAll('tbody tr>td:first-child>input[type=checkbox]')];if(!cbs.length)return;
@@ -356,7 +354,6 @@ const DEO_FALAS={
  conferencia:[113,'Conferência: Dr., o botão “Liberar sem crítica” é um privilégio, não um reflexo. Olhe os vermelhos primeiro.'],
  recoletas:[114,'Recoleta: o paciente volta, o técnico suspira, o tubo hemolisado se esconde na lixeira fingindo inocência.'],
  soroteca:[115,'Soroteca: o freezer é a memória do laboratório. Rack e posição certas, ou vira caça ao tesouro a −20 °C.'],
- micro:[116,'Microbiologia: aqui a pressa não funciona. Bactéria cresce no tempo dela, e ela não lê os avisos de urgência.'],
  aparelhos:[117,'Aparelhos: se o analisador parou de falar com o sistema, antes de reiniciar tudo, confira se alguém tropeçou no cabo.'],
  cq:[118,'Controle de qualidade: 1-2s é um aviso. 2-2s é o Westgard batendo na porta com cara de poucos amigos.'],
  laudos:[119,'Laudo bonito não cura ninguém, mas laudo confuso atrapalha quem cura. Modelo limpo, letra legível, assinatura certa.'],
@@ -394,7 +391,7 @@ const DEO_FALAS={
 let DEO_OFF={};try{DEO_OFF=JSON.parse(localStorage.getItem('deoclinic-deo-off')||'{}')}catch(e){}
 function deoFechar(id){DEO_OFF[id]=1;try{localStorage.setItem('deoclinic-deo-off',JSON.stringify(DEO_OFF))}catch(e){}const el=document.querySelector('#view .deo-fala');if(el)el.remove()}
 function injetaDeo(id){if(!BRINCA||id==='home'||DEO_OFF[id])return;const f=DEO_FALAS[id];if(!f)return;const head=document.querySelector('#view .pagehead');if(!head||document.querySelector('#view .deo-fala'))return;
- head.insertAdjacentHTML('afterend',`<div class="deo-fala" role="note" title="Brincadeira ${f[0]}"><img class="fig" src="figura-ok.webp" alt="" aria-hidden="true"><span><b>Dr. Deo diz:</b> ${f[1]}</span><button type="button" class="x" aria-label="Esconder nesta tela" title="Esconder nesta tela (só neste navegador)" onclick="deoFechar('${id}')">×</button></div>`)}
+ head.insertAdjacentHTML('afterend',`<div class="deo-fala" role="note"><img class="fig" src="figura-ok.webp" alt="" aria-hidden="true"><span><b>Dr. Deo diz:</b> ${f[1]}</span><button type="button" class="x" aria-label="Esconder nesta tela" title="Esconder nesta tela (só neste navegador)" onclick="deoFechar('${id}')">×</button></div>`)}
 
 {const _pr=posRender;posRender=function(id){_pr(id);injetaDeo(id)};
  const _a=ajustaColunas;ajustaColunas=function(root){_a(root);marcarExames(root);detalhesGenericos(root)}}

@@ -93,7 +93,7 @@ function remoteStore(url){let cb=null,last={notas:[],telas:{}};const pull=async(
 function testador(){let n='';try{n=localStorage.getItem('deoclinic-testador')||''}catch(e){}if(!n){n=(prompt('Para registrar suas anotações, qual é o seu nome?')||'').trim().slice(0,60);if(n)try{localStorage.setItem('deoclinic-testador',n)}catch(e){}}return n||'Testador'}
 async function init(){let db=null;try{if(window.claude&&typeof window.claude.use==='function')db=await window.claude.use('db')}catch(e){db=null}
  try{if(window.claude&&typeof window.claude.use==='function'){usr=await window.claude.use('user');if(usr)meId=await usr.id()}}catch(e){usr=null}
- store=db?dbStore(db):(window.DEO_NOTAS_URL?remoteStore(window.DEO_NOTAS_URL):localStore());store.watch(d=>{notas=[...d.notas].sort((a,b)=>(a.num||0)-(b.num||0));telas=d.telas||{};resolveNomes();refresh()});
+ store=db?dbStore(db):(window.DEO_NOTAS_URL?remoteStore(window.DEO_NOTAS_URL):localStore());store.watch(d=>{notas=d.notas.filter(n=>n.app!=='deovita-app').sort((a,b)=>(a.num||0)-(b.num||0));telas=d.telas||{};resolveNomes();refresh()});
  const f=fila;fila=[];for(const fn of f)await fn()}
 const comStore=fn=>store?fn():new Promise(r=>fila.push(async()=>{await fn();r()}));
 

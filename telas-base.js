@@ -102,7 +102,7 @@ const cod14=(unid,prot,amostra,tubo)=>`${unid}-${String(prot).padStart(8,'0')}-$
 
 /* ---------- Brincadeiras por setor (continuam numeradas; aprova ou manda tirar uma a uma) ----------
    piada(n, {perfil: frase}) escolhe a frase do perfil atual; 'todos' é a reserva. */
-function piada(n,m){if(!BRINCA)return '';const t=m[PERFIL]||m.todos||PIADAS[PERFIL]||PIADAS.todos;return `<p class="fun" title="Brincadeira ${n}">${t} <span style="opacity:.6">(brincadeira ${n})</span></p>`}
+function piada(n,m){if(!BRINCA)return '';const t=m[PERFIL]||m.todos||PIADAS[PERFIL]||PIADAS.todos;return `<p class="fun">${t}</p>`}
 const PIADAS={
  admin:'Administrador é quem resolve o problema que ninguém sabia que existia, porque ele mesmo causou na reunião de ontem.',
  gestor:'Gestor de posto: 40% logística, 40% diplomacia com a matriz, 20% achando o carimbo.',
@@ -141,7 +141,7 @@ const BANCADAS=[
  {c:'HOR',n:'Hormônios',setor:'Imunologia e hormônios',ordem:3,ex:['TSH','T4L','PSA','BHCG','FERR'],ap:'Imuno 1',ativo:true},
  {c:'URI',n:'Urinálise',setor:'Urinálise',ordem:4,ex:['EAS'],ap:'',ativo:true},
  {c:'COA',n:'Coagulação',setor:'Coagulação',ordem:5,ex:['TAP'],ap:'',ativo:true},
- {c:'MIC',n:'Microbiologia',setor:'Microbiologia',ordem:6,ex:[],ap:'',ativo:true},
+ {c:'MIC',n:'Microbiologia',setor:'Microbiologia',ordem:6,ex:[],ap:'',ativo:false},
  {c:'APO',n:'Apoio',setor:'Apoio',ordem:9,ex:['GENE','VITD'],ap:'',ativo:true},
  {c:'PAR',n:'Parasitologia',setor:'Parasitologia',ordem:7,ex:[],ap:'',ativo:false},
 ];
@@ -228,6 +228,11 @@ let ETQ_CTX=null;
 function etiquetaPrev(o){o=Object.assign({n:'Paciente',nasc:'',prot:'10-00018233',exs:['HEMO','COL'],modo:'Impressora do box 1',triagem:true},o||{});ETQ_CTX=o;const ts=tubosDe(o.exs);const [u,p]=String(o.prot).split('-');
  const lab=ts.map((t,i)=>{const cod=`${u}-${String(+p).padStart(8,'0')}-${String(t.o).padStart(2,'0')}-01`;return `<div class="etq">${tuboSvg(t,58)}<div class="eb"><b>${esc(o.n)}</b>${o.nasc?`<span>Nasc. ${esc(o.nasc)}</span> · `:''}<span>Prot. ${esc(o.prot)}</span>${barcodeSvg(cod)}<span class="mono">${cod}</span><div>${t.ex.join(' · ')}</div><div class="em">${t.fr?'Frasco':'Tubo'}: <b style="display:inline;font-size:11px">${t.n}</b> · tampa ${t.tampa}${t.vol?' · '+t.vol:''}</div></div></div>`}).join('');
  openModal(`${mh('Prévia das etiquetas · '+esc(o.n.split(' ')[0]))}<div class="mb"><p style="font-size:14px;color:var(--fg2)">${ts.length} etiqueta(s), uma por tubo, na ordem de coleta. Cada etiqueta mostra o modelo do tubo em que deve ser colada. Saída: <b>${esc(o.modo)}</b>.</p><div class="etqs">${lab||'<p class="tl">Nenhum exame laboratorial: não há etiqueta de tubo.</p>'}</div>${o.triagem?`<div class="alert warn"><span><b>A folha de triagem vai junto com o tubo.</b> Medicamentos em uso, doenças crônicas, jejum e observações seguem com a amostra até a área técnica.</span></div>`:''}</div><div class="mf"><button class="btn ghost" onclick="closeModal()">Fechar</button>${o.triagem?`<button class="btn sec" onclick="triagemFolha()">${I.print} Folha de triagem</button>`:''}<button class="btn" onclick="toast('${ts.length} etiqueta(s) enviada(s): ${esc(o.modo).replace(/'/g,'')}');modalVoltar()||closeModal()">${I.print} Imprimir ${ts.length} etiqueta(s)</button></div>`,'wide')}
+
+/* Etiqueta de caixa (rack da soroteca, lote de transporte): prévia; imprimir é simulado. o={titulo,cod,num,linhas,saida,apos} */
+let ETQ_CX=null;
+function etqCaixa(o){ETQ_CX=o;openModal(`${mh('Prévia da etiqueta · '+esc(o.titulo))}<div class="mb"><p style="font-size:14px;color:var(--fg2)">1 etiqueta para identificar a caixa. Saída: <b>${esc(o.saida)}</b>.</p><div class="etqs"><div class="etq"><div class="eb"><b>${esc(o.titulo)}</b>${barcodeSvg(o.num)}<span class="mono">${esc(o.cod)}</span>${o.linhas.map(l=>`<div>${esc(l)}</div>`).join('')}</div></div></div></div><div class="mf"><button class="btn ghost" onclick="closeModal()">Fechar</button><button class="btn" onclick="etqCaixaImprime()">${I.print} Imprimir etiqueta</button></div>`)}
+function etqCaixaImprime(){const o=ETQ_CX;closeModal();if(o.apos)o.apos();toast('Etiqueta enviada: '+esc(o.saida))}
 
 /* Triagem: o que o paciente toma, doenças crônicas, jejum. Vai impressa com o tubo e a biomédica confere ao bipar. */
 const TRI_DOENCAS=['Diabetes','Hipertensão','Doença da tireoide','Doença renal','Doença do fígado','Cardiopatia','Usa anticoagulante','Gestante'];

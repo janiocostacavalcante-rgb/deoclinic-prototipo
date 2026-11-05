@@ -3,8 +3,6 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap">
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/brands.min.js"></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/fontawesome.min.js"></script>
 <style>
 /* Layout: cabeçalho fixo de 72 px, menu lateral de 264 px, conteúdo até 1440 px em grade de 8 px. */
 :root{
@@ -335,7 +333,10 @@ button.at-pick:disabled{opacity:.55;cursor:default}
 .back:hover{background:var(--surface2);color:var(--accent);border-color:var(--accent)}
 .back svg{width:14px;height:14px}
 /* Ilustrações: desenho no canto do cartão, sem roubar espaço do conteúdo */
-.card.ill{position:relative;overflow:hidden}
+.card.ill{position:relative;overflow:hidden;min-width:0}
+/* O "i" do título não pode ser cortado pelo cartão (nota 60): só enquanto ele está aberto, o cartão deixa o balão passar, e o balão abre para baixo. */
+.card.ill:has(>h3 .tipicon:hover,>h3 .tipicon:focus-visible){overflow:visible}
+.card.ill>h3 .tipicon .tip{bottom:auto;top:calc(100% + 8px);left:0;transform:none;max-width:min(260px,60vw)}
 .card.ill>.art{position:absolute;right:20px;top:16px;width:64px;height:64px;color:var(--accent);opacity:.9}
 .card.ill>h3,.card.ill>.sub{padding-right:88px}
 svg.art,svg.art2{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
@@ -405,8 +406,8 @@ svg.art,svg.art2{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:r
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .wa-prev{background:#1E3A28;color:#DDF5E2;border-color:#2E5A3A}}
 /* WhatsApp: ícone oficial (Font Awesome Brands) na cor da marca; botão em verde suave, não neon */
 .wa-ic{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;color:#25D366;flex:none}
-.wa-ic svg{width:20px;height:20px}
-.wa-ic.lg,.wa-ic.lg svg{width:26px;height:26px}
+.wa-ic i{--wa:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath d='M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z'/%3E%3C/svg%3E");display:block;width:100%;height:100%;background:currentColor;-webkit-mask:var(--wa) center/contain no-repeat;mask:var(--wa) center/contain no-repeat}
+.wa-ic.lg{width:26px;height:26px}
 .wa-ic:empty::before{content:"W";font-weight:800;font-size:12px;width:20px;height:20px;border-radius:50%;background:#25D366;color:#fff;display:grid;place-items:center}
 .btn.wa{background:#E8F8EE;color:#0F7A4D;border-color:#9ADFB7}
 .btn.wa:hover{background:#D6F2E2}
@@ -461,9 +462,15 @@ svg.art,svg.art2{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:r
 .mods{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
 .mod{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:16px;background:var(--surface);text-decoration:none;color:var(--fg-strong);font-weight:700;font-size:15px;min-height:60px}
 .mod:hover{border-color:var(--accent);background:var(--accent-soft)}
-.mod .mi{width:36px;height:36px;border-radius:50%;background:#3DA98F;color:#fff;display:grid;place-items:center;flex:none}
-.mod .mi svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.mod .tune{margin-left:auto;color:var(--fg2);flex:none}
+.mod .mi,.atl-i .mi{width:36px;height:36px;border-radius:50%;background:#3DA98F;color:#fff;display:grid;place-items:center;flex:none}
+.mod .mi svg,.atl-i .mi svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mod .tune{margin-left:auto;color:var(--fg2);flex:none;cursor:pointer}
+.mod{position:relative}
+.mod-n{position:absolute;top:-8px;right:8px}
+.atl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px}
+.atl-i{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:4px 16px 4px 4px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--fg-strong);font:700 14px var(--font);text-decoration:none;cursor:pointer}
+.atl-i:hover{border-color:var(--accent);background:var(--accent-soft)}
+.atl-cfg{padding-left:16px;color:var(--fg2);font-weight:500}
 /* Gráfico semanal (barras coloridas como no dashboard do Figma) */
 .chart{display:flex;flex-direction:column;gap:10px}
 .chart svg{width:100%;height:auto;max-height:280px}
@@ -513,7 +520,7 @@ svg.art,svg.art2{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:r
   <button class="ibtn plain menu-btn" id="menuBtn" aria-label="Abrir menu"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   <a class="logo" href="#home" style="text-decoration:none" data-tip="Início|Volta para a Home do seu perfil."><img class="lg-light" src="logo-light.png" alt="DeoClinic · Sistema de saúde"><img class="lg-dark" src="logo-dark.png" alt="DeoClinic · Sistema de saúde"></a>
   <div class="grow"><div class="search inwrap"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input class="in" id="globalSearch" placeholder="Buscar paciente, protocolo ou exame" aria-label="Busca"></div></div>
-  <div class="unit"><svg class="i" viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg> Unidade 10 · Central</div>
+  <button type="button" class="unit" id="unidAtual" style="background:none;border-top:0;border-right:0;border-bottom:0;cursor:pointer;font:inherit" onclick="rcTrocarUnidade()" title="Trocar de unidade"><svg class="i" viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/></svg> <span>Unidade 10 · Central</span></button>
   <div class="actions">
     <button class="ibtn plain" id="themeBtn" aria-label="Alternar tema"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5"/></svg></button>
     <button class="ibtn plain" aria-label="Notificações" onclick="avisosToast()"><svg class="i" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0v5l2 3H4l2-3zM10 20a2 2 0 0 0 4 0"/></svg></button>
@@ -536,19 +543,19 @@ svg.art,svg.art2{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:r
 /* ---------- Dados do menu: um item por módulo decidido no documento ---------- */
 const MENU=[
  ['Início',[['home','Home',1],['fluxo','Painel de fluxo']]],
- ['Recepção',[['pacientes','Pacientes'],['agenda','Agenda'],['pedidos-agendamento','Pedidos de agendamento'],['atendimentos','Atendimentos'],['orcamentos','Orçamentos'],['fila','Fila, senhas e triagem'],['caixa','Caixa']]],
+ ['Recepção',[['pre-atendimento','Pré-atendimento'],['senhas','Listagem de Senhas'],['painel-senhas','Painel de Senhas'],['pre-agendamento','Fila de Pré-agendamento'],['pacientes','Pacientes'],['agendamento','Agendamento'],['abertura-agenda','Abertura de agenda'],['agenda','Agenda'],['pedidos-agendamento','Pedidos de agendamento'],['atendimentos','Atendimentos'],['orcamentos','Orçamentos'],['guia-exames','Guia de Exames'],['fila','Triagem'],['caixa','Caixa']]],
  ['Prontuário',[['agenda-medico','Agenda do médico'],['atendimento-medico','Atendimento médico'],['telemedicina','Telemedicina'],['plantoes','Plantões e escalas'],['modelos-doc','Modelos de documentos']]],
  ['Imagem e ultrassom',[['imagem-worklist','Exames de imagem'],['laudo-us','Laudo de ultrassom'],['padroes-laudo','Padrões de laudo']]],
  ['Laboratório · Coleta',[['coleta','Sala de coleta'],['domiciliar','Coleta domiciliar'],['transporte','Transporte'],['recebimento','Recebimento de amostras']]],
- ['Laboratório · Área técnica',[['mapa','Mapa de trabalho'],['digitacao','Digitação'],['conferencia','Conferência'],['montagem-exames','Montagem de exames'],['recoletas','Recoletas'],['soroteca','Soroteca'],['micro','Microbiologia'],['aparelhos','Aparelhos'],['cq','Controle de qualidade']]],
+ ['Laboratório · Área técnica',[['mapa','Mapa de trabalho'],['digitacao','Digitação'],['conferencia','Conferência'],['montagem-exames','Montagem de exames'],['recoletas','Recoletas'],['soroteca','Soroteca'],['aparelhos','Aparelhos'],['cq','Controle de qualidade']]],
  ['Laudos e entrega',[['laudos','Laudos'],['entrega','Entrega'],['portal-medico','Portal do médico'],['area-paciente','Área do paciente']]],
- ['Hospital',[['internacao','Internação e leitos'],['centro-cirurgico','Centro cirúrgico']]],
+ ['Hospital',[['centro-cirurgico','Centro cirúrgico']]],
  ['Financeiro',[['financeiro','Financeiro'],['conciliacao','Conciliação bancária'],['repasse','Repasse médico'],['carteira','Carteira e cobrança'],['planos','Planos e pacotes'],['custos-procedimento','Custo e margem'],['precos','Tabelas de preço'],['tiss','Convênios e TISS'],['glosas','Glosas e recursos'],['postos','Acerto entre postos'],['apoio','Apoio']]],
  ['Rede e parceiros',[['rede','Rede de clínicas'],['api-parceiros','API de parceiros']]],
  ['Estoque',[['estoque','Painel do estoque'],['estoque-itens','Itens'],['estoque-lancar','Entradas e saídas'],['estoque-validades','Lotes e validades'],['estoque-ressuprimento','Ressuprimento'],['estoque-pedidos','Pedidos de compra'],['estoque-inventario','Inventário'],['estoque-relatorios','Relatórios do estoque']]],
  ['Qualidade e gestão',[['dashboard','Dashboard'],['qualidade','Gestão da qualidade'],['relatorios','Relatórios e auditoria']]],
  ['Cadastros',[['estabelecimentos','Estabelecimentos'],['unidades','Unidades'],['usuarios','Usuários'],['perfis','Perfis e permissões'],['bancadas','Bancadas'],['exames','Exames'],['componentes-exame','Componentes de exame'],['perguntas','Perguntas'],['observacoes','Observações'],['variaveis','Variáveis'],['etiquetas','Etiquetas'],['profissionais','Profissionais'],['procedimentos','Procedimentos e TUSS'],['salas','Salas e equipamentos']]],
- ['Configurações',[['config','Configurações gerais'],['importar','Importar e exportar'],['integracoes','Integrações'],['lgpd','Segurança e LGPD'],['ajuda','Ajuda e tour']]],
+ ['Configurações',[['config','Configurações gerais'],['config-recepcao','Recepção'],['importar','Importar e exportar'],['integracoes','Integrações'],['lgpd','Segurança e LGPD'],['ajuda','Ajuda e tour']]],
  ['Protótipo',[['componentes','Biblioteca de componentes',1]]],
 ];
 const READY=new Set(['home','componentes','atendimentos','orcamentos','caixa','coleta']);
@@ -779,7 +786,7 @@ const AV_ACOES={
  glosaCl:{todos:[{l:'Abrir glosas e recursos',go:'glosas'},{l:'Conferir o TUSS do procedimento',go:'procedimentos'}]},
  estoqueMin:{todos:[{l:'Abrir ressuprimento',go:'estoque-ressuprimento'},{l:'Ver o painel do estoque',go:'estoque'}]},
  validade:{todos:[{l:'Abrir lotes e validades',go:'estoque-validades'},{l:'Registrar troca com o fornecedor'}]},
- leito:{todos:[{l:'Abrir o mapa de leitos',go:'internacao'},{l:'Avisar a higienização'}]},
+ leito:{todos:[{l:'Avisar a higienização'}]},
  pedidoAg:{todos:[{l:'Responder o pedido',go:'pedidos-agendamento',fn:'pdaAbrir',arg:'PA-3106'},{l:'Ver todos os pedidos',go:'pedidos-agendamento'}]},
  planoInad:{todos:[{l:'Ver o contrato',go:'planos',fn:'plnContrato',arg:'CT-1050'},{l:'Cobrar pela Carteira',go:'carteira'}]},
  cobranca:{todos:[{l:'Abrir o acordo',go:'carteira',fn:'crtAcordo',arg:'AC-0027'},{l:'Registrar ligação'}]},
@@ -797,7 +804,7 @@ function avisoAcao(i,j){const a=AVISOS[i],x=((AV_ACOES[a.t]||{})[PERFIL]||(AV_AC
  if(x.go)location.hash=x.go;
  if(x.fn&&typeof window[x.fn]==='function'){setTimeout(()=>window[x.fn](x.arg),x.go?60:0);return}
  if(!x.go)toast(`"${x.l}" registrado no aviso de ${a.nome?a.nome.split(' ')[0]:a.tit} (no protótipo, só o registro)`)}
-const ATALHOS={admin:['atendimentos','agenda','pedidos-agendamento','fila','agenda-medico','imagem-worklist','conferencia','internacao','estoque','financeiro','carteira','rede','api-parceiros','dashboard'],gestor:['atendimentos','agenda','pedidos-agendamento','fila','caixa','carteira','rede','transporte','estoque'],recepcao:['atendimentos','agenda','pedidos-agendamento','fila','orcamentos','caixa','planos','entrega'],medico:['agenda-medico','atendimento-medico','telemedicina','modelos-doc','pacientes','laudos'],enfermagem:['fila','agenda','internacao','centro-cirurgico','estoque-lancar','pacientes'],imagem:['imagem-worklist','laudo-us','padroes-laudo','agenda','salas','pacientes'],estoque:['estoque','estoque-itens','estoque-lancar','estoque-validades','estoque-ressuprimento','estoque-pedidos','procedimentos'],faturamento:['tiss','glosas','precos','procedimentos','repasse','rede','financeiro'],coletador:['coleta','domiciliar','transporte'],tecnico:['recebimento','mapa','digitacao','recoletas','cq'],dr:['conferencia','laudos','cq','recoletas'],financeiro:['caixa','financeiro','carteira','planos','rede','postos','dashboard'],convenios:['tiss','precos'],qualidade:['qualidade','cq','relatorios','dashboard']};
+const ATALHOS={admin:['atendimentos','agenda','pedidos-agendamento','fila','agenda-medico','imagem-worklist','conferencia','estoque','financeiro','carteira','rede','api-parceiros','dashboard'],gestor:['atendimentos','agenda','pedidos-agendamento','fila','caixa','carteira','rede','transporte','estoque'],recepcao:['atendimentos','agenda','pedidos-agendamento','fila','orcamentos','caixa','planos','entrega'],medico:['agenda-medico','atendimento-medico','telemedicina','modelos-doc','pacientes','laudos'],enfermagem:['fila','agenda','centro-cirurgico','estoque-lancar','pacientes'],imagem:['imagem-worklist','laudo-us','padroes-laudo','agenda','salas','pacientes'],estoque:['estoque','estoque-itens','estoque-lancar','estoque-validades','estoque-ressuprimento','estoque-pedidos','procedimentos'],faturamento:['tiss','glosas','precos','procedimentos','repasse','rede','financeiro'],coletador:['coleta','domiciliar','transporte'],tecnico:['recebimento','mapa','digitacao','recoletas','cq'],dr:['conferencia','laudos','cq','recoletas'],financeiro:['caixa','financeiro','carteira','planos','rede','postos','dashboard'],convenios:['tiss','precos'],qualidade:['qualidade','cq','relatorios','dashboard']};
 const ATENDE=['admin','gestor','recepcao'];const ATALHO_PADRAO=['atendimentos','agenda','pacientes','dashboard']; // perfis que atendem: veem a fila e o botão Novo atendimento
 let PERFIL='admin';try{const v=localStorage.getItem('deoclinic-perfil');if(v&&PERFIS.some(p=>p[0]===v))PERFIL=v}catch(e){}
 const avisosDo=p=>{const l=p==='admin'?AVISOS:AVISOS.filter(a=>ROTA[a.t].includes(p)||(typeof avisoDoPosto==='function'&&avisoDoPosto(a,p)));return [...l.filter(a=>a.t==='urgencia'),...l.filter(a=>a.t!=='urgencia')]};
@@ -831,7 +838,7 @@ const MASCOTE=(h='')=>`<svg class="mascote" viewBox="0 0 96 96" aria-hidden="tru
 /* Brincadeiras: chave só no protótipo (aprova ou manda tirar, uma a uma). */
 let BRINCA=true;try{BRINCA=localStorage.getItem('deoclinic-brinca')!=='0'}catch(e){}
 function setBrinca(v){BRINCA=v;try{localStorage.setItem('deoclinic-brinca',v?'1':'0')}catch(e){}route()}
-const fun=(n,t)=>{if(!BRINCA)return '';if(t&&typeof t==='object')t=t[PERFIL]||t.todos;if(!t)t=typeof PIADAS!=='undefined'?(PIADAS[PERFIL]||PIADAS.todos):'';return t?`<p class="fun" title="Brincadeira ${n}">${t}</p>`:''};
+const fun=(n,t)=>{if(!BRINCA)return '';if(t&&typeof t==='object')t=t[PERFIL]||t.todos;if(!t)t=typeof PIADAS!=='undefined'?(PIADAS[PERFIL]||PIADAS.todos):'';return t?`<p class="fun">${t}</p>`:''};
 const SAUDA={
  admin:'Bom dia, Jânio! Quarta-feira, meio da semana e a plataforma inteira na tela: clínica, laboratório, imagem, financeiro e estoque. Dois urgentes piscando na área técnica, nenhum incêndio no caixa e a licença do posto 12 pedindo atenção antes que vire multa com nome e sobrenome.',
  gestor:'Bom dia! O malote do posto saiu às 7h12 e chegou inteiro, o que já é mais do que dá para dizer da minha semana. Um tubo EDTA ficou para trás: liga lá antes que o técnico ligue para você.',
@@ -1006,7 +1013,7 @@ function cardPizza(){const rec=CAIXAS.filter(c=>c.unid===10),postos=CAIXAS.filte
  ${det}${fun(6,'A única pizza do laboratório sem risco de glicemia alterada. E a fatia maior é sempre da matriz, como manda a tradição.')}</div>`}
 
 /* Widgets da Home: a pessoa escolhe o que aparece (ideia dos widgets do Figma). O que está escondido fica guardado por perfil. */
-const WIDGETS=[['hero','Tubinho (mascote)'],['plataforma','Plataforma hoje (todos os módulos)'],['meudia','Meu dia (cartões do perfil)'],['kpis','Indicadores do dia'],['chart','Gráfico da semana'],['avisos','Avisos'],['fila','Fila da recepção'],['atalhos','Módulos (atalhos)'],['caixa','Caixa'],['custos','Custos e lucro bruto'],['pizza','Matriz, postos e empresas']];
+const WIDGETS=[['meusatalhos','Meus atalhos'],['hero','Tubinho (mascote)'],['plataforma','Plataforma hoje (todos os módulos)'],['meudia','Meu dia (cartões do perfil)'],['kpis','Indicadores do dia'],['chart','Gráfico da semana'],['avisos','Avisos'],['fila','Fila da recepção'],['atalhos','Módulos (atalhos)'],['caixa','Caixa'],['custos','Custos e lucro bruto'],['pizza','Matriz, postos e empresas']];
 let HIDE={};try{HIDE=JSON.parse(localStorage.getItem('deoclinic-hide')||'{}')}catch(e){}
 const vis=k=>!(HIDE[PERFIL]||[]).includes(k);
 function widgetsModal(){const h=HIDE[PERFIL]||[];openModal(`<div class="mh"><h3>Personalizar a Home</h3><button class="ibtn plain" aria-label="Fechar" onclick="closeModal()">${I.x}</button></div><div class="mb"><p style="font-size:14px;color:var(--fg2)">Escolha o que aparece na sua página inicial (perfil ${nomePerfil(PERFIL)}). Os avisos nunca saem.</p><div class="widgets">${WIDGETS.map(([k,t])=>`<label class="${h.includes(k)?'':'on'}"><input type="checkbox" ${h.includes(k)?'':'checked'} ${k==='avisos'?'disabled':''} onchange="this.parentElement.classList.toggle('on',this.checked);widgetToggle('${k}',this.checked)">${t}</label>`).join('')}</div></div><div class="mf"><button class="btn" onclick="closeModal();route()">Pronto</button></div>`)}
@@ -1016,17 +1023,32 @@ const KI={users:'<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d
 const kpi=(cor,ico,lab,num,pill,down,tip,clk)=>`<div class="kpi ${clk?'clk':''}" ${tipAttr(lab,tip)} ${clk?`role="button" tabindex="0" onclick="${clk.replace(/"/g,'&quot;')}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}"`:''}><div class="kh"><span class="ki ${cor}">${KI[ico]}</span><span class="lab">${lab}</span></div><div class="num">${num}</div><span class="pill ${down?'down':''}">${pill}</span></div>`;
 /* Listas abertas pelos indicadores da Home (dados de exemplo; no sistema real, a lista completa do período com filtros) */
 const linhaAtend=a=>`<a href="#atendimentos" onclick="event.preventDefault();closeDrawer();location.hash='#atendimentos';setTimeout(()=>atFicha('${a.p}'),250)" style="display:block;color:inherit;text-decoration:none"><b>${esc(a.n)}</b>${a.urg?' <span class="badge err pisca">URGENTE</span>':''}<small style="display:block;color:var(--fg2)"><span class="mono">${a.p}</span> · ${a.orig} · ${LETRAS[a.sit]||a.sit}${a.pri?' · '+esc(a.pri):''}</small></a>`;
+const homeAtrasados=()=>AMOSTRAS.filter(a=>'RD'.includes(a.sit)&&/^\d/.test(a.prazo)).slice(0,4);
 function homeLista(q){const per=periodoTexto('home'),fat=periodoFator('home');
  if(q==='atend')listaDrawer('Pacientes atendidos · '+per,ATENDS.filter(a=>a.sit!=='X').map(linhaAtend),`${Math.round(148*fat).toLocaleString('pt-BR')} atendimentos no período, em todas as unidades. Abaixo, os de hoje como exemplo; clique no nome para abrir o atendimento.`);
- else if(q==='coleta')listaDrawer('Aguardando coleta · agora',[...ATENDS.filter(a=>a.sit==='A').map(linhaAtend),...FILA.col.map(p=>`<b>${esc(p.n||'Senha '+p.s)}</b><small style="display:block;color:var(--fg2)">senha ${p.s} · esperando ${p.e} min</small>`)],'Pacientes já atendidos na recepção que ainda não foram chamados para a coleta. A meta é espera menor que 15 min.');
+ else if(q==='coleta')listaDrawer('Aguardando coleta · agora',FILA.col.map(p=>rcLinhaAguarda(p.n,p.s,`senha ${p.s} · esperando ${p.e} min`)),'Só quem tem senha na fila da coleta e ainda não foi chamado. Quem já foi atendido fica no cartão Atendimentos. A meta é espera menor que 15 min.');
  else if(q==='tecnica')listaDrawer('Na área técnica · agora',AMOSTRAS.filter(a=>'RD'.includes(a.sit)).sort((a,b)=>(b.urg?1:0)-(a.urg?1:0)).map(linhaAmostra),'Amostras recebidas, em processamento ou em conferência. Urgentes primeiro; as críticas aparecem nos avisos do Dr.');
- else if(q==='prazo'){const atras=AMOSTRAS.filter(a=>'RD'.includes(a.sit)&&/^\d/.test(a.prazo)).slice(0,4),ok=AMOSTRAS.filter(a=>'LNIG'.includes(a.sit));listaDrawer('Laudos no prazo · '+per,[...atras.map(a=>linhaAmostra(a)+' <span class="badge err">atrasado · prometido '+a.prazo+'</span>'),...ok.map(a=>linhaAmostra(a)+' <span class="badge ok">no prazo</span>')],`${atras.length} laudos passaram do prazo prometido na recepção (primeiro da lista); os demais saíram no prazo. Abaixo da meta de 95%, vira aviso para o gestor.`)}}
-const MODICON={fila:'users',pacientes:'users','agenda-medico':'clock','atendimento-medico':'doc',telemedicina:'users','modelos-doc':'doc',plantoes:'clock','imagem-worklist':'chart','laudo-us':'doc','padroes-laudo':'doc',internacao:'pin','centro-cirurgico':'check',estoque:'tube','estoque-itens':'tube','estoque-lancar':'tube','estoque-validades':'clock','estoque-ressuprimento':'chart','estoque-pedidos':'doc','estoque-inventario':'check','estoque-relatorios':'chart',glosas:'doc',repasse:'money',conciliacao:'money','custos-procedimento':'money',procedimentos:'settings',profissionais:'users',salas:'settings',atendimentos:'users',orcamentos:'doc',agenda:'clock',caixa:'money',entrega:'check',coleta:'tube',domiciliar:'pin',transporte:'pin',recebimento:'tube',mapa:'chart',digitacao:'doc',recoletas:'tube',cq:'flask',conferencia:'check',laudos:'doc',financeiro:'money',postos:'money',dashboard:'chart',tiss:'doc',precos:'money',qualidade:'check',relatorios:'chart',componentes:'settings','pedidos-agendamento':'bell',carteira:'money',planos:'check',rede:'pin','api-parceiros':'settings'};
+ else if(q==='atras')listaDrawer('Laudos atrasados · '+per,homeAtrasados().map(a=>linhaAmostra(a)+' <span class="badge err">prometido '+a.prazo+'</span>'),'Passaram do prazo prometido na recepção. Abaixo, os de hoje como exemplo.');
+ else if(q==='prazo'){const atras=homeAtrasados(),ok=AMOSTRAS.filter(a=>'LNIG'.includes(a.sit));listaDrawer('Laudos no prazo · '+per,[...atras.map(a=>linhaAmostra(a)+' <span class="badge err">atrasado · prometido '+a.prazo+'</span>'),...ok.map(a=>linhaAmostra(a)+' <span class="badge ok">no prazo</span>')],`${atras.length} laudos passaram do prazo prometido na recepção (primeiro da lista); os demais saíram no prazo. Abaixo da meta de 95%, vira aviso para o gestor.`)}}
+const MODICON={fila:'users',pacientes:'users','agenda-medico':'clock','atendimento-medico':'doc',telemedicina:'users','modelos-doc':'doc',plantoes:'clock','imagem-worklist':'chart','laudo-us':'doc','padroes-laudo':'doc','centro-cirurgico':'check',estoque:'tube','estoque-itens':'tube','estoque-lancar':'tube','estoque-validades':'clock','estoque-ressuprimento':'chart','estoque-pedidos':'doc','estoque-inventario':'check','estoque-relatorios':'chart',glosas:'doc',repasse:'money',conciliacao:'money','custos-procedimento':'money',procedimentos:'settings',profissionais:'users',salas:'settings',atendimentos:'users',orcamentos:'doc',agenda:'clock',caixa:'money',entrega:'check',coleta:'tube',domiciliar:'pin',transporte:'pin',recebimento:'tube',mapa:'chart',digitacao:'doc',recoletas:'tube',cq:'flask',conferencia:'check',laudos:'doc',financeiro:'money',postos:'money',dashboard:'chart',tiss:'doc',precos:'money',qualidade:'check',relatorios:'chart',componentes:'settings','pedidos-agendamento':'bell',carteira:'money',planos:'check',rede:'pin','api-parceiros':'settings'};
 /* Contador ao lado do módulo na Home (onda 2, 04/11): cada tela registra uma função que devolve o número; 0 não aparece. */
 const MOD_BADGE={};
-const modBadge=id=>{try{const n=MOD_BADGE[id]&&MOD_BADGE[id]();return n?`<span class="badge err" style="margin-left:auto;flex:none" title="${n} pendente${n>1?'s':''}">${n}</span>`:''}catch(e){return ''}};
+const modBadge=id=>{try{const n=MOD_BADGE[id]&&MOD_BADGE[id]();return n?`<span class="badge err mod-n" title="${n} pendente${n>1?'s':''}">${n}</span>`:''}catch(e){return ''}};
 const MODCOR=['c-teal','c-blue','c-purple','c-pink','c-green','c-orange'];
-function cardModulos(p){return `<div class="card ill" style="grid-column:1/-1">${ILL.atalho}<h3>Módulos ${info('Os que você mais usa. Passe o mouse num módulo para ver o que ele faz; o ícone à direita o remove dos atalhos.')}</h3><div class="sub">Clique para abrir</div><div class="mods">${(ATALHOS[p]||ATALHO_PADRAO).map((id,i)=>`<a class="mod" href="#${id}" ${tipAttr(NAMES[id],DESC[id]||'')}><span class="mi ${MODCOR[i%MODCOR.length]}">${KI[MODICON[id]||'doc']}</span><span style="min-width:0;line-height:1.2">${atalhoNome(id)}</span>${modBadge(id)}<span class="tune" onclick="event.preventDefault();toast('Tirar dos atalhos: no sistema final, cada pessoa monta os seus')"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></span></a>`).join('')}</div>${typeof cardGrupos==='function'?cardGrupos(p):''}</div>`}
+/* Meus atalhos (notas 24 e 25): cada usuário escolhe os seus, até 8. No protótipo o usuário é o perfil; fica guardado no localStorage. */
+const ATL_MAX=8,ATL_ACOES={'+atendimento':['Novo atendimento',"naNovo('atendimento')"],'+orcamento':['Novo orçamento',"naNovo('orcamento')"]};
+const atlPadrao=p=>p==='admin'?['+atendimento','+orcamento','digitacao','conferencia','agenda']:[...(ATENDE.includes(p)?['+atendimento','+orcamento']:[]),...(ATALHOS[p]||ATALHO_PADRAO).slice(0,4)];
+let ATL={};try{ATL=JSON.parse(localStorage.getItem('deoclinic-atalhos')||'{}')||{}}catch(e){}
+const atlLista=()=>(ATL[PERFIL]||atlPadrao(PERFIL)).filter(id=>ATL_ACOES[id]||NAMES[id]);
+function atlSalva(l){if(l)ATL[PERFIL]=l;else delete ATL[PERFIL];try{localStorage.setItem('deoclinic-atalhos',JSON.stringify(ATL))}catch(e){toast('Este navegador não deixou guardar: os atalhos valem só até fechar a página','warn')}}
+function atlMuda(id,on){const l=atlLista().filter(x=>x!==id);if(on){if(l.length>=ATL_MAX){toast('Até '+ATL_MAX+' atalhos. Tire um para pôr outro','warn');return false}l.push(id)}atlSalva(l);reView();return true}
+function atlToggle(id){const on=!atlLista().includes(id);if(atlMuda(id,on))toast((NAMES[id]||id)+(on?' nos seus atalhos':' fora dos seus atalhos'))}
+function cardAtalhos(){const l=atlLista(),cfg=`<button type="button" class="atl-i atl-cfg" onclick="atalhosModal()">${l.length?'Personalizar':'Escolher atalhos'}</button>`;
+ return `<div class="atl" role="group" aria-label="Meus atalhos">${l.map((id,i)=>{const a=ATL_ACOES[id],ico=`<span class="mi ${MODCOR[i%MODCOR.length]}">${a?I.plus:KI[MODICON[id]||'doc']}</span>`;return a?`<button type="button" class="atl-i" onclick="${a[1]}">${ico}${a[0]}</button>`:`<a class="atl-i" href="#${id}">${ico}${atalhoNome(id)}</a>`}).join('')}${cfg}</div>`}
+function atalhosModal(){const l=atlLista(),ops=[...Object.entries(ATL_ACOES).map(([id,a])=>[id,a[0]]),...MENU.filter(([g])=>!['Início','Protótipo'].includes(g)).flatMap(([,it])=>it)];
+ openModal(`<div class="mh"><h3>Meus atalhos</h3><button class="ibtn plain" aria-label="Fechar" onclick="closeModal()">${I.x}</button></div><div class="mb"><p style="font-size:14px;color:var(--fg2)">Escolha até ${ATL_MAX}. Ficam guardados neste navegador, para o perfil ${nomePerfil(PERFIL)}.</p><input class="in" placeholder="Buscar tela" aria-label="Buscar tela" oninput="atlFiltra(this.value)"><div class="widgets" id="atlOps">${ops.map(([id,t])=>`<label class="${l.includes(id)?'on':''}" data-n="${esc(semAc(t))}"><input type="checkbox" ${l.includes(id)?'checked':''} onchange="if(atlMuda('${id}',this.checked))this.parentElement.classList.toggle('on',this.checked);else this.checked=false">${esc(t)}</label>`).join('')}</div><p class="tl" id="atlVazio" hidden>Nenhuma tela com esse nome.</p></div><div class="mf"><button class="btn ghost" onclick="atlSalva(null);closeModal();reView()">Voltar ao padrão</button><button class="btn" onclick="closeModal()">Pronto</button></div>`)}
+function atlFiltra(v){const q=semAc(v.trim());let n=0;document.querySelectorAll('#atlOps label').forEach(el=>{const ok=el.dataset.n.includes(q);el.hidden=!ok;if(ok)n++});$('#atlVazio').hidden=n>0}
+function cardModulos(p){return `<div class="card ill" style="grid-column:1/-1">${ILL.atalho}<h3>Módulos ${info('Os que você mais usa. Passe o mouse num módulo para ver o que ele faz; o ícone à direita põe ou tira o módulo dos seus atalhos, no topo da Home.')}</h3><div class="sub">Clique para abrir</div><div class="mods">${(ATALHOS[p]||ATALHO_PADRAO).map((id,i)=>`<a class="mod" href="#${id}" ${tipAttr(NAMES[id],DESC[id]||'')}><span class="mi ${MODCOR[i%MODCOR.length]}">${KI[MODICON[id]||'doc']}</span><span style="min-width:0;line-height:1.2">${atalhoNome(id)}</span>${modBadge(id)}<span class="tune" role="button" aria-label="Pôr ou tirar dos meus atalhos" title="Pôr ou tirar dos meus atalhos" onclick="event.preventDefault();atlToggle('${id}')"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></span></a>`).join('')}</div>${typeof cardGrupos==='function'?cardGrupos(p):''}</div>`}
 /* Gráfico da semana, com as quatro séries e as cores do dashboard do Figma */
 /* 30/10 (anotação 92): ao passar o mouse sobre uma coluna (dia, semana ou mês) aparece o número de cada situação daquela coluna;
    clicar na coluna abre a lista. As colunas acompanham o período escolhido: dias na semana, semanas no mês, meses no ano. */
@@ -1066,8 +1088,9 @@ VIEWS.home=()=>{
  const fat=periodoFator('home'),per=periodoTexto('home'),nf=n=>Math.round(n*fat).toLocaleString('pt-BR');
  const kpis=`<div class="fbar" style="margin:4px 0 8px"><span class="lab">Período dos indicadores</span>${periodo('home','reView()')}</div><div class="kpis">
  ${kpi('c-teal','users','Atendimentos · '+per,nf(148),fat===1?'11% a mais que a semana passada':'média de '+Math.round(148*fat/periodoDias('home'))+' por dia',false,'Pacientes atendidos no período, em todas as unidades. Mude o período acima: semana, mês, ano ou um intervalo no calendário. Clique para ver a lista dos pacientes atendidos.',"homeLista('atend')")}
- ${kpi('c-blue','clock','Aguardando coleta','11','espera média de 9 min',false,'Pacientes já atendidos que ainda não foram chamados para a coleta, agora. A meta é espera menor que 15 min. Clique para ver quem está esperando.',"homeLista('coleta')")}
+ ${kpi('c-blue','clock','Aguardando coleta',FILA.col.length,FILA.col.length?'espera média de '+Math.round(FILA.col.reduce((s,x)=>s+x.e,0)/FILA.col.length)+' min':'ninguém esperando',false,'Quem tem senha na fila da coleta e ainda não foi chamado, agora. Quem já foi atendido fica no cartão Atendimentos. A meta é espera menor que 15 min. Clique para ver quem está esperando.',"homeLista('coleta')")}
  ${kpi('c-purple','flask','Na área técnica','412','37 com alerta · 2 críticos',true,'Exames em processamento agora (recebidos, digitados ou em conferência). Os críticos aparecem nos avisos do Dr. Clique para ver as amostras.',"homeLista('tecnica')")}
+ ${kpi('c-orange','clock','Atrasados · '+per,nf(4),'laudos fora do prazo',true,'Laudos que passaram do prazo prometido na recepção, no período. Clique para ver quais.',"homeLista('atras')")}
  ${kpi('c-green','doc','Laudos no prazo · '+per,fat===1?'97%':'96,2%','meta 95% · '+nf(4)+' atrasados'+(BRINCA&&fat===1?' (os outros 3% juram que já estão saindo da impressora)':''),false,'Laudos liberados dentro do prazo prometido no atendimento, no período. Abaixo da meta, vira aviso para o gestor. Clique para ver os atrasados e os no prazo.',"homeLista('prazo')")}
 </div>`;
  const meu=CAIXAS.find(c=>c.u===CAIXA_EU);
@@ -1077,6 +1100,7 @@ VIEWS.home=()=>{
 <span class="asbar-note">Só no protótipo. Cada perfil vê os avisos que resolve (tabela de 29/10). As brincadeiras do modo descontraído estão numeradas: aprove ou mande tirar uma a uma. Passe o mouse sobre o "i" de qualquer item para ver o que ele faz.</span></div>
 <div class="pagehead"><div><div class="crumbs">Início</div><h1>Bom dia${adm?', Jânio':p==='recepcao'?', Paula':p==='medico'?', Dra. Camila':p==='enfermagem'?', Tatiane':p==='imagem'?', Dr. Paulo':''}</h1><p style="color:var(--fg2);margin-top:4px">Quarta, 4 de novembro · ${gestor?UNIDS[14]:'Unidade 10 · Central'} · ${nomePerfil(p)}. Dados de exemplo.</p></div>
 <div class="tools"><button class="btn sm neutral" onclick="widgetsModal()" ${tipAttr('Widgets','Escolha o que aparece na sua Home, como nos widgets do Figma.')}>${I.plus} Widgets</button><button class="rules" onclick="rulesModal('Home')" ${tipAttr('Regras','Lista as regras de negócio desta tela.')}>${I.doc} Regras</button>${atende?`<button class="btn" onclick="naNovo('atendimento')" ${tipAttr('Novo atendimento','Começa pelo CPF: traz o cadastro e o orçamento aberto, monta o pedido, recebe o pagamento e define a entrega.')}>${I.plus} Novo atendimento</button>`:''}</div></div>
+${vis('meusatalhos')?cardAtalhos():''}
 ${BRINCA&&vis('hero')?`<div class="hero">${FIG('ok')}<div class="fala"><b>Dr. Deo diz:</b> ${SAUDA[p]||SAUDA.admin} <span class="fun" style="display:block;margin-top:4px">brincadeira 1: o Dr. Deo (figura do Figma) muda a frase pela hora, pelo dia e pelo perfil; na sexta à tarde ele já está de sandália</span></div></div>`:''}
 ${adm&&vis('plataforma')&&typeof cardPlataforma==='function'?cardPlataforma():''}
 ${vis('meudia')&&typeof homePerfil==='function'?homePerfil(p):''}
@@ -1094,7 +1118,7 @@ ${adm?(vis('caixa')?cardConsolidado(CAIXAS,'Caixas de todas as unidades, juntos'
 ${fin?(vis('pizza')?cardPizza():'')+(vis('caixa')?cardConsolidado(CAIXAS,'Caixas de todas as unidades, juntos','Matriz e postos, somados por unidade. Clique na unidade para ver convênio, forma de pagamento e caixas.'):'')+(vis('custos')?cardCustos([10],'Matriz, exames atendidos hoje.'):''):''}`};
 
 /* ----- Fila por senha: recepção chama no guichê, coleta chama no box. O painel da sala mostra a senha chamada (29/10, tarde). ----- */
-const FILA={rec:[{s:'P-012',t:'Atendimento',pri:'Prioridade',e:4},{s:'A-087',t:'Atendimento',e:6},{s:'A-088',t:'Atendimento',e:3},{s:'A-089',t:'Resultado',e:1}],col:[{s:'P-010',n:'Raimundo Nonato Silva',pri:'Idoso',e:1,urg:true},{s:'C-031',n:'Larissa Monteiro',e:2},{s:'C-032',n:'Francisco das Chagas',e:5},{s:'C-033',n:'Pedro Henrique Alves',pri:'Criança',e:3}]};
+const FILA={rec:[{s:'P-012',t:'Atendimento',pri:'Prioridade',e:4},{s:'A-087',t:'Atendimento',e:6},{s:'A-088',t:'Atendimento',e:3},{s:'A-089',t:'Resultado',e:1}],col:[{s:'P-010',n:'Raimundo Nonato Silva',pri:'Idoso',e:1,urg:true},{s:'C-031',n:'Larissa Monteiro',e:2},{s:'C-033',n:'Pedro Henrique Alves',pri:'Criança',e:3}]};
 const CHAMADA={rec:{s:'A-086',h:'08:52'},col:{s:'C-030',h:'08:49'}};
 const POSTO_DE={rec:'Guichê 2',col:'Box 1'};
 let SEQ_SENHA=90;
@@ -1349,18 +1373,13 @@ const ORCS=[
 ];
 const SITORC={aberto:['Aberto','info'],contato:['Em contato','acc'],convertido:['Convertido','ok'],perdido:['Perdido','neutral']};
 const abertoOrc=o=>o.sit==='aberto'||o.sit==='contato';
-let AT_TIPO='';let SEQ_AT=18300,SEQ_ORC=413,AT_TAB='hoje',AT_Q='',AT_SIT='',AT_URG=false,PAC_Q='',ORC_TAB='abertos',NA=null;
+let AT_TIPO='';let SEQ_AT=18300,SEQ_ORC=413,AT_Q='',AT_SIT='',AT_URG=false,ORC_TAB='abertos',NA=null;
 NAMES['novo-atendimento']='Novo atendimento';NAMES['novo-orcamento']='Novo orçamento';
 const LUPA='<svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
 function reView(){const id=(location.hash||'#home').slice(1);if(VIEWS[id]){$('#view').innerHTML=VIEWS[id]();posRender(id)}}
 const vazioLinha=(cols,t,p)=>`<tr><td colspan="${cols}"><div class="empty" style="padding:24px 8px"><h4>${t}</h4>${p?`<p>${p}</p>`:''}</div></td></tr>`;
 
 /* ----- Tela Atendimento: atendimentos de hoje e pacientes ----- */
-VIEWS.atendimentos=()=>`
-<div class="pagehead"><div><div class="crumbs">Atendimento</div><h1>Atendimento</h1><p style="color:var(--fg2);margin-top:4px">Unidade 10 · Central. Dados de exemplo.</p></div>
-<div class="tools"><button class="rules" onclick="rulesModal('Atendimento')">${I.doc} Regras</button><a class="btn sec" href="#orcamentos">Orçamentos (${ORCS.filter(abertoOrc).length})</a><button class="btn" onclick="naNovo('atendimento')">${I.plus} Novo atendimento</button></div></div>
-<div class="tabs" role="tablist"><button class="tab ${AT_TAB==='hoje'?'active':''}" onclick="AT_TAB='hoje';reView()">Atendimentos de hoje <span class="n">${ATENDS.length+(typeof clAgendaHoje==='function'?clAgendaHoje().filter(a=>!['Coleta','Domiciliar'].includes(a.tipo)).length:0)}</span></button><button class="tab ${AT_TAB==='pac'?'active':''}" onclick="AT_TAB='pac';reView()">Pacientes <span class="n">${PACIENTES.length}</span></button></div>
-${AT_TAB==='hoje'?atHoje():atPacientes()}`;
 function atHoje(){return `
 <div class="filters"><div class="inwrap" style="flex:1 1 220px">${LUPA}<input class="in" placeholder="Paciente ou protocolo" value="${esc(AT_Q)}" oninput="AT_Q=this.value;$('#atBody').innerHTML=atHojeRows()" aria-label="Buscar atendimento"></div>
 <select class="in" style="width:auto;flex:1 1 180px" onchange="AT_SIT=this.value;$('#atBody').innerHTML=atHojeRows()" aria-label="Situação"><option value="">Todas as situações</option>${Object.entries(LETRAS).map(([k,v])=>`<option value="${k}" ${AT_SIT===k?'selected':''}>${k} · ${v}</option>`).join('')}</select>
@@ -1383,13 +1402,6 @@ function atFicha(prot,aba){const a=ATENDS.find(x=>x.p===prot);if(!a)return;AF_AB
  :`<div class="steps">${etapas.map((k,j)=>`<div class="stp ${j<idx?'ok':j===idx?'cur':''}"><span class="dot2"></span><div class="st">${LETRAS[k]}<small>${j<idx?['07:12 · Paula','07:30 · Edna','—','07:48 · Tiago','08:40 · Analisador A','08:50 · Dra. Helena','09:00 · WhatsApp','—'][j]:j===idx?'etapa atual':'pendente'}</small></div></div>`).join('')}</div>`;
  openDrawer(`Atendimento <span class="mono">${prot}</span>`,`<div class="tabs" role="tablist" style="flex-wrap:wrap">${abas.map(([k,t])=>`<button class="tab ${AF_ABA===k?'active':''}" onclick="atFicha('${prot}','${k}')">${t}</button>`).join('')}</div>${corpo}<div class="row" style="margin-top:12px;gap:6px"><button class="btn sec" onclick="docComprovanteAt('${prot}')" ${tipAttr('Reimprimir comprovante','Abre o modelo do comprovante para conferir antes de imprimir.')}>Reimprimir comprovante</button><button class="btn sec" onclick="docEtiquetas('${prot}')" ${tipAttr('Reimprimir etiquetas','Abre a prévia das etiquetas dos tubos para escolher e imprimir.')}>Reimprimir etiquetas</button><button class="btn sec" onclick="docDeclaracao('${prot}')" ${tipAttr('Declaração de comparecimento','Reimprime ou edita a declaração (chegada e saída) deste atendimento.')}>${I.doc} Declaração</button>${a.sit==='X'?'':`<button class="btn ghost" onclick="atIncluirExame('${prot}')" ${tipAttr('Incluir exame','Abre a busca de exames para incluir neste atendimento. Cobra a diferença e gera etiqueta nova se precisar de outro tubo.')}>${I.plus} Incluir exame</button><button class="btn ghost" style="color:var(--err)" onclick="atCancelar('${prot}')" ${tipAttr('Cancelar atendimento','Pede o motivo e cancela o que ainda não foi colhido, com estorno. Fica na auditoria.')}>Cancelar</button>`}</div>`)}
 let AF_ABA='resumo';
-function atPacientes(){return `
-<div class="filters"><div class="inwrap" style="flex:1 1 220px">${LUPA}<input class="in" placeholder="Nome ou CPF" value="${esc(PAC_Q)}" oninput="PAC_Q=this.value;$('#pacBody').innerHTML=pacRows()" aria-label="Buscar paciente"></div>
-<button class="btn sm neutral" onclick="toast('Importar exige permissão própria e fica na auditoria','warn')">Importar</button><button class="btn sm neutral" onclick="toast('Exportar exige permissão própria. O CPF sai mascarado, e a exportação fica na auditoria','warn')">Exportar</button></div>
-<div class="tablewrap"><table class="at-table"><thead><tr><th>Paciente</th><th>CPF</th><th>Telefone</th><th>Situação</th><th></th></tr></thead><tbody id="pacBody">${pacRows()}</tbody></table></div>`}
-function pacRows(){const q=semAc(PAC_Q.trim()),qd=soDig(PAC_Q);const r=PACIENTES.filter(p=>q.length<3||semAc(p.n).includes(q)||(qd.length>=3&&soDig(p.cpf).includes(qd)));
- if(!r.length)return vazioLinha(5,'Ninguém encontrado','Confira o nome ou o CPF, ou comece um novo atendimento.');
- return r.map(p=>`<tr><td data-l="Paciente"><div class="two">${esc(p.n)}<small>${dmy(p.dn)} · ${idade(p.dn)} anos</small></div></td><td data-l="CPF"><span class="mono">${cpfMask(p.cpf)}</span></td><td data-l="Telefone">${esc(p.tel)}</td><td data-l="Situação"><span class="badge ${p.ativo?'ok':'neutral'}">${p.ativo?'Ativo':'Desativado'}</span></td><td data-l="">${p.ativo?`<button class="btn sm sec" onclick="naNovo('atendimento','${p.cpf}')">Novo atendimento</button>`:`<button class="btn sm neutral" aria-disabled="true" onclick="toast('Paciente desativado não abre atendimento. Só o gestor reativa','warn')">Desativado</button>`}</td></tr>`).join('')}
 
 /* ----- Tela Orçamentos ----- */
 const orcTotal=o=>o.it.reduce((s,i)=>s+i.p,0);
@@ -1488,7 +1500,7 @@ const naTotal=()=>NA.ex.reduce((s,x)=>s+x.p,0);
 function naView(){const at=NA.modo==='atendimento',passos=at?['Paciente','Pedido','Pagamento e entrega']:['Pessoa','Exames'];
  if(NA.fim)return naFim();
  return `
-<div class="pagehead"><div><div class="crumbs">${at?'Atendimento':'Orçamentos'}</div><h1>${at?'Novo atendimento':'Novo orçamento'}</h1></div><div class="tools"><a class="btn ghost" href="${at?'#atendimentos':'#orcamentos'}">Cancelar</a></div></div>
+<div class="pagehead"><div><div class="crumbs">${at?'Atendimento':'Orçamentos'}</div><h1>${at?'Novo atendimento':'Novo orçamento'}</h1>${rcUnidLinha()}</div><div class="tools"><a class="btn ghost" href="${at?'#atendimentos':'#orcamentos'}">Cancelar</a></div></div>
 <div class="at-steps">${passos.map((t,i)=>`<span class="at-step ${i+1===NA.passo?'cur':i+1<NA.passo?'done':''}"><b>${i+1<NA.passo?'✓':i+1}</b>${t}</span>`).join('')}</div>
 ${NA.passo===1?naP1():NA.passo===2?naP2():naP3()}`}
 
@@ -1631,10 +1643,11 @@ function naGestor(){openModal(`<div class="mh"><h3>Autorização do gestor</h3><
 </div><div class="mf"><button class="btn ghost" onclick="closeModal()">Cancelar</button><button class="btn" onclick="if(!$('#gSenha').value){toast('Digite a senha','warn');return}NA.descAut=true;closeModal();naRender()">Autorizar</button></div>`)}
 function naConcluir(){if(!NA.wa&&!NA.em&&!NA.sms&&NA.balcao===false){toast('Escolha pelo menos um canal de entrega (ou retirada no balcão)','warn');return}
  if(NA.tipo==='particular'&&(+NA.desc||0)>CFG.descLimite&&!NA.descAut){toast('O desconto precisa da autorização do gestor','warn');return}
- const prot='10-000'+(SEQ_AT++),p=NA.pac,cpf=NA.semCpf?'':NA.cpf;
+ const prot=RC.unid+'-000'+(SEQ_AT++),p=NA.pac,cpf=NA.semCpf?'':NA.cpf;
  if(!NA.pacExiste)PACIENTES.unshift({...p,cpf,ativo:true});
  const exs=NA.ex.filter(x=>!EX[x.c].serv);
  ATENDS.unshift({p:prot,n:p.n,id:idade(p.dn),orig:'Balcão',sit:'A',tot:exs.length+' A',urg:NA.ex.some(x=>x.urg),pri:NA.pri});
+ rcAposAtendimento({n:p.n,cpf},NA.ex.map(x=>x.c).filter(c=>EX[c]&&!EX[c].serv));
  let conv='';if(NA.orc&&NA.usarOrc){NA.orc.sit='convertido';NA.orc.conv=prot;NA.orc.prox='';conv=NA.orc.id}
  NA.fim={tipo:'at',prot,conv,canais:[NA.wa&&'WhatsApp',NA.em&&'e-mail',NA.sms&&'SMS',NA.balcao!==false&&'retirada no balcão'].filter(Boolean)};naRender(true)}
 function naSalvarOrc(){if(!NA.ex.length){toast('Inclua pelo menos um exame','warn');return}
@@ -1661,7 +1674,7 @@ ${f.conv?`<div class="alert info"><span>O orçamento ${f.conv} foi marcado como 
 <p style="font-size:14px;color:var(--fg2)">Entrega por ${f.canais.join(' e ')}. As etiquetas saem na sala de coleta, depois da identificação do paciente.</p>
 ${fun(10,'Próximo! Dizemos isso com carinho, mas dizemos.')}
 <div class="row"><button class="btn sec" onclick="docComprovante()" ${tipAttr('Imprimir comprovante','Abre o modelo do comprovante do atendimento, com usuário e senha da área do paciente, para conferir e imprimir.')}>${I.print} Imprimir comprovante</button><button class="btn sec" onclick="docDeclaracao()" ${tipAttr('Declaração de comparecimento','Abre o modelo da declaração, com código de verificação, para imprimir ou mandar em PDF.')}>${I.doc} Declaração de comparecimento</button></div>
-<div class="row"><button class="btn" onclick="naNovo('atendimento')">${I.plus} Novo atendimento</button><a class="btn ghost" href="#atendimentos" onclick="AT_TAB='hoje';AT_Q='';AT_SIT='';AT_URG=false">Ver atendimentos de hoje</a></div></div>`;
+<div class="row"><button class="btn" onclick="naNovo('atendimento')">${I.plus} Novo atendimento</button><a class="btn ghost" href="#atendimentos" onclick="RC.atTab='hoje';AT_Q='';AT_SIT='';AT_URG=false">Ver atendimentos de hoje</a></div></div>`;
  return `
 <div class="pagehead"><div><div class="crumbs">Orçamentos</div><h1>Orçamento salvo</h1></div></div>
 <div class="card at-card"><div class="figrow">${FIG('ok')}<div class="alert ok"><span><b>${f.id}</b> para ${esc(NA.pac.n)}, ${fmt(naTotal())}.${f.env.length?' Enviado por '+f.env.join(', ')+'.':''}</span></div></div>
@@ -1669,7 +1682,6 @@ ${fun(10,'Próximo! Dizemos isso com carinho, mas dizemos.')}
 ${fun(8,'Orçamento bem feito é meio caminho andado. A outra metade é a pessoa responder o WhatsApp.')}
 <div class="row"><a class="btn" href="#orcamentos">Ver orçamentos</a><button class="btn wa" onclick="orcWhats('${f.id}')"><span class="wa-ic"><i class="fa-brands fa-whatsapp"></i></span> Mandar outro WhatsApp</button><button class="btn ghost" onclick="naNovo('orcamento')">Novo orçamento</button></div></div>`}
 
-GUIDES.atendimentos=['Atendimentos de hoje mostra cada paciente com a situação pela letra (A atendido, C colhido, R recebido...).','Use Novo atendimento e comece pelo CPF: o sistema traz o cadastro e o orçamento aberto.','Na aba Pacientes, busque por nome ou CPF e comece o atendimento direto do cadastro.'];
 GUIDES.orcamentos=['Em aberto ficam os orçamentos a acompanhar, com o próximo contato mais urgente em cima.','O botão verde manda o orçamento pelo WhatsApp: escolha um texto pré-cadastrado ou escreva o seu. O envio fica registrado como contato.','Abra um orçamento para registrar o contato, autorizar e atender (os procedimentos vêm para o atendimento, editáveis) ou marcar como perdido. Quando o retorno vence, o aviso aparece na Home da recepção.'];
 GUIDES['novo-atendimento']=['Digite o CPF: se houver orçamento aberto, ele aparece; clique em Autorizar orçamento e os procedimentos vêm para o pedido, onde dá para incluir mais, editar ou tirar.','Confira o cadastro com um documento com foto e complete o que faltar.','Monte o pedido, receba o pagamento e escolha como o paciente recebe o resultado.'];
 GUIDES['novo-orcamento']=['Digite o CPF: se a pessoa já for paciente, os dados vêm prontos.','Inclua os exames e salve com a validade e o próximo contato.','O orçamento fica em Orçamentos, para acompanhar até converter.'];
@@ -1688,7 +1700,7 @@ const HIST=[];let VOLTANDO=false;
 const PAI={'novo-atendimento':'atendimentos','novo-orcamento':'orcamentos'};
 const BACK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
 function voltar(){if(HIST.length>1){HIST.pop();const t=HIST[HIST.length-1];VOLTANDO=true;location.hash='#'+t;return}const id=(location.hash||'#home').slice(1);location.hash='#'+(PAI[id]||'home')}
-function injetaVoltar(id){if(id==='home')return;const head=document.querySelector('#view .pagehead>div:first-child');if(!head||head.querySelector('.back'))return;const de=HIST.length>1?NAMES[HIST[HIST.length-2]]:NAMES[PAI[id]]||'Home';head.insertAdjacentHTML('beforeend',`<button class="back" onclick="voltar()" aria-label="Voltar para ${de}">${BACK_SVG} Voltar</button>`)}
+function injetaVoltar(id){if(id==='home'||groupOf(id)==='Recepção')return;const head=document.querySelector('#view .pagehead>div:first-child');if(!head||head.querySelector('.back'))return;const de=HIST.length>1?NAMES[HIST[HIST.length-2]]:NAMES[PAI[id]]||'Home';head.insertAdjacentHTML('beforeend',`<button class="back" onclick="voltar()" aria-label="Voltar para ${de}">${BACK_SVG} Voltar</button>`)}
 function posRender(id){injetaVoltar(id)}
 
 /* ---------- Roteador ---------- */
@@ -1724,6 +1736,7 @@ addEventListener('hashchange',route);
 <script src="telas-onda2-rec.js"></script>
 <script src="telas-onda2-rel.js"></script>
 <script src="integracao.js"></script>
+<script src="telas-recepcao.js"></script>
 <script src="padroes.js"></script>
 <script src="telas-fim.js"></script>
 <!-- Modo de anotação para a revisão das telas (29/10, 17:45): botão Anotar, pinos numerados, anotações no banco do artefato -->
