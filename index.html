@@ -1561,6 +1561,8 @@ function naEditOk(i){const x=NA.ex[i];const v=parseFloat(($('#neV').value||'').r
 function naResultados(q){q=semAc(q.trim());if(q.length<2)return '';const cat=[...EXAMES,...(typeof PROCEDIMENTOS!=='undefined'?PROCEDIMENTOS.map(p=>EX[p.c]).filter(Boolean):[])];const r=cat.filter(e=>semAc(e.n+' '+e.c+' '+e.s).includes(q)).slice(0,6);
  if(!r.length)return `<p style="font-size:14px;color:var(--fg2)">Nada encontrado para essa busca.</p>`;
  return `<div class="at-list">${r.map(e=>{const ja=NA.ex.some(x=>x.c===e.c);return `<button class="at-row at-pick" ${ja?'disabled':''} onclick="naAdd('${e.c}')"><div class="grow">${e.n}<small>${e.c} · ${e.proc?e.proc:e.serv?'Serviço':e.m}${e.j?' · jejum de '+e.j+' h':''}${e.proc&&e.prep&&e.prep!=='Sem preparo'&&!e.j?' · '+e.prep:''}${e.semTuss?' · sem TUSS':''}</small></div><span class="at-price">${ja?'incluído':fmt(e.p)}</span></button>`}).join('')}</div>`}
+/* Nome da mãe: a RDC 978/2025, art. 134, VI, pede no cadastro do paciente de exame de laboratório. Consulta, imagem e taxas não pedem. */
+function naTemLab(){return NA.modo==='atendimento'&&NA.ex.some(x=>{const e=EX[x.c];return e&&!e.proc&&!e.serv})}
 function naAdd(c){if(NA.ex.some(x=>x.c===c))return;NA.ex.push({c,p:EX[c].p,urg:false});naRender();const q=$('#naQ');if(q)q.focus()}
 function naQuestionario(g,a){const cr=NA.pac.cron||['',''];
  return `<div class="card at-card"><h3>Questionário</h3><div class="sub">As perguntas crônicas aparecem sempre${NA.pacExiste?', já preenchidas com o prontuário':''}. As do exame só aparecem quando algum exame pedido usa.</div><div class="formgrid">
@@ -1589,6 +1591,7 @@ ${at?`<div class="card at-card"><h3>Pedido</h3><div class="sub">Quem pediu e que
  <div class="inwrap">${LUPA}<input class="in" id="naQ" placeholder="Ex.: glicemia, TSH, consulta, US abdome" autocomplete="off" oninput="$('#naRes').innerHTML=naResultados(this.value)" aria-label="Buscar exame"></div>
  <div id="naRes"></div>
  ${NA.ex.length?`<div class="at-list">${NA.ex.map(naItem).join('')}</div>`:`<div class="empty" style="padding:12px 8px"><h4>Nenhum exame ainda</h4><p>Busque acima para incluir.</p></div>`}
+ ${naTemLab()?`<div class="field ${e.mae?'err':''}" style="max-width:520px"><label for="naMae">Nome da mãe <span class="req">*</span> ${info('Pedido só quando o atendimento tem exame de laboratório: faz parte do cadastro exigido pela RDC 978/2025 da Anvisa, art. 134.')}</label><input class="in" id="naMae" value="${esc(NA.pac.mae||'')}" autocomplete="off" oninput="NA.pac.mae=this.value">${e.mae?'<span class="msg">Obrigatório para exame de laboratório</span>':''}</div>`:''}
  ${at&&NA.ex.filter(x=>EX[x.c].u).length>1?`<button class="btn ghost sm" style="align-self:flex-start" onclick="NA.ex.forEach(x=>{if(EX[x.c].u)x.urg=true});naRender()">Marcar todos como urgentes</button>`:''}
  ${(()=>{const pr=typeof clPrepJornada==='function'?clPrepJornada(NA.ex.map(x=>x.c)):[jejum?`jejum de ${jejum} horas`:'',urina?'urina: a primeira da manhã ou 2 horas sem urinar':''].filter(Boolean);return pr.length?`<div class="alert warn"><span><b>Preparo:</b> ${pr.join('; ')}. Vale a orientação mais restritiva entre os itens.</span></div>`:''})()}
  <div class="at-totals"><div class="at-big"><span>Total</span><span>${fmt(naTotal())}</span></div></div>
@@ -1598,7 +1601,7 @@ ${at?`<div class="card at-card"><h3>Prioridade legal</h3><div class="sub">Ordena
  ${NA.pri==='Outra, com motivo'?`<div class="field ${e.priMot?'err':''}" style="max-width:520px;margin-top:8px"><label for="naPriMot">Motivo da prioridade <span class="req">*</span> ${info('Fica registrado no atendimento e aparece na fila, para quem chama saber o porquê.')}</label><input class="in" id="naPriMot" value="${esc(NA.priMot)}" placeholder="Ex.: pós-operatório, acompanhante de paciente internado" oninput="NA.priMot=this.value">${e.priMot?'<span class="msg">Obrigatório quando a prioridade é “Outra”</span>':''}</div>`:''}</div>`:''}
 <div class="at-end"><button class="btn ghost" onclick="NA.passo=1;naRender(true)">Voltar</button>${at?`<button class="btn sec" onclick="naSalvarOrc()">Salvar só como orçamento</button><button class="btn" onclick="naP2Ok()">Continuar</button>`:`<button class="btn" onclick="naSalvarOrc()">Salvar orçamento</button>`}</div>`}
 function naSemSol(v){NA.semSol=v;if(v){NA.medAnt=[NA.med,NA.crm];NA.med='Sem solicitante';NA.crm='—'}else{[NA.med,NA.crm]=NA.medAnt||['',''];if(NA.med==='Sem solicitante'){NA.med='';NA.crm=''}}NA.err={};naRender()}
-function naP2Ok(){const e={};const soClin=NA.ex.length&&NA.ex.every(x=>EX[x.c].proc==='Consulta');if(!NA.semSol&&!soClin){if(!NA.med.trim())e.med=1;if(!NA.crm.trim())e.crm=1}if(NA.tipo==='convenio'){if(!NA.conv)e.conv=1;if(!NA.cart.trim())e.cart=1}if(NA.pri==='Outra, com motivo'&&!(NA.priMot||'').trim())e.priMot=1;
+function naP2Ok(){const e={};const soClin=NA.ex.length&&NA.ex.every(x=>EX[x.c].proc==='Consulta');if(!NA.semSol&&!soClin){if(!NA.med.trim())e.med=1;if(!NA.crm.trim())e.crm=1}if(NA.tipo==='convenio'){if(!NA.conv)e.conv=1;if(!NA.cart.trim())e.cart=1}if(NA.pri==='Outra, com motivo'&&!(NA.priMot||'').trim())e.priMot=1;if(naTemLab()&&!(NA.pac.mae||'').trim())e.mae=1;
  NA.err=e;if(Object.keys(e).length){naRender();toast('Preencha os campos obrigatórios','warn');return}
  if(!NA.ex.length){toast('Inclua pelo menos um exame ou procedimento','warn');return}
  if(NA.tipo==='convenio'&&!NA.anexo){toast('No convênio, o pedido médico digitalizado é obrigatório','warn');return}
@@ -1645,6 +1648,7 @@ function naConcluir(){if(!NA.wa&&!NA.em&&!NA.sms&&NA.balcao===false){toast('Esco
  if(NA.tipo==='particular'&&(+NA.desc||0)>CFG.descLimite&&!NA.descAut){toast('O desconto precisa da autorização do gestor','warn');return}
  const prot=RC.unid+'-000'+(SEQ_AT++),p=NA.pac,cpf=NA.semCpf?'':NA.cpf;
  if(!NA.pacExiste)PACIENTES.unshift({...p,cpf,ativo:true});
+ else if(naTemLab()){const b=PACIENTES.find(x=>cpf?x.cpf===cpf:(x.n===p.n&&x.dn===p.dn));if(b)b.mae=p.mae.trim()}
  const exs=NA.ex.filter(x=>!EX[x.c].serv);
  ATENDS.unshift({p:prot,n:p.n,id:idade(p.dn),orig:'Balcão',sit:'A',tot:exs.length+' A',urg:NA.ex.some(x=>x.urg),pri:NA.pri});
  rcAposAtendimento({n:p.n,cpf},NA.ex.map(x=>x.c).filter(c=>EX[c]&&!EX[c].serv),{conv:NA.tipo==='particular'?'Particular':NA.conv||'Particular',desc:+NA.desc||0,forma:NA.forma==='Cartão'?'Cartão de débito':NA.forma});
