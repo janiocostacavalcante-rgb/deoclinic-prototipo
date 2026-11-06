@@ -1536,7 +1536,7 @@ function naCadastro(){const at=NA.modo==='atendimento',ob=CFG.dadosObrig,p=NA.pa
  ${NA.pacExiste?fld('n','Nome completo',true,'autocomplete="off"'):`<div class="field ${e.n?'err':''}"><label>Nome completo <span class="req">*</span></label><input class="in" value="${esc(p.n)}" autocomplete="off" oninput="NA.pac.n=this.value;const l=$('#naPar');if(l)l.innerHTML=naParecidos(this.value)">${e.n?`<span class="msg">${e.n}</span>`:''}</div>`}
  ${at?fld('ns','Nome social',false):''}
  <div class="field ${e.dn?'err':''}"><label>Data de nascimento ${req?'<span class="req">*</span>':''} ${info('Digite só os números: dia, mês e ano com 4 dígitos (ex.: 12041988). Sem calendário: é mais rápido no balcão.')}</label><input class="in" id="naDn" inputmode="numeric" autocomplete="off" placeholder="dd/mm/aaaa" maxlength="10" value="${esc(p.dn?dmy(p.dn):(NA.dnTxt||''))}" oninput="this.value=mData(this.value);NA.dnTxt=this.value;if(soDig(this.value).length===8)naDataNasc(this);else NA.pac.dn=''">${e.dn?`<span class="msg">${e.dn}</span>`:id!==null?`<span class="msg na-idade"><b>${id} anos</b>${id<18?' · menor de idade':''}</span>`:''}</div>
- ${at?`<div class="field ${e.sx?'err':''}"><label>Sexo <span class="req">*</span></label><select class="in" onchange="NA.pac.sx=this.value;naRender()"><option value="">Escolha</option><option value="F" ${p.sx==='F'?'selected':''}>Feminino</option><option value="M" ${p.sx==='M'?'selected':''}>Masculino</option></select>${e.sx?`<span class="msg">${e.sx}</span>`:''}</div>${fld('mae','Nome da mãe',true)}`:''}
+ ${at?`<div class="field ${e.sx?'err':''}"><label>Sexo <span class="req">*</span></label><select class="in" onchange="NA.pac.sx=this.value;naRender()"><option value="">Escolha</option><option value="F" ${p.sx==='F'?'selected':''}>Feminino</option><option value="M" ${p.sx==='M'?'selected':''}>Masculino</option></select>${e.sx?`<span class="msg">${e.sx}</span>`:''}</div>`:''}
  <div class="field ${e.tel?'err':''}"><label>Telefone ${req?'<span class="req">*</span>':''}</label><input class="in" inputmode="tel" value="${esc(p.tel)}" placeholder="(85) 90000-0000" oninput="this.value=mTel(this.value);NA.pac.tel=this.value">${e.tel?`<span class="msg">${e.tel}</span>`:''}</div>
  ${fld('email','E-mail',false,'type="email" inputmode="email"')}
  ${at&&NA.semCpf&&ob?fld('doc','Documento (certidão ou passaporte)',true):''}
@@ -1550,7 +1550,7 @@ function naP1Ok(){const at=NA.modo==='atendimento',ob=CFG.dadosObrig,p=NA.pac,e=
  if(ob&&!NA.semCpf&&soDig(NA.cpf).length!==11)e.cpf='Obrigatório';
  if(!(p.n||'').trim())e.n='Obrigatório';
  if(at||ob){if(!p.dn)e.dn=soDig(NA.dnTxt||'').length?'Data incompleta ou inválida (dd/mm/aaaa)':'Obrigatório';if(soDig(p.tel).length<10)e.tel='Obrigatório'}else if(!p.dn&&soDig(NA.dnTxt||'').length)e.dn='Data incompleta ou inválida (dd/mm/aaaa)';
- if(at){if(!p.sx)e.sx='Obrigatório';if(!(p.mae||'').trim())e.mae='Obrigatório';if(NA.semCpf&&ob&&!(p.doc||'').trim())e.doc='Obrigatório';const id=idade(p.dn);if(id!==null&&id<18&&!(p.resp||'').trim())e.resp='Obrigatório para menor de idade'}
+ if(at){if(!p.sx)e.sx='Obrigatório';if(NA.semCpf&&ob&&!(p.doc||'').trim())e.doc='Obrigatório';const id=idade(p.dn);if(id!==null&&id<18&&!(p.resp||'').trim())e.resp='Obrigatório para menor de idade'}
  NA.err=e;if(Object.keys(e).length){naRender();toast('Preencha os campos obrigatórios','warn');return}
  NA.passo=2;naRender(true)}
 
