@@ -65,7 +65,11 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .mini .m{border:1px solid var(--border);border-radius:12px;padding:10px 12px;background:var(--surface2)}
 .mini .m .lab{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--fg2)}
 .mini .m .num{font-size:22px;font-weight:800;color:var(--fg-strong);line-height:1.2}
+.ibtn.sm:has(>.ti),.ibtn:has(>.ti){width:auto;min-width:32px;padding:0 8px;border-radius:16px;display:inline-flex;align-items:center;gap:6px}.ibtn:has(>.ti)>svg{flex:none}.ibtn:has(>.ti)>.ti{margin-left:0}
 .mini .m .hint{font-size:12px;color:var(--fg2)}
+.mini:has(.num.long){grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr))}
+.mini .m:has(.num.long){container-type:inline-size}
+.mini .m .num.long{font-size:min(22px,12.5cqw);white-space:nowrap}
 .mini .m.err .num{color:var(--err)}.mini .m.ok .num{color:var(--ok)}.mini .m.warn .num{color:var(--warn)}
 .barras{display:flex;flex-direction:column;gap:6px;font-size:13px}
 .barras div{display:grid;grid-template-columns:minmax(90px,1fr) 3fr auto;gap:10px;align-items:center}
@@ -82,7 +86,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 </style>`);
 
 /* ---------- Peças ---------- */
-function pageHead(crumb,title,sub,tools){return `<div class="pagehead"><div><div class="crumbs">${crumb}</div><h1>${title}</h1><p style="color:var(--fg2);margin-top:4px">${sub}</p></div><div class="tools">${tools||''}</div></div>`}
+function pageHead(crumb,title,sub,tools){return `<div class="pagehead"><div><div class="crumbs">${crumb}</div><h1>${title}</h1>${sub?`<p style="color:var(--fg2);margin-top:4px">${sub}</p>`:''}</div><div class="tools">${tools||''}</div></div>`}
 const rulesBtn=t=>`<button class="rules" onclick="rulesModal('${t.replace(/'/g,"\\'")}')" ${tipAttr('Regras','Lista as regras desta tela, como estão no documento de referência.')}>${I.doc} Regras</button>`;
 function tabela(ths,rows,vazio){return `<div class="tablewrap"><table class="at-table"><thead><tr>${ths.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.length?rows.join(''):vazioLinha(ths.length,vazio||'Nada por aqui','Mude a busca ou os filtros.')}</tbody></table></div>`}
 const td=(l,v)=>`<td data-l="${l}">${v}</td>`;
@@ -94,7 +98,7 @@ function modalOk(t,html,label,onok,cls){openModal(`${mh(t)}<div class="mb">${htm
 function fichaDrawer(t,html){openDrawer(t,html)}
 const kvs=pairs=>`<div class="at-kv">${pairs.filter(Boolean).map(([k,v])=>`<span>${k}</span><div>${v}</div>`).join('')}</div>`;
 /* miniKpi(rótulo, número, dica, classe, onclick): com onclick o número é clicável e abre a lista do que ele conta (29/10, noite) */
-const miniKpi=(lab,num,hint,cls,oc)=>`<div class="m ${cls||''} ${oc?'clk':''}" ${oc?`onclick="${oc.replace(/"/g,'&quot;')}" role="button" tabindex="0" title="Clique para ver a lista"`:''}><div class="lab">${lab}</div><div class="num">${num}</div>${hint?`<div class="hint">${hint}</div>`:''}</div>`;
+const miniKpi=(lab,num,hint,cls,oc)=>`<div class="m ${cls||''} ${oc?'clk':''}" ${oc?`onclick="${oc.replace(/"/g,'&quot;')}" role="button" tabindex="0" title="Clique para ver a lista"`:''}><div class="lab">${lab}</div><div class="num${String(num).length>8?' long':''}">${num}</div>${hint?`<div class="hint">${hint}</div>`:''}</div>`;
 const barra=(n,v,max,txt)=>`<div><span>${n}</span><span class="b"><i style="width:${Math.round(v/max*100)}%"></i></span><b>${txt??v}</b></div>`;
 const chip=(t,on,oc)=>`<button class="chip ${on?'on':''}" onclick="${oc}">${t}</button>`;
 function unidNome(u){return UNIDS[u]||('Unidade '+u)}
@@ -210,7 +214,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 /* Modelo de tubo por material e ordem de coleta (citrato → soro → EDTA → fluoreto; urina é frasco à parte) */
 const TUBO_MOD={
  Citrato:{o:1,n:'Citrato de sódio 3,2%',tampa:'azul-clara',cor:'#6EB5E8',vol:'2,7 mL',inv:'3 a 4 inversões'},
- Soro:{o:2,n:'Soro com gel separador',tampa:'amarela',cor:'#E8B931',vol:'5 mL',inv:'5 inversões'},
+ Soro:{o:2,n:'Soro com gel separador',tampa:'amarela ou vermelha',cor:'#E8B931',vol:'5 mL',inv:'5 inversões'},
  EDTA:{o:3,n:'EDTA K2',tampa:'roxa',cor:'#8B5CC7',vol:'4 mL',inv:'8 a 10 inversões'},
  Fluoreto:{o:4,n:'Fluoreto de sódio',tampa:'cinza',cor:'#9AA3AD',vol:'2 mL',inv:'8 a 10 inversões'},
  Urina:{o:9,n:'Frasco de urina estéril',tampa:'amarela (frasco)',cor:'#F3D34A',vol:'até 50 mL',inv:'',fr:true}};
@@ -225,16 +229,16 @@ function barcodeSvg(code){const d=String(code).replace(/\D/g,'')||'0';let x=2,ba
 
 /* Prévia das etiquetas: uma por tubo, com o modelo do tubo (anotações 182, 190 e 195) */
 let ETQ_CTX=null;
-function etiquetaPrev(o){o=Object.assign({n:'Paciente',nasc:'',prot:'10-00018233',exs:['HEMO','COL'],modo:'Impressora do box 1',triagem:true},o||{});ETQ_CTX=o;const ts=tubosDe(o.exs);const [u,p]=String(o.prot).split('-');
- const lab=ts.map((t,i)=>{const cod=`${u}-${String(+p).padStart(8,'0')}-${String(t.o).padStart(2,'0')}-01`;return `<div class="etq">${tuboSvg(t,58)}<div class="eb"><b>${esc(o.n)}</b>${o.nasc?`<span>Nasc. ${esc(o.nasc)}</span> · `:''}<span>Prot. ${esc(o.prot)}</span>${barcodeSvg(cod)}<span class="mono">${cod}</span><div>${t.ex.join(' · ')}</div><div class="em">${t.fr?'Frasco':'Tubo'}: <b style="display:inline;font-size:11px">${t.n}</b> · tampa ${t.tampa}${t.vol?' · '+t.vol:''}</div></div></div>`}).join('');
- openModal(`${mh('Prévia das etiquetas · '+esc(o.n.split(' ')[0]))}<div class="mb"><p style="font-size:14px;color:var(--fg2)">${ts.length} etiqueta(s), uma por tubo, na ordem de coleta. Cada etiqueta mostra o modelo do tubo em que deve ser colada. Saída: <b>${esc(o.modo)}</b>.</p><div class="etqs">${lab||'<p class="tl">Nenhum exame laboratorial: não há etiqueta de tubo.</p>'}</div>${o.triagem?`<div class="alert warn"><span><b>A folha de triagem vai junto com o tubo.</b> Medicamentos em uso, doenças crônicas, jejum e observações seguem com a amostra até a área técnica.</span></div>`:''}</div><div class="mf"><button class="btn ghost" onclick="closeModal()">Fechar</button>${o.triagem?`<button class="btn sec" onclick="triagemFolha()">${I.print} Folha de triagem</button>`:''}<button class="btn" onclick="toast('${ts.length} etiqueta(s) enviada(s): ${esc(o.modo).replace(/'/g,'')}');modalVoltar()||closeModal()">${I.print} Imprimir ${ts.length} etiqueta(s)</button></div>`,'wide')}
+function etiquetaPrev(o){o=Object.assign({n:'Paciente',nasc:'',prot:'10-00018233',exs:['HEMO','COL'],modo:'Impressora do box 1'},o||{});ETQ_CTX=o;const ts=tubosDe(o.exs);const [u,p]=String(o.prot).split('-');
+ const lab=ts.map((t,i)=>{const cod=`${u}-${String(+p).padStart(8,'0')}-${String(t.o).padStart(2,'0')}-01`;return `<div class="etq">${tuboSvg(t,58)}<div class="eb"><b>${esc(o.n)}</b>${o.nasc?`<span>Nasc. ${esc(o.nasc)}</span>`:''}${barcodeSvg(cod)}<span class="mono">${cod}</span><div>${t.ex.join(' · ')}</div><div class="em">${t.fr?'Frasco':'Tubo'}: <b style="display:inline;font-size:11px">${t.n}</b> · tampa ${t.tampa}${t.vol?' · '+t.vol:''}</div></div></div>`}).join('');
+ openModal(`${mh('Prévia das etiquetas · '+esc(o.n.split(' ')[0]))}<div class="mb"><p style="font-size:14px;color:var(--fg2)">${ts.length} etiqueta(s), uma por tubo, na ordem de coleta. Cada etiqueta mostra o modelo do tubo em que deve ser colada. Saída: <b>${esc(o.modo)}</b>.</p><div class="etqs">${lab||'<p class="tl">Nenhum exame laboratorial: não há etiqueta de tubo.</p>'}</div></div><div class="mf"><button class="btn ghost" onclick="closeModal()">Fechar</button><button class="btn" onclick="toast('${ts.length} etiqueta(s) enviada(s): ${esc(o.modo).replace(/'/g,'')}');modalVoltar()||closeModal()">${I.print} Imprimir ${ts.length} etiqueta(s)</button></div>`,'wide')}
 
 /* Etiqueta de caixa (rack da soroteca, lote de transporte): prévia; imprimir é simulado. o={titulo,cod,num,linhas,saida,apos} */
 let ETQ_CX=null;
 function etqCaixa(o){ETQ_CX=o;openModal(`${mh('Prévia da etiqueta · '+esc(o.titulo))}<div class="mb"><p style="font-size:14px;color:var(--fg2)">1 etiqueta para identificar a caixa. Saída: <b>${esc(o.saida)}</b>.</p><div class="etqs"><div class="etq"><div class="eb"><b>${esc(o.titulo)}</b>${barcodeSvg(o.num)}<span class="mono">${esc(o.cod)}</span>${o.linhas.map(l=>`<div>${esc(l)}</div>`).join('')}</div></div></div></div><div class="mf"><button class="btn ghost" onclick="closeModal()">Fechar</button><button class="btn" onclick="etqCaixaImprime()">${I.print} Imprimir etiqueta</button></div>`)}
 function etqCaixaImprime(){const o=ETQ_CX;closeModal();if(o.apos)o.apos();toast('Etiqueta enviada: '+esc(o.saida))}
 
-/* Triagem: o que o paciente toma, doenças crônicas, jejum. Vai impressa com o tubo e a biomédica confere ao bipar. */
+/* Triagem: o que o paciente toma, doenças crônicas, jejum. Fica no atendimento e a biomédica confere ao bipar. */
 const TRI_DOENCAS=['Diabetes','Hipertensão','Doença da tireoide','Doença renal','Doença do fígado','Cardiopatia','Usa anticoagulante','Gestante'];
 const TRIAGENS={
  '10-00018233':{med:'Losartana 50 mg (manhã); Sinvastatina 20 mg (noite)',cron:['Hipertensão'],jejum:'10 h',obs:'Tomou a losartana às 6h.',bio:''},
@@ -246,13 +250,12 @@ const TRIAGENS={
  '10-00018250':{med:'Nenhum',cron:['Gestante'],jejum:'não exigido',obs:'Gestante de 12 semanas.',bio:''},
  '10-00018255':{med:'Glibenclamida 5 mg',cron:['Diabetes'],jejum:'12 h',obs:'',bio:''}};
 const triDe=prot=>TRIAGENS[prot]||(TRIAGENS[prot]={med:'',cron:[],jejum:'',obs:'',bio:''});
-function triagemCampos(pf,t){t=t||{};return `<div class="formgrid"><div class="field" style="grid-column:1/-1"><label for="${pf}Med">Medicamentos em uso ${info('Nome, dose e horário da última tomada. Vai impresso na folha de triagem junto com o tubo e aparece para a biomédica quando o tubo é bipado na área técnica.')}</label><textarea class="in" id="${pf}Med" rows="2" placeholder="Ex.: Losartana 50 mg às 6h">${esc(t.med||'')}</textarea></div>
+function triagemCampos(pf,t){t=t||{};return `<div class="formgrid"><div class="field" style="grid-column:1/-1"><label for="${pf}Med">Medicamentos em uso ${info('Nome, dose e horário da última tomada. Fica no atendimento e aparece para a biomédica quando o tubo é bipado na área técnica.')}</label><textarea class="in" id="${pf}Med" rows="2" placeholder="Ex.: Losartana 50 mg às 6h">${esc(t.med||'')}</textarea></div>
  <div class="field" style="grid-column:1/-1"><label>Doenças crônicas e condições</label><div class="tri-chks">${TRI_DOENCAS.map((d,i)=>`<label class="check"><input type="checkbox" name="${pf}Cr" value="${d}" ${(t.cron||[]).includes(d)?'checked':''}>${d}</label>`).join('')}</div></div>
  <div class="field"><label for="${pf}Jej">Jejum</label><input class="in" id="${pf}Jej" value="${esc(t.jejum||'')}" placeholder="Ex.: 10 h"></div>
  <div class="field"><label for="${pf}Obs">Observações</label><input class="in" id="${pf}Obs" value="${esc(t.obs||'')}" placeholder="Ex.: atividade física ontem"></div></div>`}
 function triagemLer(pf){const v=id=>{const e=document.getElementById(pf+id);return e?e.value.trim():''};return {med:v('Med'),cron:[...document.querySelectorAll(`input[name="${pf}Cr"]:checked`)].map(e=>e.value),jejum:v('Jej'),obs:v('Obs')}}
 const triResumo=t=>kvs([['Medicamentos',t.med?esc(t.med):'<span class="tl">não informado</span>'],['Doenças crônicas',(t.cron||[]).length?t.cron.map(esc).join(', '):'<span class="tl">nenhuma informada</span>'],['Jejum',t.jejum?esc(t.jejum):'—'],['Observações',t.obs?esc(t.obs):'—']]);
-function triagemFolha(o){o=o||ETQ_CTX||{};const t=o.tri||(o.prot?triDe(o.prot):{});openModal(`${mh('Folha de triagem · acompanha o tubo')}<div class="mb rel"><div class="row" style="justify-content:space-between"><div><h2>Triagem pré-analítica</h2><span style="color:var(--fg2)">${esc(o.n||'Paciente')} · protocolo ${esc(o.prot||'—')}</span></div></div><div class="alert warn"><span><b>Esta folha deve seguir junto com o tubo</b> até a área técnica. Na bipagem, a biomédica confere e registra estas informações na amostra.</span></div>${triResumo(t)}${o.exs?`<h4>Tubos, na ordem de coleta</h4>${ordemColeta(o.exs,{nota:false})}`:''}<div class="ass"><div>Quem colheu</div><div>Biomédica(o) que conferiu</div></div></div><div class="mf"><button class="btn ghost" onclick="closeModal()">Fechar</button><button class="btn" onclick="window.print()">${I.print} Imprimir folha</button></div>`)}
 
 /* Foto do pedido: câmera do celular ou arquivo (anotação 196) */
 function fotoPedido(nome,cb){openModal(`${mh('Foto do pedido · '+esc(nome))}<div class="mb"><p style="font-size:14px;color:var(--fg2)">Tire a foto do pedido médico pela câmera do celular ou anexe um arquivo (imagem ou PDF). Fica guardada no atendimento e sincroniza quando a rede voltar.</p><div class="row"><label class="btn file-btn">${I.plus} Tirar foto<input type="file" accept="image/*" capture="environment" onchange="fotoMostra(this)" aria-label="Tirar foto do pedido"></label><label class="btn sec file-btn">Anexar arquivo<input type="file" accept="image/*,application/pdf" onchange="fotoMostra(this)" aria-label="Anexar arquivo do pedido"></label></div><div id="fotoPrev" class="tl">Nenhum arquivo ainda.</div></div><div class="mf"><button class="btn ghost" onclick="closeModal()">Cancelar</button><button class="btn" onclick="fotoSalva('${esc(nome).replace(/'/g,'')}')">Guardar no atendimento</button></div>`);FOTO_CB=cb||null;FOTO_OK=false}
