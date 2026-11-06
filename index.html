@@ -543,7 +543,7 @@ svg.art,svg.art2{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:r
 /* ---------- Dados do menu: um item por módulo decidido no documento ---------- */
 const MENU=[
  ['Início',[['home','Home',1],['fluxo','Painel de fluxo']]],
- ['Recepção',[['pre-atendimento','Pré-atendimento'],['senhas','Listagem de Senhas'],['painel-senhas','Painel de Senhas'],['pre-agendamento','Fila de Pré-agendamento'],['pacientes','Pacientes'],['agendamento','Agendamento'],['abertura-agenda','Abertura de agenda'],['agenda','Agenda'],['pedidos-agendamento','Pedidos de agendamento'],['atendimentos','Atendimentos'],['orcamentos','Orçamentos'],['guia-exames','Guia de Exames'],['fila','Triagem'],['caixa','Caixa']]],
+ ['Recepção',[['pre-atendimento','Pré-atendimento'],['senhas','Listagem de Senhas'],['painel-senhas','Painel de Senhas'],['pre-agendamento','Fila de Pré-agendamento'],['pacientes','Pacientes'],['abertura-agenda','Abertura de agenda'],['agenda','Agenda'],['pedidos-agendamento','Pedidos de agendamento'],['atendimentos','Atendimentos'],['orcamentos','Orçamentos'],['guia-exames','Guia de Exames'],['fila','Triagem'],['caixa','Caixa']]],
  ['Prontuário',[['agenda-medico','Agenda do médico'],['atendimento-medico','Atendimento médico'],['telemedicina','Telemedicina'],['plantoes','Plantões e escalas'],['modelos-doc','Modelos de documentos']]],
  ['Imagem e ultrassom',[['imagem-worklist','Exames de imagem'],['laudo-us','Laudo de ultrassom'],['padroes-laudo','Padrões de laudo']]],
  ['Laboratório · Coleta',[['coleta','Sala de coleta'],['domiciliar','Coleta domiciliar'],['transporte','Transporte'],['recebimento','Recebimento de amostras']]],
@@ -1374,7 +1374,7 @@ const ORCS=[
 const SITORC={aberto:['Aberto','info'],contato:['Em contato','acc'],convertido:['Convertido','ok'],perdido:['Perdido','neutral']};
 const abertoOrc=o=>o.sit==='aberto'||o.sit==='contato';
 let AT_TIPO='';let SEQ_AT=18300,SEQ_ORC=413,AT_Q='',AT_SIT='',AT_URG=false,ORC_TAB='abertos',NA=null;
-NAMES['novo-atendimento']='Novo atendimento';NAMES['novo-orcamento']='Novo orçamento';
+NAMES['novo-atendimento']='Novo atendimento';NAMES['novo-orcamento']='Novo orçamento';NAMES['agendamento']='Agendamento';
 const LUPA='<svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
 function reView(){const id=(location.hash||'#home').slice(1);if(VIEWS[id]){$('#view').innerHTML=VIEWS[id]();posRender(id)}}
 const vazioLinha=(cols,t,p)=>`<tr><td colspan="${cols}"><div class="empty" style="padding:24px 8px"><h4>${t}</h4>${p?`<p>${p}</p>`:''}</div></td></tr>`;
@@ -1697,7 +1697,7 @@ function groupOf(id){for(const [g,items] of MENU)if(items.some(i=>i[0]===id))ret
 /* ---------- Voltar padrão: seta pequena abaixo das informações de toda tela (decisão de 29/10) ----------
    Volta para a tela de onde a pessoa veio; se abriu direto pelo link, volta para o módulo pai (ou a Home). */
 const HIST=[];let VOLTANDO=false;
-const PAI={'novo-atendimento':'atendimentos','novo-orcamento':'orcamentos'};
+const PAI={'novo-atendimento':'atendimentos','novo-orcamento':'orcamentos','agendamento':'agenda'};
 const BACK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
 function voltar(){if(HIST.length>1){HIST.pop();const t=HIST[HIST.length-1];VOLTANDO=true;location.hash='#'+t;return}const id=(location.hash||'#home').slice(1);location.hash='#'+(PAI[id]||'home')}
 function injetaVoltar(id){if(id==='home'||groupOf(id)==='Recepção')return;const head=document.querySelector('#view .pagehead>div:first-child');if(!head||head.querySelector('.back'))return;const de=HIST.length>1?NAMES[HIST[HIST.length-2]]:NAMES[PAI[id]]||'Home';head.insertAdjacentHTML('beforeend',`<button class="back" onclick="voltar()" aria-label="Voltar para ${de}">${BACK_SVG} Voltar</button>`)}
