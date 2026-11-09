@@ -545,8 +545,7 @@ body.tela-login .wrap{width:100%}
 .side a.inicio.active{color:var(--accent)}
 .nl-badge{min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:var(--err);color:#fff;font-size:12px;font-weight:800;display:inline-grid;place-items:center;letter-spacing:0;text-transform:none}
 .nl-badge.txt{background:var(--err-soft);color:var(--err)}
-.inicio-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(280px,1fr);gap:16px;align-items:start}
-@media(max-width:900px){.inicio-grid{grid-template-columns:minmax(0,1fr)}}
+.inicio-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;max-width:820px;margin-inline:auto}/* nota 246: avisos abaixo do chat, centralizados */
 .inicio-tit{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.inicio-tit h3{flex:1 1 auto}
 .chat-lista{height:min(46vh,420px);overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:12px;background:var(--surface2);border-radius:16px}
 .chat-msg{display:flex;gap:8px;align-items:flex-end;max-width:85%}
