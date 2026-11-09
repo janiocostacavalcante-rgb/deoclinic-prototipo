@@ -1,4 +1,4 @@
-/* Modo de anotação do protótipo (29/10, 17:45; 29/10 noite: funciona dentro de janelas e gavetas, que não fecham ao anotar; 30/10: barra levada para o rodapé, pois cobria o topo das janelas e gavetas; funciona também no calendário de período; pino de janela só aparece com a janela certa aberta). Arquivo separado: não mexe nas telas.
+/* Modo de anotação do protótipo (09/11, nota 239: também sobre o menu lateral e o cabeçalho; os títulos dos grupos continuam abrindo e fechando, para chegar aos módulos; 29/10, 17:45; 29/10 noite: funciona dentro de janelas e gavetas, que não fecham ao anotar; 30/10: barra levada para o rodapé, pois cobria o topo das janelas e gavetas; funciona também no calendário de período; pino de janela só aparece com a janela certa aberta). Arquivo separado: não mexe nas telas.
    Botão "Anotar" no canto inferior esquerdo; clique no item, escreva, salve. Cada anotação vira um pino numerado
    na tela e fica guardada no banco do artefato (lido pelo Claude). Sem banco, fica só neste navegador, com "Copiar tudo". */
 (function(){
@@ -32,7 +32,7 @@ const st=document.createElement('style');st.textContent=`
 #rv-bar button.ok:hover{background:#148c03}
 #rv-hl{position:fixed;z-index:84;pointer-events:none;border:2px dashed #C96F1B;border-radius:8px;background:rgba(201,111,27,.08);display:none}
 body.rv-modo #view{padding-bottom:72px}
-body.rv-modo #view *,body.rv-modo #modal *,body.rv-modo #drawer *,body.rv-modo #rng-pop *{cursor:crosshair!important}
+body.rv-modo #view *,body.rv-modo #modal *,body.rv-modo #drawer *,body.rv-modo #rng-pop *,body.rv-modo #side a,body.rv-modo #side a *,body.rv-modo #side .sair,body.rv-modo .top a,body.rv-modo .top input,body.rv-modo .top .unit{cursor:crosshair!important}
 #rv-pins{position:fixed;inset:0;z-index:82;pointer-events:none}
 .rv-pin{position:absolute;width:26px;height:26px;border-radius:50%;background:#C96F1B;color:#fff;font:800 12px/1 var(--font,system-ui);display:grid;place-items:center;pointer-events:auto;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.35);border:2px solid #fff;transform:translate(-50%,-50%)}
 .rv-pin.ok{background:#18A403}
@@ -99,7 +99,7 @@ const comStore=fn=>store?fn():new Promise(r=>fila.push(async()=>{await fn();r()}
 
 /* ---------- Alvo, descrição e caminho do item ---------- */
 const ALVOS='button,a,input,select,textarea,label,h1,h2,h3,h4,th,td,tr,img,.card,.kpi,.alert,.badge,.chip,.tab,.mod,.at-row,.cx-row,.field,p,li,.hero,.fala';
-function alvoDe(t){if(!(t instanceof Element))return null;if(t.closest('#rv-btn,#rv-bar,#rv-pop,#rv-panel,#rv-pins'))return null;if(t.closest('#side,.top')||t.id==='backdrop'||t.id==='toasts'||t.closest('#toasts'))return 'nav';return t.closest(ALVOS)||t}
+function alvoDe(t){if(!(t instanceof Element))return null;if(t.closest('#rv-btn,#rv-bar,#rv-pop,#rv-panel,#rv-pins'))return null;if(t.closest('#menuBtn,#perfilBtn,#side .ghead')||t.id==='backdrop'||t.id==='toasts'||t.closest('#toasts'))return 'nav';if(t.closest('#side,.top')&&!t.closest(ALVOS))return 'nav';return t.closest(ALVOS)||t}
 function selOf(el){const parts=[];let e=el;while(e&&e!==document.body){let s=e.tagName.toLowerCase();if(e.id&&!/^\d/.test(e.id)&&e.id!=='view'){parts.unshift('#'+CSS.escape(e.id));break}const p=e.parentElement;if(p){const sib=[...p.children].filter(x=>x.tagName===e.tagName);if(sib.length>1)s+=':nth-of-type('+(sib.indexOf(e)+1)+')'}parts.unshift(s);e=p}return parts.join('>')}
 function textoDe(el){const c=el.cloneNode(true);c.querySelectorAll('.ti,.tip,.tipicon,.sr,svg').forEach(x=>x.remove());return c.textContent||''}
 function descOf(el){const a=el.getAttribute('aria-label')||el.getAttribute('placeholder')||el.getAttribute('title');const bloco=!/^(BUTTON|A|INPUT|SELECT|TEXTAREA|LABEL|H[1-4]|TH|TD|IMG|P|SPAN|LI)$/.test(el.tagName);const cab=bloco?el.querySelector('h1,h2,h3,h4,.lab,b,label,td,.av-cod'):null;let t=(a||(cab?textoDe(cab):textoDe(el))||'').replace(/\s+/g,' ').trim();if(!t&&el.tagName==='IMG')t=el.alt||'imagem';if(!t&&el.tagName==='INPUT')t=(el.value||'').trim();if(t.length>50)t=t.slice(0,47)+'…';
