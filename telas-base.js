@@ -86,7 +86,7 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 </style>`);
 
 /* ---------- Peças ---------- */
-function pageHead(crumb,title,sub,tools){return `<div class="pagehead"><div><div class="crumbs">${crumb}</div><h1>${title}</h1>${sub?`<p style="color:var(--fg2);margin-top:4px">${sub}</p>`:''}</div><div class="tools">${tools||''}</div></div>`}
+function pageHead(crumb,title,sub,tools){return `<div class="pagehead"><div>${crumb?`<div class="crumbs">${crumb}</div>`:''}<h1>${title}</h1>${sub?`<p style="color:var(--fg2);margin-top:4px">${sub}</p>`:''}</div><div class="tools">${tools||''}</div></div>`}
 const rulesBtn=t=>`<button class="rules" onclick="rulesModal('${t.replace(/'/g,"\\'")}')" ${tipAttr('Regras','Lista as regras desta tela, como estão no documento de referência.')}>${I.doc} Regras</button>`;
 function tabela(ths,rows,vazio){return `<div class="tablewrap"><table class="at-table"><thead><tr>${ths.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.length?rows.join(''):vazioLinha(ths.length,vazio||'Nada por aqui','Mude a busca ou os filtros.')}</tbody></table></div>`}
 const td=(l,v)=>`<td data-l="${l}">${v}</td>`;
