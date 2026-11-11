@@ -257,3 +257,351 @@ window.DEO_ATENDIDAS=Object.assign(window.DEO_ATENDIDAS||{},{
 "t": "Nos registros em que houver a opção AGEN"
 }
 });
+/* Rodada 17 (11/11/2026): notas 436 a 504 */
+window.DEO_ATENDIDAS=Object.assign(window.DEO_ATENDIDAS||{},{
+"436": {
+"st": "atendida",
+"r": "Feito: no Caixa, o quadro de repasse tem o botão \"Relatório para o médico assinar (PDF)\". Sai com a marca DeoVita, cada paciente, o valor do repasse de cada um, o total do médico, o montante final, o campo de assinatura e de qual caixa saiu o dinheiro. Para baixar, use Baixar PDF e escolha \"Salvar como PDF\". O relatório traz o aviso de documento confidencial (tem nomes de pacientes, LGPD).",
+"t": "Preciso que gere o relatório em pdf para"
+},
+"437": {
+"st": "atendida",
+"r": "Feito: tudo da nota anterior, e agora separado por unidade, com subtotal de cada uma. Dá para escolher uma unidade ou todas, no quadro e no relatório. Ao pagar, você escolhe se o dinheiro sai de um caixa (vira sangria \"Pagamento de repasse médico\" daquele caixa) ou da conta bancária.",
+"t": "Preciso que gere o relatório em pdf para"
+},
+"438": {
+"st": "atendida",
+"r": "Feito: ao lado de \"Pago 10:15\" aparece quem pagou e de onde saiu o dinheiro (ex.: por Paula, saiu do caixa de Paula). O mesmo sai no relatório para o médico assinar.",
+"t": "Quero que mostre quual operador realizou"
+},
+"439": {
+"st": "atendida",
+"r": "Feito: só o guichê que chamou a senha consegue iniciar ou cancelar. Os outros guichês veem \"Só o Guichê X atende ou cancela\". O botão Finalizar saiu; no lugar ficou Cancelar (com motivo). O atendimento é concluído pela tela de Atendimento.",
+"t": "Quando um guichê chamar uma senha, somen"
+},
+"440": {
+"st": "atendida",
+"r": "Feito: na aba Concluídos a última coluna mostra só a nota da pesquisa de satisfação (NPS). Os botões de chamar para a sala e de ir ao Caixa saíram daqui.",
+"t": "Retirar tudo o que está abaixo dessa col"
+},
+"441": {
+"st": "atendida",
+"r": "Feito: o atalho \"Ver em Atendimentos\" saiu da listagem.",
+"t": "Retirar esse atalho."
+},
+"442": {
+"st": "atendida",
+"r": "Feito: na aba Concluídos a coluna passou a se chamar \"Finalizado às\" e mostra o horário em que o atendimento foi finalizado.",
+"t": "Colocar aqui o horário da finalização, a"
+},
+"443": {
+"st": "atendida",
+"r": "Feito: na aba Em atendimento aparece o horário em que o paciente foi chamado (e, depois de iniciado, também o horário de início).",
+"t": "Nessa tela de Em atendimento eu quero sa"
+},
+"444": {
+"st": "atendida",
+"r": "Feito: o Reagendar agora mostra um calendário. Só as datas em que o profissional tem agenda aberta podem ser clicadas, destacadas em verde (com vaga) ou laranja (aberta, sem vaga). As demais ficam apagadas. Ele já abre na primeira data com vaga.",
+"t": "NESTA OPÇÃO DE REAGENDAR SO MOSTRE AS DA"
+},
+"445": {
+"st": "atendida",
+"r": "Feito: o botão Finalizar virou Cancelar, com motivo obrigatório. Só o guichê que chamou a senha vê o botão.",
+"t": "Finalizar tem que ser cancelar."
+},
+"446": {
+"st": "atendida",
+"r": "Feito: a lista de horários mostra só os horários livres. Ocupados, bloqueados e o próprio horário atual ficam de fora, e não há horário repetido. As vagas por ordem de chegada aparecem numa linha só, com a quantidade.",
+"t": "NESTE CAMPO VOCE SO IRA MOSTRAR OS HORAR"
+},
+"447": {
+"st": "atendida",
+"r": "Feito: na aba Cancelados a coluna passou a se chamar \"Motivo\" e mostra o motivo do cancelamento.",
+"t": "Nessa tela de cancelados, essa coluna pr"
+},
+"448": {
+"st": "atendida",
+"r": "Feito: o botão + cria um novo aviso. Ao lado dele entrou um lápis que liga o modo de edição: aí cada aviso mostra Editar e Excluir (e Fixar e Retirar). Clique no ✓ para sair. Como antes, só a gestão e a administração mexem nos avisos.",
+"t": "COLOQUE ESSE BOTAO COM UM SINAL DE MAIS "
+},
+"449": {
+"st": "atendida",
+"r": "Feito: Desbloquear todas as vagas agora abre a mesma janela de confirmação do bloqueio, dizendo quantas vagas e de que dia. Bloqueios e desbloqueios também passam a ficar na auditoria.",
+"t": "NESTA AÇÃO DEVE SEGUIR O MESMO MODELO QU"
+},
+"450": {
+"st": "atendida",
+"r": "Feito: os filtros ficaram numa linha só, alinhados pela base, e o botão Limpar fica no fim da linha, na mesma altura dos campos.",
+"t": "Organize os campos da tela para que fiqu"
+},
+"451": {
+"st": "atendida",
+"r": "Feito: a coluna Data de Nascimento ficou centralizada.",
+"t": "Centralizar para organizar."
+},
+"452": {
+"st": "atendida",
+"r": "Feito: a coluna Nome completo ficou centralizada.",
+"t": "Centralizar para organizar"
+},
+"453": {
+"st": "atendida",
+"r": "Feito: a coluna CPF ficou centralizada.",
+"t": "Centralizar para organizar."
+},
+"454": {
+"st": "atendida",
+"r": "Feito: a coluna Telefone ficou centralizada.",
+"t": "Centralizar para organizar."
+},
+"455": {
+"st": "atendida",
+"r": "Feito: a coluna Status ficou centralizada.",
+"t": "Centralizar para organizar."
+},
+"456": {
+"st": "atendida",
+"r": "Feito: o filtro \"Guia\" agora se chama \"Ficha\". A busca continua achando pelo número da ficha.",
+"t": "Trocar para Ficha."
+},
+"457": {
+"st": "atendida",
+"r": "Feito: o campo mostra \"Número da ficha\".",
+"t": "Colocar \"Número da ficha\"."
+},
+"458": {
+"st": "atendida",
+"r": "Feito: na tabela da agenda, nomes de pacientes e procedimentos ficaram maiores e em destaque. Hora, Situação e Ações ficaram estreitas, com mais espaço entre Hora e Paciente e entre Situação e Ações. Paciente e Procedimento dividem o resto da largura. Nada mudou no funcionamento.",
+"t": "Quero ajustar principalmente a distribui"
+},
+"459": {
+"st": "atendida",
+"r": "Feito: a coluna de Opções saiu. Clicando no paciente, o sistema pergunta: Editar cadastro ou Atendimento (que abre a mesma tela usada pela Listagem de Senhas). Ficha completa e Unificar cadastros continuam na mesma janela, como links menores, porque corrigir cadastro duplicado mantém os dados corretos (LGPD, art. 6º, V).",
+"t": "Excluir essa coluna. Para realizar algum"
+},
+"460": {
+"st": "atendida",
+"r": "Feito: ao salvar um paciente novo pela tela Pacientes, o sistema já abre o atendimento dele, sem precisar pesquisar.",
+"t": "Ao cadastrar um novo paciente ao final j"
+},
+"461": {
+"st": "atendida",
+"r": "Feito: ao salvar o cadastro novo, abre direto a tela de atendimento com os dados do paciente que acabou de ser cadastrado.",
+"t": "Ao cadastrar um novo paciente ao final j"
+},
+"462": {
+"st": "atendida",
+"r": "Feito: o \"Recepção\" saiu do topo da tela Abrir agenda.",
+"t": "Retirar."
+},
+"463": {
+"st": "atendida",
+"r": "Feito: o texto \"Consulte as agendas ou abra uma nova.\" saiu do topo da tela Abrir agenda.",
+"t": "Retirar."
+},
+"464": {
+"st": "atendida",
+"r": "Feito: ao terminar de digitar o CPF no cadastro novo, o aviso \"Já existe cadastro com este CPF\" aparece na hora, com o link para abrir o cadastro existente. Não precisa mais clicar em Salvar.",
+"t": "Alerta de paciente já existente ao digit"
+},
+"465": {
+"st": "atendida",
+"r": "Feito: acima dos cartões \"Caixa de Paula\", \"Caixa de Rafael\" etc. há um filtro por unidade (Todas, Unidade 10, Posto 12, Posto 14), mostrando quantos caixas aparecem.",
+"t": "neste campo também ter um filtro para bu"
+},
+"466": {
+"st": "atendida",
+"r": "Feito: a mensagem da sangria registrada não mostra mais o nome \"(brincadeira 4b)\" no final.",
+"t": "Remover no final esse nome brincadeira 4"
+},
+"467": {
+"st": "atendida",
+"r": "Feito: o campo \"Dados clínicos e motivo da realização dos exames\" só aparece quando há exame no pedido (laboratório ou imagem). Só com consulta, ele some. Para exame, ele continua, porque a RDC 978/2025 da Anvisa pede a informação clínica pertinente junto do pedido de exame.",
+"t": "Esse campo de dados clinicos e motivo só"
+},
+"468": {
+"st": "atendida",
+"r": "Feito: \"Baixar planilha modelo\" agora baixa de verdade um arquivo .csv que abre no Excel, com as colunas certas e uma linha de exemplo, conforme o item escolhido (plano de contas, lançamentos, fornecedores ou metas). O extrato OFX não tem modelo porque vem do próprio banco; o sistema avisa isso.",
+"t": "Modelo de planilha não está baixando."
+},
+"469": {
+"st": "atendida",
+"r": "Feito: \"Rodar em teste\" abre o relatório linha a linha: as que entram, as que atualizam (já existem) e as que têm erro, com o motivo de cada erro. Dá para ver só os erros ou só as certas, baixar o relatório em planilha e gravar só as linhas certas. Se você escolher um arquivo .csv no modelo, ele é lido de verdade.",
+"t": "O relatório deve ser mostrado com os err"
+},
+"470": {
+"st": "atendida",
+"r": "Feito: no Exportar, ao escolher \"Personalizado\", aparecem os campos De e Até com calendário. Se a data final for antes da inicial, o sistema avisa.",
+"t": "no modelo personalizado ter a opção de e"
+},
+"471": {
+"st": "atendida",
+"r": "Feito: ao clicar em Exportar, o arquivo é baixado na hora (planilha .csv que o Excel abre) com o que foi marcado e o período escolhido. Em PDF, abre o relatório com a marca DeoVita para salvar como PDF. A exportação fica registrada na auditoria.",
+"t": "Quando gerar a exportação a mesma deve s"
+},
+"472": {
+"st": "atendida",
+"r": "Feito: cada anexo da conta tem o botão Visualizar, que abre o arquivo na própria tela, sem baixar. Clicar na linha do anexo também abre. O Baixar continua ao lado.",
+"t": "TEr opção de visualizar sem precisar bai"
+},
+"473": {
+"st": "atendida",
+"r": "Feito: a mensagem agora traz o nome do profissional e o primeiro nome do paciente, preenchidos sozinhos. Em \"Editar mensagem padrão\" dá para mudar o texto e usar as variáveis {paciente}, {profissional} e {unidade}, com prévia. O nome do procedimento não entra na mensagem: é dado de saúde (LGPD, art. 11).",
+"t": "nessa mensagem deve conter o nome do pro"
+},
+"474": {
+"st": "atendida",
+"r": "Feito: Cobrar abre a mensagem pronta para conferir e ajustar, com o nome e o WhatsApp do responsável, e o botão \"Abrir no WhatsApp\" com a mensagem já escrita. A mensagem é educada, vai só para quem deve, não cita exames nem dados de saúde e traz o nome e o CNPJ da clínica (Código de Defesa do Consumidor, art. 42 e 42-A, e LGPD). A cobrança fica no histórico da conta.",
+"t": "Mostrar o modelo de mensagem a ser envia"
+},
+"475": {
+"st": "atendida",
+"r": "Feito: entrou o indicador \"Todos\" antes das situações. Ele mostra quantas solicitações há e, ao clicar, lista todas.",
+"t": "adicione o campo de todos que é possível"
+},
+"476": {
+"st": "atendida",
+"r": "Feito: o atalho \"Agendamento\" saiu da Fila de Pré-agendamento.",
+"t": "retire esse campo"
+},
+"477": {
+"st": "atendida",
+"r": "Feito: o atalho \"Agendamentos realizados\" saiu da Fila de Pré-agendamento.",
+"t": "retire esse campo"
+},
+"478": {
+"st": "atendida",
+"r": "Feito: o botão \"Novo pré-agendamento\" agora fica no alto, à esquerda, na mesma linha do título Fila de Pré-agendamento.",
+"t": "COLOQUE ESSE CAMPO NO LADO SUPERIOR ESQU"
+},
+"479": {
+"st": "atendida",
+"r": "Feito: Paciente, Profissional e Procedimento agora aceitam digitação. Ao digitar, a lista vai filtrando (paciente por nome ou CPF, profissional por nome ou especialidade).",
+"t": "PERMITA QUE NESSES CAMPOS SEJA POSSIVEL "
+},
+"480": {
+"st": "atendida",
+"r": "Feito: o Procedimento só libera depois de escolher o profissional e mostra apenas o que ele realiza (pela especialidade e pelas agendas dele). Se tentar registrar um procedimento que ele não faz, o sistema avisa e não deixa.",
+"t": "ESTE CAMPO DEVE FILTRAR A ESPECIALIDADE "
+},
+"481": {
+"st": "atendida",
+"r": "Feito: com o profissional definido, \"Agendas disponíveis\" mostra a agenda como ela é: calendário do mês e, ao clicar no dia, a lista de horários com livres, ocupados e bloqueados. Nos ocupados não aparece o nome de outros pacientes (LGPD: só o necessário).",
+"t": "NESTE CAMPO, MOSTRE A AGENDA TAL QUAL CO"
+},
+"482": {
+"st": "atendida",
+"r": "Feito: na janela \"Editar conta\" (e em \"Lançar conta\"), os botões Cancelar e Salvar ficam fixos no rodapé e acompanham a rolagem.",
+"t": "Esse campo se mover junto com a rolagem."
+},
+"483": {
+"st": "atendida",
+"r": "Feito: Dar baixa agora pede data, forma, valor e conta, e a situação muda na hora para \"Recebida\" (ou \"Recebida em parte\", se o valor for menor, mostrando quanto falta). Se der baixa por engano, existe \"Desfazer baixa\" com motivo; nada é apagado e tudo fica no histórico.",
+"t": "Quando clicar em dar baixa o status deve"
+},
+"484": {
+"st": "atendida",
+"r": "Feito: as abas A receber e A pagar têm filtro de período do vencimento (vencidas, próximos 7 dias, mês ou datas escolhidas no calendário), tipo de conta, categoria e situação, com o total filtrado. Plano de contas ganhou filtro por grupo e recorrência, e Conciliação por data, caixa e banco. Fluxo de caixa, DRE e Orçamento já tinham a escolha de período no topo.",
+"t": "Ter filtro em todas as abas, por exemplo"
+},
+"485": {
+"st": "atendida",
+"r": "Feito: ao pagar uma conta, o sistema gera o comprovante de pagamento (com a marca DeoVita, quem aprovou, quem pagou, valor e data) e ele fica guardado nos anexos da conta. Na conta paga há o botão Comprovante, que permite baixar em PDF e anexar o comprovante do banco (PDF ou foto), que fica salvo junto da conta para quando precisar. No protótipo o arquivo fica guardado só enquanto a página está aberta; puxar o comprovante direto do banco depende de integração bancária, que fica para o sistema real.",
+"t": "Quando eu clico em pago, quero que gere "
+},
+"486": {
+"st": "atendida",
+"r": "Feito: na aba Alçadas, o \"Ver\" agora abre a alçada daquele centro de custo (ou o teto da pessoa), e clicar em qualquer parte da linha também abre. Antes a linha abria uma gaveta genérica onde o \"Ver\" era só texto.",
+"t": "Esse Ver não está levando a lugar nenhum"
+},
+"487": {
+"st": "atendida",
+"r": "Feito: entrou o campo Convênio no pré-agendamento, ao lado do Procedimento, sem mexer no resto do layout. O convênio escolhido segue junto para o agendamento.",
+"t": "ADICIONE UM CAMPO DE ESCOLHER O \"CONVENI"
+},
+"488": {
+"st": "atendida",
+"r": "Feito: ao clicar em Agendar na fila, paciente, profissional, procedimento, convênio e unidade já vêm do pedido e ficam fixos. Abre o mesmo calendário da tela de Agendamentos (Mês, Lista, Anterior, Hoje, Próximo), já na primeira data com vaga. Basta escolher o dia e o horário: o agendamento é feito na hora, pelas regras normais, e o pedido passa a Agendado na fila. A confirmação aparece em seguida e tudo fica na auditoria.",
+"t": "essa area deve utilizar o mesmo layout, "
+},
+"489": {
+"st": "atendida",
+"r": "Feito: na conta reprovada, o motivo da reprovação aparece num card vermelho no topo da gaveta, fixo na tela ao rolar, com quem reprovou, quando e os botões \"Reenviar para aprovação\" e \"Corrigir a conta\".",
+"t": "Deixar a mensagem em um card enquadrado "
+},
+"490": {
+"st": "atendida",
+"r": "Feito: os dados do paciente viraram cartões lado a lado (Nome, CPF, Nascimento, Telefone e Situação). Fundo branco, borda fina, cantos arredondados e faixa verde à esquerda; título em negrito na cor do sistema e dado em letra maior. A situação tem etiqueta verde-clara. Trocar paciente e Editar cadastro continuam embaixo.",
+"t": "ajuste esse campo considerando as seguin"
+},
+"491": {
+"st": "atendida",
+"r": "Feito: a aba \"Agendamentos realizados\" saiu da tela Agendamento. Logo depois de confirmar um agendamento, a lista do paciente ainda aparece como confirmação, com o botão Novo agendamento para voltar.",
+"t": "retire esse campo"
+},
+"492": {
+"st": "atendida",
+"r": "Feito: no cartão do paciente o CPF aparece ainda mais encurtado (***.***.789-**). Isso ajuda na LGPD, que pede mostrar só o necessário.",
+"t": "O CPF não pode ficar extenso nem mesmo a"
+},
+"493": {
+"st": "atendida",
+"r": "Feito: a aba Agendamentos do cartão mostra todos os agendamentos do paciente (hoje, futuros e passados), do mais recente para o mais antigo, cada um com a situação em etiqueta colorida (Agendado, Confirmado, Chegou, Faltou, Cancelado etc.).",
+"t": "Aqui serão exibidos todos os agendamento"
+},
+"494": {
+"st": "atendida",
+"r": "Feito: o cartão Pedido saiu. No lugar há \"Convênio e procedimentos\": escolhe o convênio e a busca mostra só o que ele cobre, com o valor dele. Dá para incluir vários procedimentos. Procedimento que depende de médico pede o médico (obrigatório). No fim, informa o solicitante. No convênio, o solicitante é sempre obrigatório, porque a guia TISS da ANS exige.",
+"t": "Sobre todo esse campo de Pedido, acredit"
+},
+"495": {
+"st": "atendida",
+"r": "Feito: a busca e a lista de procedimentos não mostram mais o material (soro, sangue). Agora mostram só o tipo (exame de laboratório, consulta, imagem) e o prazo de entrega. O preparo continua aparecendo, porque é orientação ao paciente.",
+"t": "Essas informações sobre soro (material) "
+},
+"496": {
+"st": "atendida",
+"r": "Feito: a prioridade vem da senha do pré-atendimento e aparece pronta. Só muda pelo botão Alterar, com motivo, e fica registrado. O mesmo botão Alterar substituiu a lista na sala de espera (Atendimentos). Uma trava impede baixar a prioridade de quem tem 60 anos ou mais (ou 80 ou mais na prioridade especial), porque é garantida pelo Estatuto da Pessoa Idosa (Lei 10.741/2003) e pela Lei 13.466/2017.",
+"t": "Como a prioridade já vem definida desde "
+},
+"497": {
+"st": "atendida",
+"r": "Feito: o orçamento é salvo sozinho a cada procedimento incluído (aparece o número e a hora). O botão \"Salvar só como orçamento\" saiu e entrou \"Autorizar orçamento\". Autorizado, ele vira uma ficha, e aparece \"Continuar atendimento e faturar\", que leva ao pagamento. Se precisar mudar algo, há \"Desfazer autorização\".",
+"t": "O orçamento deverá ser salvo automaticam"
+},
+"498": {
+"st": "atendida",
+"r": "Feito: no cadastro do procedimento entraram o prazo de entrega em dias úteis (sai no orçamento e na ficha impressos, com a data prevista), a urgência (permite ou não, com taxa fixa ou percentual), o jejum em horas e outras orientações de preparo, e as perguntas de triagem ou questionário, escolhidas de um banco único de perguntas (sim ou não, ou texto livre), com o botão Banco de perguntas. Ao marcar urgente, o acréscimo aparece no orçamento. O preparo junta as orientações e mostra só o maior jejum. O questionário pode ser impresso em branco para o paciente. A taxa de urgência sempre aparece separada no orçamento, como pede o Código de Defesa do Consumidor (art. 6º, III). Os exames de laboratório usam valores de urgência de exemplo, porque o cadastro deles fica em Exames.",
+"t": "Adicionar o prazo de entrega em dias úte"
+},
+"499": {
+"st": "atendida",
+"r": "Feito: no menu Procedimentos, logo abaixo de Procedimentos, entrou \"Procedimentos do convênio\". Escolhe o convênio e marca o que ele cobre, com o valor e o código próprio do convênio. O Novo atendimento usa essa lista.",
+"t": "Abaixo de procedimentos, preciso de um c"
+},
+"500": {
+"st": "atendida",
+"r": "Feito: a situação na tabela da agenda ganhou borda arredondada e fundo leve, no mesmo estilo da borda do botão do WhatsApp. A situação \"Agendado\", que é clicável, escurece ao passar o mouse.",
+"t": "coloque bordas neste campo de situação ."
+},
+"501": {
+"st": "atendida",
+"r": "Feito: entrou um botão redondo com um olho, logo acima do botão Anotar. Um clique esconde os pontos das anotações para navegar sem atrapalhar; outro clique mostra de novo. O navegador lembra a escolha.",
+"t": "oculte esses pontos referente as anotaçõ"
+},
+"502": {
+"st": "atendida",
+"r": "Feito: quando o CPF digitado no filtro está completo e não existe, o sistema abre o cadastro do paciente com o CPF já preenchido. Ao salvar, já abre o atendimento.",
+"t": "Caso não encontre o CPF em questão, dire"
+},
+"503": {
+"st": "atendida",
+"r": "Feito: na Visão do mês entraram os cards \"Já pago\" e \"Já recebido\". Nas abas A pagar e A receber, os cards no topo mostram Em aberto, Vencido e Já pago (ou Já recebido), seguindo os filtros escolhidos. Clicar no card filtra a lista.",
+"t": "Poderia incuir no card o valor já pago."
+},
+"504": {
+"st": "atendida",
+"r": "Feito: em Ver Auditoria abre uma tabela com três colunas: Operador, Data e Hora e Ação. Dá para ver só este horário, a agenda do dia inteira ou todo o sistema naquele dia. O registro é automático (agendar, confirmar, cancelar, alterar, reagendar, bloquear, desbloquear, autorizar) e só pode ser lido: ninguém apaga nem edita. Isso ajuda a cumprir a LGPD e as acreditações.",
+"t": "Quero que, ao clicar na aba **Auditoria*"
+}
+});
