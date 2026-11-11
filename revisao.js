@@ -87,7 +87,9 @@ function dbStore(db){const col=db.collection('notas'),tcol=db.collection('telas'
  return {local:false,watch(cb){let a=[],b={};const emit=()=>cb({notas:a,telas:b});col.onSnapshot(s=>{a=s.docs.map(d=>({id:d.id,...d.data()}));emit()},()=>{});tcol.onSnapshot(s=>{b={};s.docs.forEach(d=>b[d.id]=d.data());emit()},()=>{})},
   addNota(n){return col.doc(n.id).set(n)},setNota(id,p){return col.doc(id).update(p)},delNota(id){return col.doc(id).delete()},setTela(id,v){return tcol.doc(id).set(v)}}}
 /* Site público de teste (04/11): sem o banco do Claude, as anotações vão para a planilha do endereço DEO_NOTAS_URL (config.js). */
-function remoteStore(url){let cb=null,last={notas:[],telas:{}};const pull=async()=>{try{const r=await fetch(url,{cache:'no-store'});last=await r.json();cb&&cb(last)}catch(e){}};
+/* Aplica as respostas de atendidas.js às notas que vieram da planilha, se o texto não mudou */
+function marcaAtendidas(d){const A=window.DEO_ATENDIDAS||{};(d&&d.notas||[]).forEach(n=>{const x=A[n.num];if(x&&String(n.texto||'').slice(0,40)===x.t&&n.status!=='atendida'){n.status=x.st;if(!n.resposta)n.resposta=x.r}});return d}
+function remoteStore(url){let cb=null,last={notas:[],telas:{}};const pull=async()=>{try{const r=await fetch(url,{cache:'no-store'});last=marcaAtendidas(await r.json());cb&&cb(last)}catch(e){}};
  const post=async b=>{await fetch(url,{method:'POST',body:JSON.stringify(b),headers:{'Content-Type':'text/plain;charset=utf-8'}});await pull()};
  return {local:false,remoto:true,watch(f){cb=f;pull();setInterval(pull,20000)},addNota(n){return post({acao:'add',nota:n})},setNota(id,p){return post({acao:'set',id,patch:p})},delNota(id){return post({acao:'del',id,autorNome:testador()})},setTela(id,v){return post({acao:'tela',id,valor:v})}}}
 function testador(){let n='';try{n=localStorage.getItem('deoclinic-testador')||''}catch(e){}if(!n){n=(prompt('Para registrar suas anotações, qual é o seu nome?')||'').trim().slice(0,60);if(n)try{localStorage.setItem('deoclinic-testador',n)}catch(e){}}return n||'Testador'}
