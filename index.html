@@ -614,17 +614,15 @@ const MENU=[
  ['Laudos e entrega',[['laudos','Laudos'],['entrega','Entrega'],['portal-medico','Portal do médico'],['area-paciente','Área do paciente']]],
  ['Fidelidade',[['fidelidade','Painel da Fidelidade'],['planos','Planos e pacotes']]],
  ['Financeiro',[['financeiro','Financeiro'],['conciliacao','Conciliação bancária'],['repasse','Repasse médico'],['carteira','Carteira e cobrança'],['custos-procedimento','Custo e margem'],['precos','Tabelas de preço'],['tiss','Convênios e TISS'],['glosas','Glosas e recursos'],['postos','Acerto entre postos'],['apoio','Apoio']]],
- ['Rede e parceiros',[['rede','Rede de clínicas'],['api-parceiros','API de parceiros']]],
  ['Estoque',[['estoque','Painel do estoque'],['estoque-itens','Itens'],['estoque-lancar','Entradas e saídas'],['estoque-validades','Lotes e validades'],['estoque-ressuprimento','Ressuprimento'],['estoque-pedidos','Pedidos de compra'],['estoque-inventario','Inventário'],['estoque-relatorios','Relatórios do estoque']]],
- ['Qualidade e gestão',[['dashboard','Dashboard'],['qualidade','Gestão da qualidade'],['relatorios','Relatórios e auditoria']]],
+ ['Qualidade e gestão',[['qualidade','Gestão da qualidade'],['relatorios','Relatórios e auditoria'],['lgpd','Segurança e LGPD']]],
  ['Cadastros',[['estabelecimentos','Estabelecimentos'],['unidades','Unidades'],['usuarios','Usuários'],['perfis','Perfis e permissões'],['bancadas','Bancadas'],['exames','Exames'],['componentes-exame','Componentes de exame'],['perguntas','Perguntas'],['observacoes','Observações'],['variaveis','Variáveis'],['etiquetas','Etiquetas'],['profissionais','Profissionais'],['salas','Salas e equipamentos']]],
  ['Procedimentos',[['procedimentos','Procedimentos'],['questionarios','Triagem e questionários']]],
- ['Configurações',[['importar','Importar e exportar'],['integracoes','Integrações'],['lgpd','Segurança e LGPD'],['ajuda','Ajuda e tour']]],
 ];
 const READY=new Set(['home','componentes','atendimentos','orcamentos','caixa','coleta']);
 const NAMES={};MENU.forEach(g=>g[1].forEach(i=>NAMES[i[0]]=i[1]));
 /* Notas 243 e 244: fora do menu, mas com o código e os links internos preservados */
-NAMES.fluxo='Painel de fluxo';NAMES['home-perfil']='Home por perfil';NAMES.login='Entrar';
+Object.assign(NAMES,{rede:'Rede de clínicas','api-parceiros':'API de parceiros',dashboard:'Dashboard',importar:'Importar e exportar',integracoes:'Integrações',ajuda:'Ajuda e tour'});NAMES.fluxo='Painel de fluxo';NAMES['home-perfil']='Home por perfil';NAMES.login='Entrar';
 /* O que cada módulo faz, em uma ou duas frases: aparece ao deixar o mouse sobre o nome no menu (29/10, 09:35). */
 const DESC={
  home:'Tela inicial do operador: boas-vindas, chat interno da equipe e Avisos do Dia.',
@@ -1160,8 +1158,9 @@ function perfilAbrir(){const p=$('#perfilPop');if(!p.hidden){perfilFechar();retu
 document.addEventListener('pointerdown',e=>{if(e.target.closest&&!e.target.closest('.perfil-wrap'))perfilFechar()},true);
 document.addEventListener('keydown',e=>{if(e.key==='Escape')perfilFechar()});
 function sair(){SAIU=true;try{localStorage.setItem('deoclinic-saiu','1')}catch(e){}perfilFechar();closeModal();HIST.length=0;location.hash='#login'}
-function entrar(){const v=$('#lgPerfil').value;SAIU=false;PERFIL=v;try{localStorage.removeItem('deoclinic-saiu');localStorage.setItem('deoclinic-perfil',v)}catch(e){}HIST.length=0;location.hash='#home'}
-VIEWS.login=()=>`<div class="login-tela"><form class="card login-card" onsubmit="event.preventDefault();entrar()"><div class="logo"><img class="lg-sym" src="logo-sym.png" alt=""><span class="lg-txt"><b>Deovita <i>Clínicas</i></b><small>Sistema de Saúde</small></span></div><h2>Entrar</h2><div class="field"><label for="lgUsu">Usuário ou e-mail</label><input class="in" id="lgUsu" autocomplete="off"></div><div class="field"><label for="lgSen">Senha</label><input class="in" id="lgSen" type="password" autocomplete="new-password" placeholder="No protótipo, qualquer senha serve"></div><div class="field"><label for="lgPerfil">Entrar como (perfil do protótipo)</label><select class="in" id="lgPerfil">${PERFIS.map(([id,n])=>`<option value="${id}"${id===PERFIL?' selected':''}>${n}</option>`).join('')}</select></div><button class="btn" type="submit">Entrar</button></form></div>`;
+/* Nota 396: o que cada um vê vem das permissões do usuário; no login escolhe-se a unidade. No protótipo, o perfil continua o último usado (troca em "Ver a Home como"). */
+function entrar(){const u=+$('#lgUnid').value;SAIU=false;try{localStorage.removeItem('deoclinic-saiu')}catch(e){}try{rc();RC.unid=u;RC.painel.unid=u;RC.meuG=(rcGuiches().find(g=>g.ativo)||{}).id||'';rcUnidHead()}catch(e){}HIST.length=0;location.hash='#home'}
+VIEWS.login=()=>`<div class="login-tela"><form class="card login-card" onsubmit="event.preventDefault();entrar()"><div class="logo"><img class="lg-sym" src="logo-sym.png" alt=""><span class="lg-txt"><b>Deovita <i>Clínicas</i></b><small>Sistema de Saúde</small></span></div><h2>Entrar</h2><div class="field"><label for="lgUsu">Usuário</label><input class="in" id="lgUsu" autocomplete="off"></div><div class="field"><label for="lgSen">Senha</label><input class="in" id="lgSen" type="password" autocomplete="new-password"></div><div class="field"><label for="lgUnid">Unidade</label><select class="in" id="lgUnid">${Object.keys(UNIDS).map(u=>`<option value="${u}"${typeof RC!=='undefined'&&RC&&+u===RC.unid?' selected':''}>${esc(UNIDS[u])}</option>`).join('')}</select></div><button class="btn" type="submit">Entrar</button></form></div>`;
 
 /* ---------- Chat interno da equipe (nota 244): simulado, neste navegador. Mensagem nova toca um som curto e soma nas não lidas, aqui e no menu. ---------- */
 const CHAT={convs:[
@@ -1662,8 +1661,8 @@ const naTotal=()=>NA.ex.reduce((s,x)=>s+x.p,0);
 function naView(){const at=NA.modo==='atendimento',passos=at?['Paciente','Pedido','Pagamento e entrega']:['Pessoa','Exames'];
  if(NA.fim)return naFim();
  return `
-<div class="pagehead"><div><div class="crumbs">${at?'Atendimento':'Orçamentos'}</div><h1>${at?'Novo atendimento':'Novo orçamento'}</h1>${rcUnidLinha()}</div><div class="tools"><a class="btn ghost" href="${at?'#atendimentos':'#orcamentos'}">Cancelar</a></div></div>
-<div class="at-steps">${passos.map((t,i)=>`<span class="at-step ${i+1===NA.passo?'cur':i+1<NA.passo?'done':''}"><b>${i+1<NA.passo?'✓':i+1}</b>${t}</span>`).join('')}</div>
+${at?`<div class="pagehead"><div><h1>Atendimento</h1></div><div class="tools">${NA.sid?`<a class="btn sec" href="#senhas">${BACK_SVG} Voltar para Listagem de Senhas</a><button class="btn ghost" onclick="naCancelarSenha()">Cancelar</button>`:`<a class="btn ghost" href="#atendimentos">Cancelar</a>`}</div></div>`:`<div class="pagehead"><div><div class="crumbs">Orçamentos</div><h1>Novo orçamento</h1>${rcUnidLinha()}</div><div class="tools"><a class="btn ghost" href="#orcamentos">Cancelar</a></div></div>
+<div class="at-steps">${passos.map((t,i)=>`<span class="at-step ${i+1===NA.passo?'cur':i+1<NA.passo?'done':''}"><b>${i+1<NA.passo?'✓':i+1}</b>${t}</span>`).join('')}</div>`}
 ${NA.passo===1?naP1():NA.passo===2?naP2():naP3()}`}
 
 function naP1(){const at=NA.modo==='atendimento',ob=CFG.dadosObrig,e=NA.err;
@@ -1735,6 +1734,7 @@ function naAdd(c){if(NA.ex.some(x=>x.c===c))return;NA.ex.push({c,p:EX[c].p,urg:f
 function naQuestionario(g,a){const cr=NA.pac.cron||['',''];
  return `<div class="card at-card"><h3>Questionário</h3><div class="sub">As perguntas crônicas aparecem sempre${NA.pacExiste?', já preenchidas com o prontuário':''}. As do exame só aparecem quando algum exame pedido usa.</div><div class="formgrid">
  ${CRONICAS.map((q,i)=>`<div class="field"><label>${q}</label><input class="in" value="${esc(NA.perg['c'+i]??cr[i]??'')}" placeholder="Não" oninput="NA.perg['c${i}']=this.value"></div>`).join('')}
+ ${NA.modo==='atendimento'?`<div class="field" style="grid-column:1/-1"><label for="naClin">Dados clínicos e motivo da realização dos exames ${info('Vai para a triagem da coleta e para quem confere e libera o resultado.')}</label><textarea class="in" id="naClin" rows="2" style="height:auto" oninput="NA.perg.clin=this.value">${esc(NA.perg.clin||'')}</textarea></div>`:''}
  ${g?`<div class="field"><label>${PERGS.gest} ${info('Aparece porque um exame pedido tem faixa de referência para gestante.')}</label><input class="in" value="${esc(NA.perg.gest)}" placeholder="Não" oninput="NA.perg.gest=this.value"></div>`:''}
  ${a?`<div class="field"><label>${PERGS.anticoag}</label><input class="in" value="${esc(NA.perg.anticoag)}" placeholder="Não" oninput="NA.perg.anticoag=this.value"></div>`:''}
  </div></div>`}
@@ -1742,7 +1742,7 @@ function naP2(){const at=NA.modo==='atendimento',e=NA.err;
  const temGest=NA.pac.sx==='F'&&NA.ex.some(x=>(EX[x.c].q||[]).includes('gest')),temAnti=NA.ex.some(x=>(EX[x.c].q||[]).includes('anticoag'));
  const jejum=Math.max(0,...NA.ex.map(x=>EX[x.c].j)),urina=NA.ex.some(x=>EX[x.c].m==='Urina');
  return `
-${NA.direto?`<div class="alert info"><span>Paciente: <b>${esc(NA.pac.n)}</b> · ${cpfMask(NA.cpf)} · ${idade(NA.pac.dn)} anos, já cadastrado. <a href="#" onclick="event.preventDefault();NA.passo=1;naRender(true)">Ver ou corrigir os dados</a></span></div>`:''}${NA.orc&&!NA.usarOrc?`<div class="alert info"><span>Há um orçamento aberto (<b>${NA.orc.id}</b>, ${NA.orc.it.length} itens). <a href="#" onclick="event.preventDefault();naUsarOrc(true)">Usar os itens do orçamento</a></span></div>`:''}${NA.orc&&NA.usarOrc?`<div class="alert info"><span>Procedimentos do orçamento autorizado <b>${NA.orc.id}</b>. Inclua mais pela busca, edite (lápis) ou tire (×) antes de continuar.</span></div>`:''}
+${at?naPacCard():`${NA.orc&&!NA.usarOrc?`<div class="alert info"><span>Há um orçamento aberto (<b>${NA.orc.id}</b>, ${NA.orc.it.length} itens). <a href="#" onclick="event.preventDefault();naUsarOrc(true)">Usar os itens do orçamento</a></span></div>`:''}`}
 ${at?`<div class="card at-card"><h3>Pedido</h3><div class="sub">Quem pediu e quem paga</div><div class="formgrid">
  <div class="field ${e.med?'err':''}"><label>Médico solicitante ${NA.semSol?'':'<span class="req">*</span>'}</label><input class="in" value="${esc(NA.med)}" placeholder="Nome do médico" ${NA.semSol?'disabled':''} oninput="NA.med=this.value">${e.med?'<span class="msg">Obrigatório</span>':''}</div>
  <div class="field ${e.crm?'err':''}"><label>Conselho e número ${NA.semSol?'':'<span class="req">*</span>'} ${info('O registro liga o exame ao portal do médico e ao aviso de valor crítico.')}</label><input class="in" value="${esc(NA.crm)}" placeholder="CRM-CE 12345" ${NA.semSol?'disabled':''} oninput="NA.crm=this.value">${e.crm?'<span class="msg">Obrigatório</span>':''}</div>
@@ -1872,7 +1872,7 @@ const HIST=[];let VOLTANDO=false;
 const PAI={'novo-atendimento':'atendimentos','novo-orcamento':'orcamentos','agendamento':'agenda'};
 const BACK_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
 function voltar(){if(HIST.length>1){HIST.pop();const t=HIST[HIST.length-1];VOLTANDO=true;location.hash='#'+t;return}const id=(location.hash||'#home').slice(1);location.hash='#'+(PAI[id]||'home')}
-function injetaVoltar(id){if(id==='home'||groupOf(id)==='Recepção')return;const head=document.querySelector('#view .pagehead>div:first-child');if(!head||head.querySelector('.back'))return;const de=HIST.length>1?NAMES[HIST[HIST.length-2]]:NAMES[PAI[id]]||'Home';head.insertAdjacentHTML('beforeend',`<button class="back" onclick="voltar()" aria-label="Voltar para ${de}">${BACK_SVG} Voltar</button>`)}
+function injetaVoltar(id){if(id==='home'||groupOf(id)==='Recepção'||(id==='novo-atendimento'&&NA&&NA.modo==='atendimento'))return;const head=document.querySelector('#view .pagehead>div:first-child');if(!head||head.querySelector('.back'))return;const de=HIST.length>1?NAMES[HIST[HIST.length-2]]:NAMES[PAI[id]]||'Home';head.insertAdjacentHTML('beforeend',`<button class="back" onclick="voltar()" aria-label="Voltar para ${de}">${BACK_SVG} Voltar</button>`)}
 function posRender(id){injetaVoltar(id);chatFabSync(id)}
 
 /* ---------- Roteador ---------- */
@@ -1914,6 +1914,7 @@ addEventListener('hashchange',route);
 <script src="telas-recepcao.js"></script>
 <script src="padroes.js"></script>
 <script src="telas-r15.js"></script>
+<script src="telas-r16.js"></script>
 <script src="telas-fim.js"></script>
 <!-- Modo de anotação para a revisão das telas (29/10, 17:45): botão Anotar, pinos numerados, anotações no banco do artefato -->
 <script>window.DEO_NOTAS_URL='https://script.google.com/macros/s/AKfycbx1gSx0wdzXng8oyr3oj7WpkcXpqD3AyZ9h_7iWO_Bpgy5i7r6GDlfdRkhtOC9lc_e_/exec';</script>
