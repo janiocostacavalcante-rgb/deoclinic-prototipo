@@ -605,3 +605,206 @@ window.DEO_ATENDIDAS=Object.assign(window.DEO_ATENDIDAS||{},{
 "t": "Quero que, ao clicar na aba **Auditoria*"
 }
 });
+/* Rodada 18 (12/11/2026): notas 505 a 543 e a 428 reaberta */
+window.DEO_ATENDIDAS=Object.assign(window.DEO_ATENDIDAS||{},{
+"428": {
+"st": "atendida",
+"r": "Não feito por enquanto: o prontuário é obrigatório para quem atende paciente (Resolução CFM 1.638/2002 e Lei 13.787/2018). Levamos a decisão ao Jânio. Enquanto isso, a recepção já não vê esse módulo.",
+"t": "Retirar Módulo \"PRONTUÁRIO\".\n(Eu sei que"
+},
+"505": {
+"st": "atendida",
+"r": "Feito: o título da tela agora é \"PROCEDIMENTOS CONVÊNIO\", e o menu mostra \"Procedimentos Convênio\".",
+"t": "Em vez de \"Procedimentos do convênio\" de"
+},
+"506": {
+"st": "atendida",
+"r": "Feito: o texto explicativo embaixo do título foi retirado.",
+"t": "Retirar."
+},
+"507": {
+"st": "atendida",
+"r": "Feito: os convênios agora são Particular, DEOVITA, DEOVITA 100% e JCC, em todas as telas (agenda, atendimento, caixa, financeiro). Os exemplos antigos foram trocados: Unimed e Plano DeoVita viraram DEOVITA, Hapvida virou DEOVITA 100%, e Bradesco, SulAmérica e Camed viraram JCC. Na nova tela Convênio, a guia TISS só sai para operadora com registro na ANS; o plano próprio DeoVita não gera guia (Lei 9.656/1998 e padrão TISS da ANS).",
+"t": "Desejo que sejam utilizados os nomes dos"
+},
+"508": {
+"st": "atendida",
+"r": "Feito: o link \"Ficha completa e histórico\" saiu da janela do paciente. Ficaram Editar cadastro, Atendimento e Unificar cadastros.",
+"t": "Retirar."
+},
+"509": {
+"st": "atendida",
+"r": "Feito: \"Editar cadastro\" abre a mesma janela de edição do cadastro do paciente. Ao salvar, o atendimento continua de onde estava, já com os dados novos.",
+"t": "Esse botão de editar cadastro precisa re"
+},
+"510": {
+"st": "atendida",
+"r": "Feito: o cartão \"Plano e pacote\" mostra só o número do contrato e o plano, vindos do módulo Fidelidade. Se o paciente não tem contrato, aparece \"Sem plano de fidelidade\". O desconto do plano continua aparecendo no total, para o paciente ver o preço com clareza (CDC, art. 6º, III).",
+"t": "Esse campo será necessário para trazer o"
+},
+"511": {
+"st": "atendida",
+"r": "Feito: os botões redondos (+ e editar dos avisos) e o clipe do chat foram ajustados para não ficarem achatados. A tela Início agora tem caixas que abrem e fecham: Avisos do Dia, Chat e cada bloco do painel, além dos botões \"Abrir todos\" e \"Fechar todos\". Avisos do Dia vem aberto e o resto vem fechado, e o sistema lembra o que você abriu.",
+"t": "Quero que ajuste os botões que estão que"
+},
+"512": {
+"st": "atendida",
+"r": "Feito: o relatório de repasse agora tem duas opções: \"Separado por médico\" (uma página para cada médico, com assinatura, e dá para escolher um médico só) ou \"Unificado\" (todos juntos, com um resumo por médico). O unificado serve para a conferência do financeiro. Para o médico assinar, use o separado, assim cada médico vê só os próprios pacientes (LGPD, art. 6º, III).",
+"t": "Quero uma opção para colocar médico em r"
+},
+"513": {
+"st": "atendida",
+"r": "Feito: no comprovante, \"Anexar comprovante do banco\" e \"Baixar PDF\" ficam juntos em cima, e o \"Fechar\" fica embaixo, ocupando a largura toda.",
+"t": "Ajustar esse botões deixar o botão de fe"
+},
+"514": {
+"st": "atendida",
+"r": "Feito: os cadeados de bloquear e desbloquear (na linha e no cabeçalho de Ações) ganharam borda e fundo claro, no mesmo formato do botão do WhatsApp.",
+"t": "coloque bordas ao redor do cadeado, exem"
+},
+"515": {
+"st": "atendida",
+"r": "Feito: na coluna Aprovação, a conta paga mostra \"aprovada\". O \"Paga\" fica só na coluna Situação.",
+"t": "Em aprovação não deve ficar o status pag"
+},
+"516": {
+"st": "atendida",
+"r": "Feito: mesma correção da nota 515 (nota repetida). A coluna Aprovação mostra \"aprovada\".",
+"t": "Em aprovação não deve ficar o status pag"
+},
+"517": {
+"st": "atendida",
+"r": "Feito: mesma correção da nota 515 (nota repetida). A coluna Aprovação mostra \"aprovada\".",
+"t": "Em aprovação não deve ficar o status pag"
+},
+"518": {
+"st": "atendida",
+"r": "Feito: o botão Comprovante agora fica ao lado da situação \"Paga\", na mesma linha.",
+"t": "colocar o botão de comprovante para o la"
+},
+"519": {
+"st": "atendida",
+"r": "Feito: a Auditoria da janela agora mostra só o horário selecionado. Nada é apagado: a trilha completa continua guardada (LGPD art. 37) e a gestão e a administração ainda podem abrir o dia inteiro por um botão.",
+"t": "a auditoria desse campo será apenas em c"
+},
+"520": {
+"st": "atendida",
+"r": "Não feito por enquanto: a gestão da qualidade e a auditoria são exigidas pela RDC 978 da Anvisa e pelas acreditações do laboratório. Levamos a decisão ao Jânio. Elas só aparecem para quem tem permissão.",
+"t": "Preciso que o módulo seja retirado para "
+},
+"521": {
+"st": "atendida",
+"r": "Feito: ao lado do nome do paciente há um cartão com a data de nascimento e a idade, calculada sozinha.",
+"t": "ao lado de nome do paciente inclua card "
+},
+"522": {
+"st": "atendida",
+"r": "Feito: em Procedimentos há um campo para digitar que filtra a lista; continua dando para clicar na opção. Enter escolhe quando sobra um só.",
+"t": "Esse campo deve ser um ambiente selecion"
+},
+"523": {
+"st": "atendida",
+"r": "Feito: o botão agora se chama \"Voltar\" e leva à listagem de Pacientes. No atendimento que veio de uma senha, continua o \"Voltar para Listagem de Senhas\".",
+"t": "Ao clicar em cancelar deve voltar para a"
+},
+"524": {
+"st": "atendida",
+"r": "Feito: o botão \"Ver agendamentos realizados\" saiu da confirmação do agendamento; fica só \"Entendi\".",
+"t": "tire essa opção"
+},
+"525": {
+"st": "atendida",
+"r": "Feito: mesma mudança da nota 524 (o botão \"Ver agendamentos realizados\" saiu da confirmação).",
+"t": "tire essa opção"
+},
+"526": {
+"st": "atendida",
+"r": "Feito: o campo agora se chama \"Procedimento\" e fica logo depois de Convênio no Novo pré-agendamento.",
+"t": "neste campo mude o nome para procediment"
+},
+"527": {
+"st": "atendida",
+"r": "Feito: ao agendar pela fila, o sistema abre Agendamentos no profissional e na data marcada, em modo Lista, com a linha do paciente destacada. Não volta mais para a fila.",
+"t": "Ao realizar um agendamento diretamente p"
+},
+"528": {
+"st": "atendida",
+"r": "Feito: os dois filtros (Paciente e Profissional) dividem a linha em partes iguais; no celular ficam um embaixo do outro.",
+"t": "divida esses campos proporcionalmente"
+},
+"529": {
+"st": "atendida",
+"r": "Feito: o primeiro filtro virou \"Paciente\", campo com busca: digita e a lista dos pacientes da fila filtra; escolher mostra só os pedidos dele.",
+"t": "esses campo de pesquisa devera ser por p"
+},
+"530": {
+"st": "atendida",
+"r": "Feito: o filtro de Profissional virou campo com busca: digita e a lista filtra; escolher mostra só os pedidos dele.",
+"t": "esses campo de pesquisa devera ser por p"
+},
+"531": {
+"st": "atendida",
+"r": "Feito: Nome da agenda, Profissional e Especialidade ficam na mesma linha, com as bordas dos campos na cor do sistema (verde-azulado). Em tela pequena empilham.",
+"t": "alinhe esse campo de especialidade para "
+},
+"532": {
+"st": "atendida",
+"r": "Feito: Profissional virou campo com busca (nome ou especialidade), igual ao da Fila de Pré-agendamento.",
+"t": "esse campo deve ser select com busca"
+},
+"533": {
+"st": "atendida",
+"r": "Feito: nas vagas por ordem de chegada aparece só o horário, sem \"Chegada 01, 02...\". Vale também na tela Agendamento.",
+"t": "TIRE O NOME CHEGADA 01, CHEGADA 02 E ASS"
+},
+"534": {
+"st": "atendida",
+"r": "Não feito por enquanto: o prontuário é obrigatório para quem atende paciente (Resolução CFM 1.638/2002 e Lei 13.787/2018). Levamos a decisão ao Jânio. Enquanto isso, a recepção já não vê esse módulo.",
+"t": "Por enquanto, vamos remover todo o módul"
+},
+"535": {
+"st": "atendida",
+"r": "Feito: o menu Procedimentos está na ordem pedida: Procedimento, Grupo, Subgrupo, Convênio e Procedimentos Convênio. As telas Grupo, Subgrupo e Convênio são novas, e \"Triagem e questionários\" ficou no fim da lista.",
+"t": "No módulo procedimentos eu preciso dos c"
+},
+"536": {
+"st": "atendida",
+"r": "Feito: saiu a lista \"Horários livres em...\" abaixo do calendário; os horários aparecem ao clicar no dia.",
+"t": "retire esse campo de \"horários livres em"
+},
+"537": {
+"st": "atendida",
+"r": "Feito: a Situação usa as mesmas cores da tela de Agendamentos (vaga disponível agora na cor do sistema, não mais verde).",
+"t": "permita que as cores do campo de \"situaç"
+},
+"538": {
+"st": "atendida",
+"r": "Feito: o Painel da Fidelidade agora mostra só o aviso \"Em definição para a V1\", sem nenhum campo. Os contratos continuam guardados, e o Novo atendimento ainda mostra o número do contrato e o plano.",
+"t": "Por enquanto, quero que esse módulo de F"
+},
+"539": {
+"st": "atendida",
+"r": "Feito: a barra de pesquisa ficou larga, mais alta e com borda destacada; busca por nome, especialidade ou categoria.",
+"t": "Barra de pesquisa: Deve ser ampla e dest"
+},
+"540": {
+"st": "atendida",
+"r": "Feito: abaixo da busca há os filtros Todos, Médicos, Odontólogos, Psicólogos, Fisioterapeutas, Ultrassonografistas e Outros Profissionais, com a quantidade. Hoje não há dentista, psicólogo nem fisioterapeuta cadastrado: esses filtros mostram aviso de vazio.",
+"t": "abaixo do campo de pesquisa do nome ou e"
+},
+"541": {
+"st": "atendida",
+"r": "Feito: cartões em duas colunas, em ordem alfabética, com iniciais (foto é opcional), nome, especialidade, conselho e RQE do médico e seta. O cartão inteiro abre o perfil. Médico sem RQE mostra \"RQE não informado\" (Resolução CFM 2.336/2023).",
+"t": "sobre a lista de profissionais: deve ser"
+},
+"542": {
+"st": "atendida",
+"r": "Feito: o perfil abre numa tela própria, sem janela, com menu e cabeçalho do sistema: cabeçalho com CRM e RQE, quatro cartões à esquerda, Dúvidas frequentes à direita (abrir e fechar). Incluir, editar e excluir ficam com gestão e administração; os demais só consultam.",
+"t": "ao abrir o perfil individual do profissi"
+},
+"543": {
+"st": "atendida",
+"r": "Feito: ao lado do botão de bloquear todas há o botão + para abrir uma vaga de encaixe: escolhe o horário e o motivo, e ela entra na agenda como vaga livre. Não deixa repetir horário, pode ser removida enquanto livre e tudo fica na auditoria.",
+"t": "AO LADO DESSE BOTÃO ADICIONE UM NOVO BOT"
+}
+});

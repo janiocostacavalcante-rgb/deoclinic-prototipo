@@ -169,8 +169,8 @@ function rcFinalizarOk(id){const s=RC.senhas.find(x=>x.id===id);if(!s)return;con
 
 /* ---------- Guia e cobrança: a guia nasce no guichê, o Caixa recebe e libera o setor ---------- */
 const rcModal=()=>['Particular','Assinante',...CONVENIOS];
-const RC_BENEF={Assinante:10,DeoVita:10};
-const rcEhConv=c=>!['Particular','Assinante','DeoVita'].includes(c);
+const RC_BENEF={Assinante:10,DeoVita:10,DEOVITA:10,'DEOVITA 100%':10};
+const rcEhConv=c=>!['Particular','PARTICULAR','Assinante','DeoVita','DEOVITA','DEOVITA 100%'].includes(c);
 const rcPreco=c=>(PROC(c)||{}).preco||(EX[c]||{}).p||0;
 function rcGuiaCalc(procs,conv,desc,cop){const bruto=procs.reduce((t,c)=>t+rcPreco(c),0);if(rcEhConv(conv)){const pagar=Math.min(+cop||0,bruto);return {bruto,desc:0,total:bruto,pagar,fat:bruto-pagar}}const total=rcDesconto(bruto,desc);return {bruto,desc:+desc||0,total,pagar:total,fat:0}}
 function rcGuiaCriar(s,procs,conv,desc,cop){const c=rcGuiaCalc(procs,conv,desc,cop),g={id:++RC.seqId,num:'G-'+(18300+RC.guias.length),sid:s.id,pac:s.pac,cpf:s.cpf,unid:s.unid,conv,procs,...c,pag:[],h:hhmm(new Date()),st:c.pagar>0?'A cobrar':rcEhConv(conv)?'Convênio':'Sem cobrança'};
@@ -458,8 +458,8 @@ function rcAgdOk(id,h){const A=RC.agd,r=rcAgendar({agenda:id,data:A.data,h,cpf:A
    Horário > paciente > conferir dados > convênio > procedimentos daquele médico naquele convênio > finalizar.
    Convênio e modalidade da agenda: DeoVita = Assinante, Particular = Não assinante, JCC = Coparticipação (dados de exemplo).
    Agendas sem tabela própria (as de exemplo) seguem RC_VJ_TIPOS, também de exemplo. */
-const RC_VJ_CONV={DeoVita:'ass',Particular:'nao',JCC:'cop'};
-const RC_VJ_TIPOS={DeoVita:['Consulta','Imagem'],Particular:['Consulta','Imagem','Procedimento'],JCC:['Consulta']};
+const RC_VJ_CONV={Particular:'nao',DEOVITA:'ass','DEOVITA 100%':'ass',JCC:'cop'};
+const RC_VJ_TIPOS={Particular:['Consulta','Imagem','Procedimento'],DEOVITA:['Consulta','Imagem'],'DEOVITA 100%':['Consulta','Imagem','Procedimento'],JCC:['Consulta']};
 function rcVjProcs(V){const a=RC.agendas.find(x=>x.id===V.agenda);if(!a||!V.conv)return [];const base=rcProcsDoHorario(a,V.data,V.h).filter(c=>EX[c]),m=RC_VJ_CONV[V.conv];
  const l=a.linhas?a.linhas.filter(x=>x.mod===m&&x.c&&base.includes(x.c)).map(x=>({c:x.c,v:x.v})):base.filter(c=>RC_VJ_TIPOS[V.conv].includes((PROC(c)||{}).tipo)).map(c=>({c,v:rcValMod(c,m)}));return l.filter((x,i)=>l.findIndex(y=>y.c===x.c)===i)}
 function rcVjAbrir(agenda,data,h){RC.vj={agenda,data,h,etapa:1,q:'',l:[],pac:null,ed:null,conv:'',proc:''};rcVjPinta()}
