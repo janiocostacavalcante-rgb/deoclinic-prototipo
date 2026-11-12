@@ -100,7 +100,7 @@ async function init(){let db=null;try{if(window.claude&&typeof window.claude.use
 const comStore=fn=>store?fn():new Promise(r=>fila.push(async()=>{await fn();r()}));
 
 /* ---------- Alvo, descrição e caminho do item ---------- */
-const ALVOS='button,a,input,select,textarea,label,h1,h2,h3,h4,th,td,tr,img,.card,.kpi,.alert,.badge,.chip,.tab,.mod,.at-row,.cx-row,.field,p,li,.hero,.fala';
+const ALVOS='button,a,input,select,textarea,label,h1,h2,h3,h4,th,td,tr,img,.card,.kpi,.alert,.badge,.chip,.tab,.mod,.at-row,.cx-row,.field,p,li,.hero,.fala,summary,.empty,.aviso-mod'; /* 12/11, nota 597: cada pergunta das dúvidas frequentes, os avisos de módulo e as mensagens de lista vazia viram alvos próprios */
 function alvoDe(t){if(!(t instanceof Element))return null;if(t.closest('#rv-btn,#rv-bar,#rv-pop,#rv-panel,#rv-pins'))return null;if(t.closest('#menuBtn,#perfilBtn,#side .ghead')||t.id==='backdrop'||t.id==='toasts'||t.closest('#toasts'))return 'nav';if(t.closest('#side,.top')&&!t.closest(ALVOS))return 'nav';return t.closest(ALVOS)||t}
 function selOf(el){const parts=[];let e=el;while(e&&e!==document.body){let s=e.tagName.toLowerCase();if(e.id&&!/^\d/.test(e.id)&&e.id!=='view'){parts.unshift('#'+CSS.escape(e.id));break}const p=e.parentElement;if(p){const sib=[...p.children].filter(x=>x.tagName===e.tagName);if(sib.length>1)s+=':nth-of-type('+(sib.indexOf(e)+1)+')'}parts.unshift(s);e=p}return parts.join('>')}
 function textoDe(el){const c=el.cloneNode(true);c.querySelectorAll('.ti,.tip,.tipicon,.sr,svg').forEach(x=>x.remove());return c.textContent||''}

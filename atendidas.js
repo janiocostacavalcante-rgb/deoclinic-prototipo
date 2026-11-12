@@ -808,3 +808,342 @@ window.DEO_ATENDIDAS=Object.assign(window.DEO_ATENDIDAS||{},{
 "t": "AO LADO DESSE BOTÃO ADICIONE UM NOVO BOT"
 }
 });
+
+/* Rodada 19 (12/11/2026): notas 544 a 612 */
+window.DEO_ATENDIDAS=Object.assign(window.DEO_ATENDIDAS||{},{
+ "544": {
+  "st": "atendida",
+  "r": "Feito: em Recepção > Guia de Exames a tabela ganhou a coluna \"Sinônimos\", logo depois do nome do exame. A busca também procura nos sinônimos: digitar Na, NaCl, Natremia ou Sódio traz o exame Sódio em primeiro lugar (o Sódio entrou como exame de exemplo). Clicando no exame, a ficha mostra os sinônimos, e a gestão ou a administração pode alterá-los ali mesmo.",
+  "t": "Incluir da guia de pesquisa de exames um"
+ },
+ "545": {
+  "st": "atendida",
+  "r": "Feito: em Caixa, no quadro \"Repasse da produção médica de hoje\", agora sempre aparece o filtro por unidade (Todas as unidades, Central, Posto 12 e Posto 14), mesmo quando só uma unidade teve atendimento. Escolhendo uma unidade sem atendimento, o quadro avisa que ninguém atendeu nela hoje.",
+  "t": "Filtro por unidade tbm."
+ },
+ "546": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Visão do mês, os botões Ambos, B2C e B2B agora mudam os números: os cards, o gráfico Por origem, a Receita por mês e a tabela de postos passam a mostrar só a recepção (B2C) ou só postos, parceiros e empresas (B2B). Uma faixa em cima mostra o que está filtrado e tem o botão Limpar filtros.",
+  "t": "Filtros de ambos, b2c e b2b não estão fu"
+ },
+ "548": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro, nas abas A pagar e A receber (e também em Entradas e Saídas), os botões agora ficam na mesma linha da situação, logo ao lado dela: Pagar (ou Pagar bloqueado, ou Aprovar), Dar baixa, Cobrar, Ver contestação, Comprovante e Desfazer baixa.",
+  "t": "Colocar esses botões do lado do status e"
+ },
+ "549": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro, nas abas A pagar e A receber (e também em Entradas e Saídas), os botões agora ficam na mesma linha da situação, logo ao lado dela: Pagar (ou Pagar bloqueado, ou Aprovar), Dar baixa, Cobrar, Ver contestação, Comprovante e Desfazer baixa.",
+  "t": "Colocar esses botões do lado do status e"
+ },
+ "550": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro, nas abas A pagar e A receber (e também em Entradas e Saídas), os botões agora ficam na mesma linha da situação, logo ao lado dela: Pagar (ou Pagar bloqueado, ou Aprovar), Dar baixa, Cobrar, Ver contestação, Comprovante e Desfazer baixa.",
+  "t": "Colocar esses botões do lado do status e"
+ },
+ "551": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro, nas abas A pagar e A receber (e também em Entradas e Saídas), os botões agora ficam na mesma linha da situação, logo ao lado dela: Pagar (ou Pagar bloqueado, ou Aprovar), Dar baixa, Cobrar, Ver contestação, Comprovante e Desfazer baixa.",
+  "t": "Colocar esses botões do lado do status e"
+ },
+ "552": {
+  "st": "atendida",
+  "r": "Feito: em todas as telas, onde aparecia \"Convênio\" agora aparece \"Plano\" (menu Procedimentos > Plano, títulos, colunas, botões como \"Novo plano\", janelas e avisos). \"CONVÊNIO\" virou \"PLANO\" e \"Convênio ou plano\" virou só \"Plano\". Os dados gravados não mudam, só o texto da tela. As guias TISS da ANS também podem dizer \"Plano\": a norma usa \"operadora\" e \"plano\", não exige a palavra convênio.",
+  "t": "Onde estiver escrito \"Convênio\", desejo "
+ },
+ "553": {
+  "st": "atendida",
+  "r": "Feito: em Recepção > Currículo Médico, ao abrir um profissional, o perfil tem duas abas: \"Informações\" (sobre o profissional, principais atendimentos, faixa etária atendida, particularidades e orientações) e \"Dúvidas frequentes\" (só as perguntas e respostas). Ao trocar de aba, o conteúdo anterior some. O cabeçalho com nome, especialidade, CRM e RQE fica sempre visível no alto, mesmo rolando a tela.",
+  "t": "O perfil do profissional deverá ter duas"
+ },
+ "554": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Visão do mês, todos os filtros funcionam: Hoje, Semana, Mês, Ano e Intervalo mudam os valores; a Unidade mostra só a unidade escolhida; Ambos, B2C e B2B separam recepção de postos e empresas. Uma faixa em cima diz o que está sendo mostrado, com Limpar filtros.",
+  "t": "Filtros não estão funcionando."
+ },
+ "555": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Visão do mês, o gráfico Por origem ficou mais vivo: ao passar o mouse num nome (Recepção, Posto 14 etc.) ou numa fatia, ela cresce e fica em destaque, as outras ficam mais claras, e o centro do gráfico mostra o valor e a porcentagem. Clicar abre o detalhe da origem.",
+  "t": "Quero que o gráfico seja mais dinâmico, "
+ },
+ "556": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Visão do mês, o gráfico Receita por mês ficou colorido (linha em degradê e área preenchida) e, ao passar o mouse num ponto, aparece uma etiqueta com o mês e o valor. Ponto verde quer dizer que subiu em relação ao mês anterior e vermelho que caiu. A linha tracejada laranja é o custo dos exames.",
+  "t": "Quando passar o mouse sobre os pontos ap"
+ },
+ "557": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro foi criada a aba Saídas, ao lado de A pagar. As contas já pagas saem de A pagar e vão para Saídas, com quem pagou, a forma de pagamento e o botão Comprovante. Nada é apagado: a conta só muda de aba.",
+  "t": "As contas já pagas devem ir para uma aba"
+ },
+ "558": {
+  "st": "atendida",
+  "r": "Feito: o texto de apresentação embaixo do título \"Procedimentos\" saiu. Veja em Procedimentos > Procedimento.",
+  "t": "Retirar."
+ },
+ "559": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro foi criada a aba Entradas, ao lado de A pagar e Saídas. Tudo o que já foi recebido (baixa total ou parcial) aparece nela, com a data, a forma de recebimento e o valor recebido. Em A receber ficam só as contas que ainda faltam receber.",
+  "t": "Os valores já recebidos devem ficar em u"
+ },
+ "560": {
+  "st": "atendida",
+  "r": "Feito: em Recepção > Fila de Pré-agendamento a primeira coluna agora é \"Solicitação\", com o dia e a hora do pedido, antes do nome do paciente.",
+  "t": "ANTES DESSE CAMPO DE PACIENTES, PERMITA "
+ },
+ "561": {
+  "st": "atendida",
+  "r": "Feito: o botão \"Voltar para...\" não aparece mais nas telas do menu Procedimentos (Procedimento, Grupo, Subgrupo, Plano e Procedimentos Plano). Para trocar de tela, use o menu lateral.",
+  "t": "Retirar."
+ },
+ "562": {
+  "st": "atendida",
+  "r": "Feito: o botão \"Regras\" saiu da tela Procedimentos.",
+  "t": "Retirar."
+ },
+ "563": {
+  "st": "atendida",
+  "r": "Feito: o botão \"Exames de laboratório\" saiu. A pesquisa da tela Procedimentos agora traz também os exames de laboratório, junto com os demais.",
+  "t": "Como essa lista exibirá todos os exames "
+ },
+ "564": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Visão do mês, o quadro Fluxo de caixa · 90 dias agora tem o aviso \"Clique numa coluna para ver o detalhe do mês\", cada coluna escrita \"ver detalhes\", destaque ao passar o mouse e os botões Ver novembro, Ver dezembro e Ver janeiro embaixo.",
+  "t": "Deixar mais intuitivo que é possível cli"
+ },
+ "566": {
+  "st": "atendida",
+  "r": "Feito: na Fila de Pré-agendamento os pedidos aparecem do mais recente para o mais antigo, pela data e hora da solicitação.",
+  "t": "A ORDEM DE VISUALIZAÇÃO DOS PRE AGENDAME"
+ },
+ "567": {
+  "st": "atendida",
+  "r": "Feito: na Fila de Pré-agendamento, a linha com situação \"Cancelado\" ganhou o botão \"Excluir\". O sistema pede o motivo e, ao confirmar, o pedido sai da fila. Como o pedido tem dados do paciente, a exclusão fica registrada (quem fez, quando e o motivo) no histórico do paciente e na auditoria, como pede a LGPD. O link \"Ver pedidos excluídos\", abaixo da tabela, mostra esse registro, que não pode ser apagado. Pedidos em outras situações não podem ser excluídos.",
+  "t": "PERMITA QUE A SITUAÇÃO DE CANCELADOS POS"
+ },
+ "568": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > A receber, o botão Dar baixa (e o Cobrar, quando a conta está vencida) agora fica na mesma linha da Situação, ao lado dela. O mesmo vale para todos os botões de A pagar, Entradas e Saídas.",
+  "t": "DEixar todos os botões do lado de situaç"
+ },
+ "569": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > A receber, a situação \"Recebida em parte\" agora aparece como \"Recebido parcialmente · falta R$ X\", mostrando quanto ainda falta receber. Aparece na tabela, na conta aberta ao lado e no card Recebido parcialmente. O botão vira \"Dar baixa do resto\".",
+  "t": "Colocar recebido parcialmente e a quanti"
+ },
+ "570": {
+  "st": "atendida",
+  "r": "Feito: o problema era que a nova data de vencimento não era gravada. Agora, em Financeiro > Editar conta, ao salvar a nova data, o vencimento muda e a situação acompanha: uma conta Vencida com data nova no futuro volta para \"A vencer\" (ou \"Aprovada\", se já tem as assinaturas), e uma data já passada vira \"Vencido\". A mudança fica no histórico da conta.",
+  "t": "Quando salvo a nova data de vencimento, "
+ },
+ "571": {
+  "st": "atendida",
+  "r": "Feito: o campo \"Duração (min)\" saiu da janela \"Novo procedimento\" e da janela de edição. Procedimentos novos ficam com 20 minutos internamente; os já cadastrados mantêm o que tinham.",
+  "t": "Retirar."
+ },
+ "572": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > A receber (e também em A pagar, Entradas e Saídas), cada card de cima (Em aberto, Vencido, Recebido parcialmente, Já recebido etc.) agora abre uma lista do lado direito com todas as contas daquele card, o total e o botão de ação de cada uma (Dar baixa, Cobrar, Pagar, Comprovante). Na lista ainda dá para clicar na conta, mostrar só aquelas na tabela ou baixar a lista em Excel.",
+  "t": "Estes cads não estão levando para nenhum"
+ },
+ "573": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > A receber (e também em A pagar, Entradas e Saídas), cada card de cima (Em aberto, Vencido, Recebido parcialmente, Já recebido etc.) agora abre uma lista do lado direito com todas as contas daquele card, o total e o botão de ação de cada uma (Dar baixa, Cobrar, Pagar, Comprovante). Na lista ainda dá para clicar na conta, mostrar só aquelas na tabela ou baixar a lista em Excel.",
+  "t": "Estes cads não estão levando para nenhum"
+ },
+ "574": {
+  "st": "atendida",
+  "r": "Feito: é o mesmo campo da nota 571. A caixa com \"20\" (duração) saiu da janela do procedimento.",
+  "t": "Retirar."
+ },
+ "575": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > A pagar (e também em A receber, Entradas e Saídas), clicar num card de cima abre uma tela do lado direito com todas as contas daquele card (por exemplo, todas as em aberto), o total e o botão de ação de cada conta (Pagar, Aprovar, Dar baixa, Cobrar, Comprovante). No card Aguardando aprovação também tem o botão Ir para Aprovações.",
+  "t": "Quando clicar nesses cads deve abrir um "
+ },
+ "576": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > A pagar, o botão Ver contestação (conta do DB) agora abre a contestação: devido pela tabela, valor cobrado, diferença, quem abriu e quando, prazo de resposta, o motivo e os itens contestados. Dali dá para abrir a tela do Apoio ou encerrar a contestação com motivo (fica no histórico).",
+  "t": "Não esta mostrando a contestação;"
+ },
+ "577": {
+  "st": "atendida",
+  "r": "Feito: na janela de visualização de documentos (por exemplo, o Demonstrativo aberto em Anexos > Visualizar) e nos relatórios, passar o mouse sobre as linhas não pinta mais a linha de cor escura.",
+  "t": "Não quero que fique aparecendo essa cor "
+ },
+ "578": {
+  "st": "atendida",
+  "r": "Feito: na janela de visualização de documentos (por exemplo, o Demonstrativo aberto em Anexos > Visualizar) e nos relatórios, passar o mouse sobre as linhas não pinta mais a linha de cor escura.",
+  "t": "Não quero que fique aparecendo essa cor "
+ },
+ "579": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > A pagar, ao abrir a conta do DB (contestada), o motivo da contestação aparece logo no topo, dentro de um campo de texto. Dá para corrigir e clicar em Salvar motivo; cada mudança fica no histórico da conta. O botão Ver contestação completa abre todos os detalhes.",
+  "t": "DEixar em um campo o motivo da contestaç"
+ },
+ "580": {
+  "st": "atendida",
+  "r": "Feito: o campo Nome da janela do procedimento só aceita letras maiúsculas. O que for digitado em minúscula vira maiúscula na hora, e o nome é salvo em caixa alta.",
+  "t": "Deixar preenchimento apenas em caixa alt"
+ },
+ "581": {
+  "st": "atendida",
+  "r": "Feito: o campo Código da janela do procedimento também fica só em caixa alta, ao digitar e ao salvar. O código TUSS continua com 8 números.",
+  "t": "Deixar preenchimento apenas em caixa alt"
+ },
+ "582": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Plano de contas, o botão Incluir categoria agora funciona: abre uma janela para escolher o grupo, o código (já vem sugerido), o nome e se é fixa ou variável. A categoria nova entra na lista, no lançamento de contas, no orçamento e na DRE. Só o Administrador inclui, e fica registrado quem incluiu.",
+  "t": "Habilitar para adicionar uma nova catego"
+ },
+ "583": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Fluxo de caixa, no topo agora aparece \"Dinheiro total da empresa agora\": a soma das contas bancárias (Banco Inter e Bradesco) com o dinheiro das gavetas dos caixas abertos. Embaixo vem o saldo de cada banco e das gavetas, e clicar abre o detalhe.",
+  "t": "Mostrar o valor total que tem no caixa d"
+ },
+ "584": {
+  "st": "atendida",
+  "r": "Feito: a opção agora diz \"Procedimento médico dependente: precisa de um profissional na agenda e gera uma ficha\". Logo abaixo há uma explicação curta da regra: ele só pode ser agendado na agenda de um profissional, a recepção tem de escolher esse profissional no atendimento e é gerada a ficha do paciente para ele.",
+  "t": "Deixar claro que precisa de um profissio"
+ },
+ "585": {
+  "st": "atendida",
+  "r": "Feito: a lista de Procedimentos começa vazia, com o aviso \"Faça uma pesquisa\". Há filtros por nome, código, grupo, subgrupo e situação (Ativos, Inativos ou os dois). Toque em Pesquisar ou aperte Enter para ver o resultado; Pesquisar sem filtro mostra todos. Na janela do procedimento entrou a opção \"Ativo\": o procedimento inativo some do Novo atendimento e dos orçamentos, sem apagar o histórico.",
+  "t": "Colocar filtros de procedimentos por nom"
+ },
+ "586": {
+  "st": "atendida",
+  "r": "Feito: a coluna \"Procedimento\" mostra só o nome. A linha \"itens no kit\" saiu.",
+  "t": "Mostrar apenas a nomenclatura."
+ },
+ "587": {
+  "st": "atendida",
+  "r": "Feito: a coluna \"Duração e sala\" saiu da lista de Procedimentos.",
+  "t": "retirar"
+ },
+ "588": {
+  "st": "atendida",
+  "r": "Feito: a coluna \"Preparo\" saiu da lista. O preparo aparece quando você toca no procedimento (ou em Editar), na parte \"Preparo\" da janela.",
+  "t": "quero essa opcao para ver apenas quando "
+ },
+ "589": {
+  "st": "atendida",
+  "r": "Feito: a coluna \"Preço\" saiu da lista. Ao tocar no procedimento (ou em Editar), a janela mostra o quadro \"Planos vinculados e valores\", com cada plano e o valor nele. Logo abaixo dá para marcar ou desmarcar planos e mudar valores. Nos detalhes, a aba \"Planos e valores\" mostra o mesmo quadro.",
+  "t": "Aparecer somente quando eu clicar para e"
+ },
+ "590": {
+  "st": "atendida",
+  "r": "Feito: a coluna \"Custo direto\" saiu da lista de Procedimentos.",
+  "t": "Retirar."
+ },
+ "591": {
+  "st": "atendida",
+  "r": "Feito: a coluna \"Margem\" saiu da lista de Procedimentos.",
+  "t": "retirar"
+ },
+ "592": {
+  "st": "atendida",
+  "r": "Feito: na Fila de Pré-agendamento, logo abaixo dos campos Paciente e Profissional, no centro, ficou o navegador \"< NOVEMBRO/2026 >\". A seta da esquerda mostra o mês anterior e a da direita o próximo; a lista e os números das situações passam a mostrar só os pedidos feitos no mês escolhido. Sem calendário nem janela extra. Há pedidos de exemplo em outubro para testar.",
+  "t": "Adicionar um navegador de meses centrali"
+ },
+ "593": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > DRE, ao mudar a meta ou o orçado de uma linha e apertar Enter (ou sair do campo), os totais são recalculados na hora: cada grupo (Receita bruta, Deduções, Custos, Despesas) e as linhas Receita líquida, Margem bruta e Resultado agora mostram a soma da meta, do orçado e do previsto.",
+  "t": "estou realizando a alteração dos números"
+ },
+ "594": {
+  "st": "atendida",
+  "r": "Feito: a tela Recepção > Pacientes ficou com a mesma organização das outras: no alto à esquerda \"Recepção\", o título \"Pacientes\" e uma frase explicando a tela; o botão \"Novo Paciente\" no canto direito; embaixo, os filtros e o resultado da pesquisa.",
+  "t": "DEIXE ESSA TELA COM A MESMA ORGANIZAÇÃO "
+ },
+ "595": {
+  "st": "atendida",
+  "r": "Feito: em Agendamentos, ao clicar num horário livre, no passo \"Conferir dados\" da janela \"Novo agendamento\", todos os campos ficaram no mesmo padrão (título em cima e caixa do mesmo tamanho): Nome do paciente em largura inteira; depois Data de nascimento e Idade; depois CPF e WhatsApp.",
+  "t": "DEIXE OS CARD NO MESMO PADRÃO."
+ },
+ "596": {
+  "st": "atendida",
+  "r": "Feito: na mesma janela \"Novo agendamento\", a data de nascimento e a idade agora ficam em dois campos separados, lado a lado: \"Data de nascimento\" e \"Idade\". Os dois são só para conferir (não editáveis).",
+  "t": "DIVIDA ESSES DADOS EM DOIS CARDS"
+ },
+ "597": {
+  "st": "atendida",
+  "r": "Feito, com um ajuste pequeno e seguro: a ferramenta de anotação já deixava anotar qualquer item, inclusive cabeçalhos, avisos, títulos, textos e os módulos do menu. Agora também dá para anotar cada pergunta das Dúvidas frequentes separadamente, as faixas de aviso dos módulos e as mensagens de \"nada encontrado\"; antes, esses cliques marcavam o bloco inteiro em volta. Continuam de fora só os títulos dos grupos do menu lateral (Recepção, Financeiro...), porque o clique neles precisa abrir e fechar o grupo; os módulos dentro de cada grupo podem ser anotados. Vale no site de testes depois da próxima publicação.",
+  "t": "Quero poder fazer anotações e solicitar "
+ },
+ "598": {
+  "st": "atendida",
+  "r": "Não feito por enquanto: é o mesmo pedido da nota 520. A gestão da qualidade é exigida pela RDC 978 da Anvisa e pelas acreditações do laboratório. A decisão está com o Jânio; se o módulo mudar de lugar, os dados e campos vão junto, sem apagar nada.",
+  "t": "Retirar módulo e campos, irá ser colocad"
+ },
+ "599": {
+  "st": "atendida",
+  "r": "Feito: no menu lateral, em Cadastros > Profissionais (logo abaixo de Unidades). A lista tem pesquisa por nome, CPF, tipo de conselho e número do conselho, e o filtro Ativos, Inativos ou Todos. No alto à direita, o botão \"Novo profissional\" abre o cadastro com nome, CPF, data de nascimento, conselho (com a UF), número do conselho, telefone, nome de usuário, senha (campo escondido; no protótipo a senha não é guardada) e tipos de perfil. Marcando \"Também é recebedor\", abre o formulário do recebedor do Pagar.me (dados pessoais, endereço, conta bancária e transferência), já preenchido com o que foi digitado no cadastro (nome, CPF, telefone, nascimento, profissão e UF). Ao cadastrar, o recebedor é criado e o ID volta ligado ao profissional. No botão \"Recebedor\" da lista, quando o recebedor está em afiliação, aparece \"Link de prova de vida\" e depois \"Enviar o link ao profissional\". Atenção: no protótipo a criação no Pagar.me, o ID e o link são simulados; nada é enviado de verdade.",
+  "t": "Criar módulo de “Profissionais” para o c"
+ },
+ "600": {
+  "st": "atendida",
+  "r": "Feito: no menu lateral, em Cadastros > Empresas (entre Estabelecimentos e Unidades). A tela lista as empresas e unidades, com pesquisa por nome, razão social, cidade ou CNPJ e filtro Ativas, Inativas ou Todas. O botão \"Nova empresa\" cadastra uma unidade: razão social, nome fantasia, tipo (matriz, filial, posto de coleta ou parceira), CNPJ (com conferência dos números), CNES, telefone, e-mail, endereço e responsável técnico. Também dá para editar e inativar. No protótipo, a unidade nova fica nesta lista; ela passa a aparecer nos outros seletores de unidade quando o cadastro for ligado ao sistema real.",
+  "t": "Criar módulo de “Empresas” para o cadast"
+ },
+ "601": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Orçamento, na coluna Diferença, o valor com + fica verde e o valor com − fica vermelho. Uma legenda acima da tabela explica as cores.",
+  "t": "Deixar a cor vermelha quando o valor for"
+ },
+ "602": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Conciliação, ao abrir o fechamento (por exemplo, Paula · 28/10), a justificativa fica toda dentro do quadro, quebrando a linha, sem precisar rolar para o lado.",
+  "t": "Deixar a justificativa dentro do box na "
+ },
+ "603": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Conciliação, no fechamento do caixa, o botão Relatório impresso agora abre o modelo do relatório de prestação de contas (com a marca, a data, cada forma de pagamento, a diferença, a justificativa e os campos de assinatura) e, embaixo, as opções Imprimir e Baixar PDF.",
+  "t": "Abrir o modelo de relatório e depois a o"
+ },
+ "604": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Conciliação, o \"pendente\" virou um botão \"pendente · ver o quê\", com uma linha embaixo dizendo o que falta (cartão, Pix, dinheiro). Ao clicar, abre ao lado a lista do que está pendente, com o valor de cada item e o motivo (crédito do cartão que ainda não caiu, Pix sem extrato importado, dinheiro ainda não depositado). O fechamento desse caixa também mostra o pendente.",
+  "t": "Mostrar o que está pendente."
+ },
+ "605": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Conciliação, o \"pendente\" virou um botão \"pendente · ver o quê\", com uma linha embaixo dizendo o que falta (cartão, Pix, dinheiro). Ao clicar, abre ao lado a lista do que está pendente, com o valor de cada item e o motivo (crédito do cartão que ainda não caiu, Pix sem extrato importado, dinheiro ainda não depositado). O fechamento desse caixa também mostra o pendente.",
+  "t": "Mostrar o que está pendente."
+ },
+ "606": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Alçadas, ao lado de Alterar agora tem o botão Remover, tanto nos centros de custo quanto nas pessoas (Teto por pessoa). Remover pede o motivo, tira da listagem e registra na trilha de auditoria; nada é apagado. Quem foi removido aparece no quadro Removidos da listagem, com o botão Voltar para a lista. A Matriz não pode sair, e não dá para remover quem ainda é gestor ou substituto de um centro de custo.",
+  "t": "Ter a opção de remover tbm o usuario da "
+ },
+ "607": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Importar, depois de Rodar em teste, o botão Baixar relatório agora mostra antes o modelo do relatório (com a marca, quem gerou, quantas linhas entram, atualizam ou têm erro, e cada linha). Dali dá para Imprimir ou PDF, Baixar planilha (Excel) ou Voltar.",
+  "t": "mostrar modelo do relatório."
+ },
+ "608": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Lançar conta > + (Cadastrar fornecedor), agora tem a parte Dados bancários e chave Pix: tipo da chave, chave Pix, banco, agência, conta e tipo de conta. A janela de editar fornecedor também ganhou os dados bancários. A chave cadastrada entra sozinha ao lançar uma conta para esse fornecedor.",
+  "t": "Incluir dados bancários e chave pix."
+ },
+ "609": {
+  "st": "atendida",
+  "r": "Feito: no cadastro e na edição de fornecedor, o campo CNPJ agora aceita no máximo 18 caracteres e coloca os pontos, a barra e o traço sozinho (00.000.000/0000-00). Se faltar número, o sistema avisa que o CNPJ tem 14 números e não salva.",
+  "t": "Deixar apenas a quantidade de caracteres"
+ },
+ "610": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Lançar conta, ao escolher ou digitar um credor que já tem chave Pix no cadastro, a chave entra sozinha e aparece \"Chave carregada do cadastro de...\". Embaixo há a opção \"Como pagar por Pix\": escolhendo \"Pix copia e cola (código só para este pagamento)\", abre um campo para colar o código, que vale só para esse pagamento (o sistema confere se o código começa com 000201). No comprovante dessa saída fica registrado que foi pago por Pix copia e cola temporário, com o código.",
+  "t": "Carregar a chave pix aqui automaticament"
+ },
+ "611": {
+  "st": "atendida",
+  "r": "Feito: em Conciliação bancária, ao abrir um lançamento do extrato, o aviso \"Conciliar não muda o valor do título\" agora quebra a linha e fica todo dentro do quadro, sem precisar rolar para o lado. Vale para todos os avisos das gavetas laterais.",
+  "t": "enquadrar dentro deste card a informação"
+ },
+ "612": {
+  "st": "atendida",
+  "r": "Feito: em Conciliação bancária, ao abrir um lançamento do extrato, o aviso \"Conciliar não muda o valor do título\" agora quebra a linha e fica todo dentro do quadro, sem precisar rolar para o lado. Vale para todos os avisos das gavetas laterais.",
+  "t": "enquadrar dentro deste card a informação"
+ }
+});
