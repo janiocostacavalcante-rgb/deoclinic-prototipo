@@ -1411,3 +1411,232 @@ window.DEO_ATENDIDAS=Object.assign(window.DEO_ATENDIDAS||{},{
   "t": "Crie o campo de  **UNIFICAR que permita "
  }
 });
+
+/* Rodada 21 (13/11/2026): notas 665 a 709 */
+window.DEO_ATENDIDAS=Object.assign(window.DEO_ATENDIDAS||{},{
+ "665": {
+  "st": "atendida",
+  "r": "Feito: \"Autorizar Atendimento\" não abre mais em janela flutuante. Agora abre numa tela própria, com os blocos Paciente e Atendimento. Em cima tem o botão \"Voltar aos detalhes\", que volta para a agenda com os detalhes do agendamento abertos. Quando a autorização é confirmada, o sistema volta sozinho para a agenda.",
+  "t": "ABRA ISSO EM UMA NOVA TELA. NAO QUERO QU"
+ },
+ "666": {
+  "st": "atendida",
+  "r": "Feito: \"Profissionais\" virou um módulo próprio no menu lateral, igual a Fidelidade e Financeiro, com ícone próprio. Saiu de Cadastros, e o atalho que ficava em Procedimentos também saiu do menu. Assim fica um caminho só, sem tela repetida. Links antigos que alguém tenha salvo continuam abrindo a mesma tela.",
+  "t": "Eu quero que esse campo \"Profissionais\" "
+ },
+ "667": {
+  "st": "atendida",
+  "r": "Feito: o botão \"Comprovante\" agora só aparece quando o repasse foi pago de verdade. Fechamento devolvido mostra \"Devolvido\" com quem devolveu e quando, e o botão vira \"Ver devolução\", que abre o motivo. Fechamento aguardando ou aprovado mostra \"Detalhe\" e avisa que o comprovante só existe depois do pagamento.",
+  "t": "Quando for devolvido o comprovante deve "
+ },
+ "668": {
+  "st": "atendida",
+  "r": "Feito: o botão \"Trilha\" da Carteira e cobrança passou a se chamar \"Auditoria\", igual às outras telas do financeiro.",
+  "t": "mudar o nome para auditoria."
+ },
+ "669": {
+  "st": "atendida",
+  "r": "Feito: na janela Cobrar dá para escolher outra mensagem pronta numa lista e editar o texto antes de enviar, vendo como o paciente vai receber. Também dá para guardar o texto como modelo novo. Para respeitar o Código de Defesa do Consumidor (art. 42), o sistema não deixa enviar mensagem com ameaça (protesto, processo, polícia), menção a negativação, palavras que humilham, exposição a outras pessoas ou texto todo em maiúsculas.",
+  "t": "Ter opção de escolher outros modelos de "
+ },
+ "670": {
+  "st": "atendida",
+  "r": "Feito: clicar na linha do título na Inadimplência abre a gaveta com todas as tentativas de contato (canal, hora, modelo, resultado e quem fez) e as observações. Dá para escrever uma observação nova, que fica guardada com nome e hora e não se apaga. Da gaveta também dá para Cobrar, Registrar ligação ou Propor acordo.",
+  "t": "Incluir as tentativas que foram entrado "
+ },
+ "671": {
+  "st": "atendida",
+  "r": "Feito: clicar na linha do título na Inadimplência abre a gaveta com todas as tentativas de contato (canal, hora, modelo, resultado e quem fez) e as observações. Dá para escrever uma observação nova, que fica guardada com nome e hora e não se apaga. Da gaveta também dá para Cobrar, Registrar ligação ou Propor acordo.",
+  "t": "Incluir as tentativas que foram entrado "
+ },
+ "672": {
+  "st": "atendida",
+  "r": "Feito: no Novo acordo a forma de pagamento agora tem Boleto, Pix e Cartão de crédito. No cartão, sai um link de pagamento (fictício no protótipo) com botão de copiar e de enviar pelo WhatsApp. No Pix, ao criar o acordo aparecem na tela o QR Code (ilustrativo), o Pix copia e cola com botão de copiar e o botão de enviar pelo WhatsApp.",
+  "t": "opção de incluir link de cartão de crédi"
+ },
+ "673": {
+  "st": "atendida",
+  "r": "Feito: no Novo acordo, o campo \"Como paga\" tem a opção \"À vista (pagamento único)\". À vista não tem entrada nem juros de parcelamento: o valor é o atualizado (ou o combinado com o gestor).",
+  "t": "colocar a opção de à vista ."
+ },
+ "674": {
+  "st": "atendida",
+  "r": "Feito: o botão do acordo agora é \"Ver o termo antes de enviar\". Ele abre o modelo do termo já preenchido com o paciente, os valores e as parcelas. Dali dá para voltar e ajustar, imprimir ou confirmar em \"Criar acordo e enviar o termo\". O acordo só é criado e o termo só vai para o paciente depois dessa confirmação.",
+  "t": "o termo deve ser aberto um modelo antes "
+ },
+ "675": {
+  "st": "atendida",
+  "r": "Feito: o botão do acordo agora é \"Ver o termo antes de enviar\". Ele abre o modelo do termo já preenchido com o paciente, os valores e as parcelas. Dali dá para voltar e ajustar, imprimir ou confirmar em \"Criar acordo e enviar o termo\". O acordo só é criado e o termo só vai para o paciente depois dessa confirmação.",
+  "t": "o termo deve ser aberto um modelo antes "
+ },
+ "676": {
+  "st": "atendida",
+  "r": "Feito: em \"Por paciente\" sai da lista quem não tem valor em aberto, nem saldo de crédito, nem acordo em aberto. A pessoa continua registrada com todo o histórico: a caixa \"Mostrar também quem está quitado\" mostra essas pessoas de novo, com a marca \"quitado\".",
+  "t": "se a pessoa não tem nenhum valor em aber"
+ },
+ "677": {
+  "st": "atendida",
+  "r": "Feito: \"Gerar Pix\" abre uma janela com o QR Code na tela (ilustrativo, não serve para pagar), o Pix copia e cola com botão de copiar e o botão de enviar pelo WhatsApp. O número do WhatsApp vem do cadastro; se não houver celular, dá para digitar. O envio fica na auditoria.",
+  "t": "mostrar o QRcode na tela e a chave copia"
+ },
+ "678": {
+  "st": "atendida",
+  "r": "Feito: \"2ª via do boleto\" abre o modelo do boleto (ilustrativo) com linha digitável e código de barras, com botões de Imprimir e Baixar PDF e, ao lado, o botão de enviar pelo WhatsApp. Também dá para copiar a linha digitável.",
+  "t": "abrir a 2ªvia doo boleto para baixar e t"
+ },
+ "679": {
+  "st": "atendida",
+  "r": "Feito: acordo quebrado sai da lista de Acordos e das contagens de acordos ativos. O saldo que falta, já descontado o que o paciente pagou, volta para a Inadimplência, com a marca \"teve acordo (quebrado)\" no título. O acordo continua guardado: o botão \"Ver acordos quebrados\" mostra quando foi, quanto já tinha sido pago e o motivo, e a auditoria registra tudo.",
+  "t": "quando um acordo for quebrado ele deve s"
+ },
+ "680": {
+  "st": "atendida",
+  "r": "Feito: \"Gerar Pix\" abre uma janela com o QR Code na tela (ilustrativo, não serve para pagar), o Pix copia e cola com botão de copiar e o botão de enviar pelo WhatsApp. O número do WhatsApp vem do cadastro; se não houver celular, dá para digitar. O envio fica na auditoria.",
+  "t": "gerar o QRcode na tela e ter um botão ao"
+ },
+ "681": {
+  "st": "atendida",
+  "r": "Feito: a chave que não ativava era a \"D+90 · Negativação\" da Régua de cobrança, que estava travada como fase futura. Agora ela liga, com a aprovação e a senha do gestor e o motivo (integração simulada). Seguindo o Código de Defesa do Consumidor (art. 43, §2º), nada é negativado sozinho: o gestor aprova título por título, o paciente recebe aviso prévio por escrito com prazo para pagar, e menor de idade nunca é negativado.",
+  "t": "não foi possível ativar essa flag."
+ },
+ "682": {
+  "st": "atendida",
+  "r": "Feito: \"Importar planilha\" abre uma caixa para escolher ou arrastar o arquivo (CSV, que o Excel salva). Antes de importar, aparece a lista do que deu certo (com preço atual e novo e aviso de prejuízo) e do que deu erro (código que não existe, preço inválido ou negativo, exame repetido). Só entra o que deu certo, numa versão nova da tabela, e os erros podem ser baixados para corrigir.",
+  "t": "abrir um caixa de pra anexar o arquivo, "
+ },
+ "683": {
+  "st": "atendida",
+  "r": "Feito: ao lado de \"Importar planilha\" tem o botão \"Modelo da planilha\", que baixa o modelo em CSV (abre no Excel) com as colunas código, exame e preço. O mesmo botão também aparece dentro da caixa de importação.",
+  "t": "colocar um botão ao lado com o modelo da"
+ },
+ "684": {
+  "st": "atendida",
+  "r": "Feito: o botão \"Ver\" saiu do Histórico de versões.",
+  "t": "remover este botão de ver."
+ },
+ "685": {
+  "st": "atendida",
+  "r": "Feito: o Histórico de versões ganhou o botão \"Baixar histórico\", que baixa uma planilha (CSV) com todas as versões, a vigência, quem criou e o que mudou.",
+  "t": "incluir um botão para baixar esse histor"
+ },
+ "686": {
+  "st": "atendida",
+  "r": "Feito: o botão \"Resolver\" agora abre uma tela para preencher o que resolve o risco (por exemplo, o número da autorização, a nova validade da carteirinha ou o pedido médico digitalizado), com observação e anexos. Depois de salvar, a guia mostra \"risco resolvido\" e o botão \"Ver resolução\" abre tudo o que foi registrado, com quem fez e quando. Dá para atualizar: cada atualização vira um registro novo e o anterior fica guardado.",
+  "t": "abrir a tela para colocar e visualizar a"
+ },
+ "687": {
+  "st": "atendida",
+  "r": "Feito: na janela \"Fechar lote\", os números (Guias, Resolvidas, Retidas e Seguem com registro) agora são clicáveis. Ao clicar, aparece logo abaixo a lista das guias daquele grupo, com paciente, valor, o que foi feito e quem fez. Clicar numa guia abre os detalhes dela.",
+  "t": "ter a opção de clicar e verificar quais "
+ },
+ "688": {
+  "st": "atendida",
+  "r": "Feito: o botão \"Ver guias\" da gaveta do lote abre a lista de todas as guias enviadas naquele lote, com paciente, data, quantidade de exames, valor e situação (paga, glosada ou aguardando retorno). Tem busca por guia ou paciente e botão para baixar a lista em Excel.",
+  "t": "mostrar todas as guias enviadas neste lo"
+ },
+ "689": {
+  "st": "atendida",
+  "r": "Feito: \"Registrar envio\" agora abre uma tela com protocolo, data do envio, como foi enviado, um campo de observações e anexos. Os anexos são escolhidos no computador (botão \"Escolher arquivos\" ou arrastando); o sistema guarda o nome, o tamanho e o tipo de cada arquivo e mostra a lista. Depois do registro, a linha do lote mostra \"Enviado\" com o protocolo, e a gaveta do lote mostra o registro completo. Para acrescentar algo depois, é criado um registro novo, sem apagar o anterior.",
+  "t": "quando registrar envio ter opção de colo"
+ },
+ "690": {
+  "st": "atendida",
+  "r": "Feito: o botão \"Recorrer\" da gaveta da glosa abre a tela de recurso com a justificativa e os anexos: dá para marcar os documentos que já estão na guia e incluir arquivos do computador. O recurso só é enviado com justificativa e pelo menos um anexo. É a mesma tela usada em Glosas e recursos.",
+  "t": "no recorrer ter a opção de colocar a jus"
+ },
+ "691": {
+  "st": "atendida",
+  "r": "Feito: a gaveta da glosa agora tem o \"Histórico do recurso\", em ordem: quando a glosa chegou e o motivo, a justificativa enviada, a data e a hora do envio, quem enviou, os anexos (nome, tamanho e tipo), o prazo da resposta e a resposta da operadora. Nada é apagado (padrão TISS da ANS). O botão \"Exportar\" baixa esse histórico em Excel.",
+  "t": "ser possível ver a justificativa enviada"
+ },
+ "692": {
+  "st": "atendida",
+  "r": "Feito: a gaveta da glosa agora mostra um quadro \"Motivo da glosa\" logo acima de Documentos, com o código, a descrição, o que o motivo quer dizer em palavras simples, como resolver e a área que costuma causar.",
+  "t": "deve mostrar tbm em algum campo o motivo"
+ },
+ "693": {
+  "st": "atendida",
+  "r": "Feito: o bloco \"Anexos\" do recurso agora tem um botão para incluir arquivos salvos no computador (também dá para arrastar). Os anexos são escolhidos no computador (botão \"Escolher arquivos\" ou arrastando); o sistema guarda o nome, o tamanho e o tipo de cada arquivo e mostra a lista. Os documentos que já estão na guia podem ser marcados para ir junto.",
+  "t": "ter opção de incluir anexos salvos no co"
+ },
+ "694": {
+  "st": "atendida",
+  "r": "Feito: o bloco \"Anexos\" do recurso agora tem um botão para incluir arquivos salvos no computador (também dá para arrastar). Os anexos são escolhidos no computador (botão \"Escolher arquivos\" ou arrastando); o sistema guarda o nome, o tamanho e o tipo de cada arquivo e mostra a lista. Os documentos que já estão na guia podem ser marcados para ir junto.",
+  "t": "ter opção de incluir anexos salvos no co"
+ },
+ "695": {
+  "st": "atendida",
+  "r": "Feito: a gaveta da glosa agora tem o quadro \"Motivo da perda\". Quando a perda é aceita, o motivo escrito fica guardado e aparece ali, com quem aceitou, quando e quem aprovou (acima de R$ 100,00). Enquanto a glosa não é perda, o quadro explica que o motivo será obrigatório. A gaveta também mostra o que o código da glosa quer dizer em palavras simples.",
+  "t": "Incluir o motivo da perda."
+ },
+ "696": {
+  "st": "atendida",
+  "r": "Feito: em Cadastros > Empresas, cada empresa tem agora o botão \"Resultados\". Nele você liga ou desliga os canais: site (Área do paciente e Portal do médico), WhatsApp, SMS, aplicativo e multifuncional (totem que imprime o laudo na unidade). Também escolhe para quem vai o aviso (paciente e/ou médico solicitante), quando ele sai (assim que o laudo é liberado, algumas horas depois ou só quando a operação mandar) e o texto da mensagem. Tem o botão \"Simular disparo\" para testar. Cada empresa guarda a sua configuração, e a mudança fica na auditoria. No protótipo nada é enviado de verdade. Por segurança, o aviso só sai depois que o laudo é liberado, e a mensagem não traz o nome do exame nem o resultado: só avisa e manda o acesso por CPF e data de nascimento (LGPD, dado de saúde). Valor crítico continua sendo avisado por telefone ao médico.",
+  "t": "Criar um ambiente de resultados voltado "
+ },
+ "697": {
+  "st": "atendida",
+  "r": "Feito: o campo Valor agora é só leitura e mostra sempre o valor cadastrado para aquele procedimento no plano escolhido, em Procedimentos do convênio. Se mudar o plano ou o procedimento, o valor acompanha sozinho. O colaborador não consegue alterar o valor, e a opção de mudar o valor com motivo, que existia antes, saiu. Mesmo que alguém tente mexer, o sistema grava o valor do cadastro.",
+  "t": "O CAMPO DE VALOR NAO PODE SER AJUSTADO P"
+ },
+ "698": {
+  "st": "atendida",
+  "r": "Feito: a importação do demonstrativo agora mostra, antes de gravar, guia a guia o que deu certo, as glosas e sempre os itens que deram erro, cada um com o motivo (guia que não é do lote, guia repetida, valor inválido, pagamento a menos sem código de glosa, código que não existe). Os itens com erro não entram e ficam pendentes no lote. Depois de importar, aparece de novo a lista dos erros, que também fica na gaveta do lote e pode ser baixada em Excel.",
+  "t": "sempre mostrar itens que deram erro no m"
+ },
+ "699": {
+  "st": "atendida",
+  "r": "Feito: o botão \"Corrigir\" agora abre uma tela que mostra o que vai mudar na guia (campo, como está e como fica). Só corrige e envia depois de marcar o aceite \"Conferi o que vai mudar e aceito corrigir a guia e enviar no próximo lote\". Depois, a guia mostra \"corrigida\" e o botão \"Ver o que foi corrigido\", com antes, depois, quem aceitou e quando. A versão antiga fica guardada.",
+  "t": "mostrar o que foi corrigo e ter um botão"
+ },
+ "700": {
+  "st": "atendida",
+  "r": "Feito: o botão \"Corrigir\" agora abre uma tela que mostra o que vai mudar na guia (campo, como está e como fica). Só corrige e envia depois de marcar o aceite \"Conferi o que vai mudar e aceito corrigir a guia e enviar no próximo lote\". Depois, a guia mostra \"corrigida\" e o botão \"Ver o que foi corrigido\", com antes, depois, quem aceitou e quando. A versão antiga fica guardada.",
+  "t": "mostrar o que foi corrigo e ter um botão"
+ },
+ "701": {
+  "st": "atendida",
+  "r": "Feito: a janela da contestação agora mostra um quadro \"Motivo da contestação\" com o motivo (convênio faturado pelo posto), o que o posto escreveu, quem contestou, quando e o anexo que o posto mandou.",
+  "t": "mostrar o motivo da contestação"
+ },
+ "702": {
+  "st": "atendida",
+  "r": "Feito: a lista de respostas começa em \"Escolha a resposta\". Ao escolher uma resposta, abre um campo para escrever a resposta ou a observação (no \"Mantido\", o campo pede a justificativa). Sem esse texto, não dá para responder. A resposta fica guardada com quem respondeu e quando, e aparece na janela da contestação.",
+  "t": "sempre que selecionar uma resposta deve "
+ },
+ "703": {
+  "st": "atendida",
+  "r": "Feito: o aviso \"Em definição para a V1\" saiu. No topo do Painel da Fidelidade tem agora o botão \"+ Novo Contrato\", que abre um formulário com paciente titular, plano ou pacote, forma de pagamento, dia do vencimento, início e empresa (quando é a empresa que paga). Embaixo fica a seção \"Clientes Cadastrados\", que abre e fecha, com a tabela Paciente ID (número do prontuário), Contrato, Nome, Forma de pagamento, CPF e Situação. Debaixo de cada título tem um filtro: os campos de texto pesquisam enquanto você digita, e Forma de pagamento e Situação são listas de escolha. Os filtros funcionam juntos. Clicando no título, a coluna é ordenada (clique de novo para inverter). A tabela tem paginação (5, 10 ou 25 por página). Em cada linha há \"Ver\", que abre o contrato completo com dependentes, carências, saldo e consumo, e \"Editar\". Quem não tem permissão só consulta. A situação é calculada sozinha. Sobre \"dados reais\": a tabela usa os contratos que já estão no sistema, e um contrato novo aparece na hora na lista e já dá desconto no Novo atendimento. Mas este protótipo não tem banco de dados: os contratos ficam na memória do navegador. A ligação com o banco real e com as permissões de verdade fica para o sistema definitivo.",
+  "t": "Criar módulo de Novo Contrato e listagem"
+ },
+ "704": {
+  "st": "atendida",
+  "r": "Feito: \"Planos e pacotes\" saiu do menu da Fidelidade. As regras dos planos continuam valendo: o desconto e a cobertura seguem entrando sozinhos no Novo atendimento.",
+  "t": "Retirar."
+ },
+ "705": {
+  "st": "atendida",
+  "r": "Feito: no cartão Paciente do Novo atendimento, na aba Orçamentos, cada orçamento que ainda não virou ficha tem o botão \"Faturar orçamento\". Ele traz os itens do orçamento para o pedido e gera a ficha na hora. Se faltar algum dado obrigatório (por exemplo, o médico solicitante ou o nome da mãe), os itens já ficam no pedido, os campos que faltam ficam marcados, e é só tocar em Autorizar orçamento. Se o orçamento estiver vencido, usa os valores de hoje. O orçamento fica marcado como \"virou a ficha\" e não pode ser faturado duas vezes.",
+  "t": "Opção de faturar o orçamento para gerar "
+ },
+ "706": {
+  "st": "atendida",
+  "r": "Feito: nos Detalhes do agendamento, o nome do paciente e a data de nascimento agora ficam em campos separados, no mesmo padrão de Telefone, Convênio e Procedimento. Os dois são só leitura: para corrigir, use Editar cadastro.",
+  "t": "ORGANIZE ESSES CAMPOS PARA QUE FIQUEM SE"
+ },
+ "707": {
+  "st": "atendida",
+  "r": "Feito: o cartão \"Plano e pacote\" saiu da área de fichas (e também da etapa de pagamento). O número do contrato e o plano do paciente agora aparecem numa linha dentro do cartão Paciente, na aba Dados. O desconto do plano continua entrando sozinho no preço de cada item.",
+  "t": "TIRE ESSE CAMPO DA AREA DE FICHAS."
+ },
+ "708": {
+  "st": "atendida",
+  "r": "Não feito por enquanto: o cartão \"Plano e procedimentos\" é onde se escolhe o plano (convênio) e se incluem os procedimentos da ficha. É nele também que ficam a carteirinha, a guia, o pedido médico, o médico solicitante e o nome da mãe. Sem esse cartão, não dá para montar a ficha, faturar nem gerar a guia TISS (o padrão TISS da ANS exige o plano, os procedimentos e o solicitante). Para tirar o cartão daqui, precisamos combinar para onde ele vai, por exemplo uma etapa própria antes da ficha. Se você me disser onde prefere, eu faço.",
+  "t": "TIRE ESSE CAMPO DA AREA DE FICHAS."
+ },
+ "709": {
+  "st": "atendida",
+  "r": "Feito: o cartão \"Prioridade\" saiu da área de fichas. A prioridade garantida em lei continua (Lei 10.048/2000, Estatuto da Pessoa Idosa, Lei 10.741/2003, art. 3º, e Lei 13.466/2017 para 80 anos ou mais). Ela é marcada sozinha pela idade do cadastro: 60 anos ou mais entra como Prioridade, e 80 anos ou mais como Prioridade Especial. Isso vale na senha gerada no pré-atendimento e no atendimento, e aparece ao lado do título do cartão Paciente. Gestante, pessoa com deficiência e os outros casos da lei continuam sendo marcados na senha (pré-atendimento) e podem ser alterados, com motivo, na Listagem de Senhas e na sala de espera.",
+  "t": "TIRE ESSE CAMPO DA AREA DE FICHAS."
+ }
+});
