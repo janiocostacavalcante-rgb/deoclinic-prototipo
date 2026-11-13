@@ -1147,3 +1147,267 @@ window.DEO_ATENDIDAS=Object.assign(window.DEO_ATENDIDAS||{},{
   "t": "enquadrar dentro deste card a informação"
  }
 });
+
+/* Rodada 20 (13/11/2026): notas 613 a 664 */
+window.DEO_ATENDIDAS=Object.assign(window.DEO_ATENDIDAS||{},{
+ "613": {
+  "st": "atendida",
+  "r": "Feito: na tela Pacientes, os campos de pesquisa agora ocupam a largura toda da tela. O Nome ficou mais largo; CPF, Data de nascimento, Ficha e Status ficaram com tamanhos parecidos, e o botão Limpar no fim da linha. Em telas menores, os campos se reorganizam em duas linhas.",
+  "t": "permita que esses campos ocupe todo o lu"
+ },
+ "614": {
+  "st": "atendida",
+  "r": "Feito: no quadro Avisos do Dia, quem não é da gestão vê o botão \"Testar como gestão\". Ao clicar, o protótipo troca para o perfil Gestor de unidade e libera criar e editar avisos. Aparece também o botão \"Voltar para Recepção\", para retornar ao seu perfil. Isso só existe no protótipo, para teste; no sistema real o perfil vem do usuário que entrou.",
+  "t": "permita que eu faca um teste como se fos"
+ },
+ "615": {
+  "st": "atendida",
+  "r": "Feito: para a gestão e a administração, cada aviso em exibição ganhou um lápis no canto. Ao clicar, abre o aviso para editar título, texto, categoria, prioridade e datas. Depois de salvo, o aviso mostra \"editado por\" com o nome e a hora, e a versão anterior fica guardada no histórico do aviso e na auditoria.",
+  "t": "permita que eu consiga editar um aviso c"
+ },
+ "616": {
+  "st": "atendida",
+  "r": "Feito: a lista agora mostra as colunas Procedimento, Código TUSS, Grupo e Subgrupo, nessa ordem e centralizadas. A coluna Situação saiu, mas a situação continua no filtro (Ativos, Inativos ou os dois). Ao clicar num procedimento abre uma janela com a situação dele e os botões Editar e Inativar (ou Reativar, se ele estiver inativo).",
+  "t": "Organize a tabela de procedimentos segui"
+ },
+ "617": {
+  "st": "atendida",
+  "r": "Feito: os nomes de procedimento, grupo e subgrupo aparecem inteiros na tabela, quebrando a linha quando são longos, sem reticências. Os filtros (como \"Todos os grupos\" e \"Todos os subgrupos\") também ficaram largos o bastante para mostrar o texto todo.",
+  "t": "Garantir que os textos sejam exibidos in"
+ },
+ "618": {
+  "st": "atendida",
+  "r": "Feito: o botão do WhatsApp na agenda agora abre de verdade a conversa no WhatsApp (wa.me), numa aba nova, com o telefone do paciente e uma mensagem pronta que dá para editar antes de enviar. A mensagem cita só o nome, o dia e o horário, sem exame ou procedimento (LGPD). O contato fica no histórico do agendamento. Se o navegador bloquear a aba nova, aparece um aviso para liberar.",
+  "t": "me permita abrir uma conversa para testa"
+ },
+ "619": {
+  "st": "atendida",
+  "r": "Feito: na janela Detalhes do agendamento, o botão \"Guia de Atendimento\" passou a se chamar \"Fichas de atendimento\". O título do painel que abre também mudou para \"Fichas de atendimento\".",
+  "t": "mude esse nome para fichas de atendiment"
+ },
+ "620": {
+  "st": "atendida",
+  "r": "Feito: na janela Detalhes do agendamento, o botão do painel que está aberto (Fichas de atendimento, Reagendar ou Ver Auditoria) fica destacado na cor principal. Ao fechar o painel, o destaque some.",
+  "t": "destaque quando um campo tiver seleciona"
+ },
+ "621": {
+  "st": "atendida",
+  "r": "Feito: o \"i\" e a explicação saíram do botão. Ficou só \"+ Novo procedimento\".",
+  "t": "Retirar o ícone de informação (“i” circu"
+ },
+ "622": {
+  "st": "atendida",
+  "r": "Feito: todos os \"i\" de explicação saíram da janela do procedimento (Novo e Editar).",
+  "t": "Retirar os ícones de explicação desta te"
+ },
+ "623": {
+  "st": "atendida",
+  "r": "Feito: a frase agora é \"Atendimento com profissional\". A regra continua a mesma: quando marcado, o procedimento só é agendado na agenda de um profissional e gera a ficha para ele.",
+  "t": "Mudar essa frase para \"Atendimento com p"
+ },
+ "624": {
+  "st": "atendida",
+  "r": "Feito: o texto explicativo abaixo de \"Atendimento com profissional\" foi retirado.",
+  "t": "Retirar."
+ },
+ "625": {
+  "st": "atendida",
+  "r": "Feito: a situação saiu do meio da janela e foi para o fim dela, com o botão \"Inativar procedimento\" (ou \"Reativar procedimento\"). Inativar tira o procedimento de todas as listas: Novo atendimento, agenda, orçamentos, procedimentos do plano e triagem. Nada é apagado: os planos, os valores, o preparo e o histórico ficam guardados. Ao reativar, ele volta para todas as listas com os mesmos vínculos e valores de antes. Para achar um inativo, use o filtro Situação: Inativos.",
+  "t": "Essa função precisa ficar na parte infer"
+ },
+ "626": {
+  "st": "atendida",
+  "r": "Feito: o campo \"Outras orientações de preparo\" fica todo em letras maiúsculas, ao digitar e ao salvar.",
+  "t": "Deixar campo todo em caixa alta."
+ },
+ "627": {
+  "st": "atendida",
+  "r": "Feito: o quadro \"Planos vinculados e valores\" saiu da janela do procedimento. Os planos e os valores continuam sendo marcados logo abaixo, em \"Planos em que aparece e valores\", e continuam visíveis nos detalhes do procedimento.",
+  "t": "Retirar"
+ },
+ "628": {
+  "st": "atendida",
+  "r": "Feito: é a mesma anotação da 627. O título \"Planos vinculados e valores\" e o quadro dele saíram da janela.",
+  "t": "Retirar"
+ },
+ "629": {
+  "st": "atendida",
+  "r": "Feito: o texto \"Nenhum plano vinculado ainda...\" saiu junto com o quadro de planos vinculados.",
+  "t": "Retirar."
+ },
+ "630": {
+  "st": "atendida",
+  "r": "Feito: o módulo Profissionais fica em Cadastros > Profissionais (criado na rodada 19). Para facilitar, agora também há um atalho \"Profissionais\" no menu Procedimentos, logo abaixo de \"Procedimento\". O atalho abre a mesma tela de Cadastros, não é uma cópia.",
+  "t": "Onde está o Módulo \"Profissionais\" abaix"
+ },
+ "631": {
+  "st": "atendida",
+  "r": "Feito: \"Autorizar Atendimento\" agora abre a tela de autorização já preenchida com os dados do agendamento, no mesmo padrão dos outros formulários (título em cima e caixas do mesmo tamanho). Vêm o paciente (nome, nascimento, CPF e telefone), o profissional, o procedimento, o convênio ou plano, a sala e o valor da tabela de preços. A colaboradora confere e pode mudar profissional, procedimento, convênio, sala, telefone e valor antes de clicar em \"Confirmar autorização\". Ao mudar o convênio ou o procedimento, o valor da tabela é recalculado. Se o valor for mudado à mão, o sistema pede o motivo. Nome e nascimento não mudam nessa tela, porque identificam o paciente (segurança do paciente): a correção é em Editar cadastro. Tudo o que mudou fica na auditoria do agendamento.",
+  "t": "###\n\nAo clicar em **Autorizar Atendiment"
+ },
+ "632": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Visão do mês, no quadro \"Por origem\", os nomes, valores e porcentagens agora quebram linha e ficam dentro do quadro, sem passar da borda. Quando o quadro fica estreito, o gráfico vai para cima e a lista para baixo.",
+  "t": "Deixar as informações ajustada dentro do"
+ },
+ "633": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Visão do mês, no quadro \"Por origem\", os nomes, valores e porcentagens agora quebram linha e ficam dentro do quadro, sem passar da borda. Quando o quadro fica estreito, o gráfico vai para cima e a lista para baixo.",
+  "t": "Deixar as informações ajustada dentro do"
+ },
+ "634": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Visão do mês, no quadro \"Por origem\", os nomes, valores e porcentagens agora quebram linha e ficam dentro do quadro, sem passar da borda. Quando o quadro fica estreito, o gráfico vai para cima e a lista para baixo.",
+  "t": "Deixar as informações ajustada dentro do"
+ },
+ "635": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro > Visão do mês, no gráfico \"Por origem\", o valor e o nome que aparecem no meio da rosca agora diminuem a letra para caber no furo do gráfico, e a fatia que cresce ao passar o mouse não sai mais do desenho.",
+  "t": "Deixar a informação dentro do gráfico e "
+ },
+ "636": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro, na lista que abre à direita ao clicar num card (por exemplo o bloco da JCC), cada conta agora fica organizada: nome e descrição em cima, valor ao lado, e a situação com os botões numa linha embaixo, tudo dentro do quadro.",
+  "t": "Deixar as informações organizadas e dent"
+ },
+ "637": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro, ao clicar nos cards \"Já recebido\" ou \"Já pago\", a lista que abre à direita não tem mais o botão \"Abrir a aba Entradas/Saídas\". Ficaram só a lista e o botão de baixar em Excel.",
+  "t": "Pode remover esse botão."
+ },
+ "638": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro, na lista que abre à direita (por exemplo o bloco da Diagnóstica Reagentes), as informações não se sobrepõem mais: o nome e o valor ficam em cima e a situação com os botões vai para a linha de baixo, quebrando linha quando o texto é grande.",
+  "t": "Deixar as informações ajustadas dentro d"
+ },
+ "639": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro, ao clicar nos cards \"Já recebido\" ou \"Já pago\", a lista que abre à direita não tem mais o botão \"Abrir a aba Entradas/Saídas\". Ficaram só a lista e o botão de baixar em Excel.",
+  "t": "Remover esse botão."
+ },
+ "640": {
+  "st": "atendida",
+  "r": "Feito: em Financeiro, ao clicar nos cards \"Já recebido\" ou \"Já pago\", a lista que abre à direita não tem mais o botão \"Abrir a aba Entradas/Saídas\". Ficaram só a lista e o botão de baixar em Excel.",
+  "t": "Remover esse botão."
+ },
+ "641": {
+  "st": "atendida",
+  "r": "Feito: em Conciliação bancária, na coluna Situação do extrato, a palavra \"automático\" (ou \"manual\") agora fica centralizada logo abaixo de \"Conciliado\".",
+  "t": "Deixar o automático mais centralizado ab"
+ },
+ "642": {
+  "st": "atendida",
+  "r": "Feito: para criar um plano do zero, toque em \"+ Novo plano\" na tela Plano. Basta preencher a Nomenclatura (nome do plano) e marcar, se for o caso, \"Recebe em caixa para faturar a ficha\". Tipo e fator já vêm preenchidos (Empresa ou parceiro, 100%). A lista de planos ganhou a coluna \"Recebe em caixa\" (Sim ou Não). O tipo e o registro na ANS continuam na janela porque a guia TISS só pode sair para operadora de plano de saúde com registro na ANS (padrão TISS, RN ANS 501/2022).",
+  "t": "O que é necessário para criar um plano d"
+ },
+ "643": {
+  "st": "atendida",
+  "r": "Feito: em Conciliação bancária, o botão \"Trilha\" passou a se chamar \"Auditoria\", tanto no alto da tela quanto na janela de cada lançamento. Também mudou nas telas de Repasse médico, Glosas e Custo e margem, para ficar igual em tudo.",
+  "t": "mudar o nome do botão para auditoria."
+ },
+ "644": {
+  "st": "atendida",
+  "r": "Feito: em Conciliação bancária, ao resolver a divergência da Unimed (TED a menor), o aviso \"O demonstrativo do lote já trouxe as glosas...\" agora tem o botão \"Ver as glosas do lote\". Ele leva para Glosas e recursos, na aba Glosas por item, já filtrada pelo convênio, e abre os detalhes do lote.",
+  "t": "quando tiver essa informação ter um  bot"
+ },
+ "645": {
+  "st": "atendida",
+  "r": "Feito: em Conciliação bancária, o botão \"Trilha\" passou a se chamar \"Auditoria\", tanto no alto da tela quanto na janela de cada lançamento. Também mudou nas telas de Repasse médico, Glosas e Custo e margem, para ficar igual em tudo.",
+  "t": "mudar o nome do botão para auditoria."
+ },
+ "646": {
+  "st": "atendida",
+  "r": "Feito: em Conciliação bancária, nas listas que abrem à direita (ao clicar em Fechar conciliação ou nos cards), cada lançamento, como o \"DEPÓSITO EM DINHEIRO · AG 1234\", agora é clicável e tem \"resolver ›\". Clicando, a tela troca para a conta certa e abre direto o que precisa para fechar: o lançamento para conciliar, a divergência para resolver ou a tarifa para classificar.",
+  "t": "Ser possível clicar e seguir direto para"
+ },
+ "647": {
+  "st": "atendida",
+  "r": "Feito: em Conciliação bancária, todos os cards do alto (Saldo no banco, Conciliado sozinho, Sugestões, Divergências, Tarifas e A explicar) agora abrem uma tela à direita com o que eles mostram. O Saldo no banco mostra saldo, conta, última leitura, entradas e saídas e os lançamentos; os outros mostram a lista dos lançamentos, a soma e um botão para mostrar só eles no extrato.",
+  "t": "Quando clicar nestes filtros devem abrir"
+ },
+ "648": {
+  "st": "atendida",
+  "r": "Feito: em Conciliação bancária, o botão \"Trilha\" passou a se chamar \"Auditoria\", tanto no alto da tela quanto na janela de cada lançamento. Também mudou nas telas de Repasse médico, Glosas e Custo e margem, para ficar igual em tudo.",
+  "t": "mudar o nome desse botão para auditoria."
+ },
+ "649": {
+  "st": "atendida",
+  "r": "Feito: em Conciliação bancária > Importar OFX, clicar na caixa \"Arraste o arquivo .ofx aqui\" (ou no botão Escolher arquivo) agora abre a janela do computador para escolher o arquivo, e também dá para arrastar o arquivo para a caixa. Se não tiver um OFX, há o link \"Usar um arquivo de exemplo\".",
+  "t": "não está abrindo a caixa para escolher o"
+ },
+ "650": {
+  "st": "atendida",
+  "r": "Feito: em Conciliação bancária > Importar OFX, depois de escolher o arquivo aparece uma prévia antes de gravar: quantos deram certo, quantos já existiam e quantos deram errado, com uma tabela para cada grupo. Cada linha com erro diz o que deu errado (valor inválido, sem data, mês já fechado, sem identificador) e dá para baixar essa lista em Excel. O botão vira \"Importar os N que deram certo\" e grava só esses; os errados não entram.",
+  "t": "antes de confirmar a importação, mostrar"
+ },
+ "651": {
+  "st": "atendida",
+  "r": "Feito: em Conciliação bancária, ao clicar em \"Sincronizar agora\" (conta do Banco Inter) aparece uma barrinha carregando com o passo atual. Ao terminar, sai o aviso \"Sincronização concluída\" e uma janela com o que mudou: lançamentos novos, quantos conciliaram sozinhos, sugestões, tarifas, saldo antes e depois e hora da leitura. Os novos ficam com o selo \"novo\" no extrato. (No protótipo a leitura do banco é simulada.)",
+  "t": "quando clicar em sincronizar aparecer um"
+ },
+ "652": {
+  "st": "atendida",
+  "r": "Feito: a lista de Pacientes ganhou a primeira coluna \"Prontuário\", com o número do prontuário de cada paciente. Esse número é fixo: não muda e não é reaproveitado. Ele também aparece na ficha do paciente.",
+  "t": "NESTA AREA ADICIONE UMA COLUNA DE NOME \""
+ },
+ "653": {
+  "st": "atendida",
+  "r": "Feito: em Conciliação bancária, o botão \"Fechar conciliação de novembro\" agora sempre faz algo. Se ainda falta conciliar algum lançamento, abre à direita a lista do que falta, com uma barra de quanto já foi feito; clicando em cada item você vai direto até ele para resolver. Quando não falta nada, pede confirmação, fecha o mês e mostra o aviso \"Novembro fechado\". Depois de fechado, o botão mostra o resumo, e só o Administrador pode reabrir, com motivo.",
+  "t": "botão não está fazendo nenhuma ação."
+ },
+ "654": {
+  "st": "atendida",
+  "r": "Feito: em Conciliação bancária, o botão \"Fechar conciliação de novembro\" agora sempre faz algo. Se ainda falta conciliar algum lançamento, abre à direita a lista do que falta, com uma barra de quanto já foi feito; clicando em cada item você vai direto até ele para resolver. Quando não falta nada, pede confirmação, fecha o mês e mostra o aviso \"Novembro fechado\". Depois de fechado, o botão mostra o resumo, e só o Administrador pode reabrir, com motivo.",
+  "t": "botão não está fazendo nenhuma ação."
+ },
+ "655": {
+  "st": "atendida",
+  "r": "Feito: em Repasse médico > Extrato do período, os filtros de período (Hoje, Semana, Mês, Ano e intervalo de datas) e de unidade agora mudam a tabela e os números. Acima dos cards aparece \"Mostrando: X de Y atendimentos\" e o botão Limpar filtros. Se nada cair no filtro, a tabela avisa. O botão Fechar extrato continua juntando o mês inteiro, e a tela diz isso.",
+  "t": "filtros não estão funcionando."
+ },
+ "656": {
+  "st": "atendida",
+  "r": "Feito: em Repasse médico, o botão \"Extrato para o profissional\" agora abre o extrato: cabeçalho da clínica, profissional, período, cada atendimento com regra, glosa e repasse, e os totais. Na janela dá para Imprimir, Baixar PDF e Enviar pelo WhatsApp.",
+  "t": "abrir o extrato."
+ },
+ "657": {
+  "st": "atendida",
+  "r": "Feito: em Repasse médico, ao abrir um atendimento e clicar em \"Ajustar com motivo\", agora dá para digitar o novo valor do repasse, junto com o motivo. Ao clicar em Registrar ajuste aparece o aviso \"Ajuste enviado para aprovação\", e a linha do extrato passa a mostrar \"ajuste em aprovação\" e o valor proposto. Outra pessoa do financeiro (ou o Administrador) aprova ou recusa; quem pediu não aprova. Só depois de aprovado o novo valor passa a valer, e tudo fica na auditoria.",
+  "t": "ajustar o valor tbm, ja que vai para apr"
+ },
+ "658": {
+  "st": "atendida",
+  "r": "Feito: em Repasse médico > Fechamentos, no comprovante, o botão agora é \"Enviar ao profissional pelo WhatsApp\". Ao clicar, o comprovante em PDF é enviado para o celular do profissional (no protótipo o envio é simulado), aparece o aviso com o número, o envio fica registrado na auditoria e o comprovante passa a mostrar \"enviado\" com data, hora e quem enviou.",
+  "t": "enviar pelo whatapp do profissional o co"
+ },
+ "659": {
+  "st": "atendida",
+  "r": "Feito: em Repasse médico > Fechamentos, o selo \"Aguardando aprovação\" agora é clicável (\"ver obs.\") e abre à direita a observação de quem fechou, com os botões Aprovar, Devolver e Ver o fechamento. Ao fechar um extrato novo, há um campo \"Observação para quem vai aprovar\".",
+  "t": "quando clicarmos nos que estão aguardand"
+ },
+ "660": {
+  "st": "atendida",
+  "r": "Feito: em Repasse médico > Split no Pix e cartão, a chave de ligar e desligar agora funciona: abre uma confirmação com motivo e, ao confirmar, o split muda e a linha mostra \"Ligado\" ou \"Desligado\". Como muda para onde vai o dinheiro, quem não é Administrador faz um pedido que fica \"aguardando o Administrador\", com botões Aprovar e Recusar para ele. Tudo fica na auditoria.",
+  "t": "não está funcionando a opção de habilita"
+ },
+ "661": {
+  "st": "atendida",
+  "r": "Feito: em Repasse médico > Split no Pix e cartão, ao clicar num pagamento (por exemplo 04/11 08:24) abre o detalhe com o botão \"Imprimir comprovante deste pagamento\". Ele abre o comprovante com total, parte do profissional e parte da clínica, para Imprimir ou Baixar PDF.",
+  "t": "aqui ficar um botão para imprimir o comp"
+ },
+ "662": {
+  "st": "atendida",
+  "r": "Feito: em Repasse médico > Regras de repasse, cada versão de regra agora tem o botão Excluir (só o Administrador usa). A exclusão pede motivo, a versão sai da lista e aparece em \"Versões excluídas\", com registro na auditoria. Exceção: uma versão que já tem pagamentos não pode ser apagada, só inativada (com motivo); ela deixa de valer para atendimentos novos e continua guardada. Isso porque os documentos que dão base aos pagamentos precisam ser guardados enquanto puderem ser conferidos (Código Civil, art. 1.194, e CTN, art. 195, parágrafo único).",
+  "t": "Ter um botão para excluir também"
+ },
+ "663": {
+  "st": "atendida",
+  "r": "Feito: no Novo atendimento, depois de achar o paciente pelo CPF, o cartão Paciente mostra o campo \"Unificar\". Ao digitar o nome (ou parte dele), a busca é automática e as opções aparecem embaixo no formato PRONTUÁRIO - NOME - NASCIMENTO (ex.: 00136 - JOSÉ CARLOS DE LIMA - 30/09/1956). Ao escolher, abre a comparação dos dois cadastros. Com a confirmação de que conferiu o documento e o motivo, o cadastro escolhido é incorporado ao principal: os campos vazios do principal são preenchidos com os dados do outro, e atendimentos, agendamentos, guias e histórico passam para o principal. Nada é apagado: o cadastro incorporado fica guardado, inativo e ligado ao principal (o prontuário é guardado por 20 anos, Lei 13.787/2018), e a unificação fica na auditoria com quem fez, quando e o motivo (LGPD). Só quem tem a permissão de unificar confirma; a recepção pesquisa, mas quem confirma é a gestão. Para testar, há dois cadastros duplicados de exemplo: \"Ana de Souza\" (do CPF 123.456.789-09) e \"José Carlos de Lima\" (do CPF 987.654.321-00).",
+  "t": "Crie o campo de  **UNIFICAR que permita "
+ },
+ "664": {
+  "st": "atendida",
+  "r": "Feito (é a mesma anotação da 663): no Novo atendimento, depois de achar o paciente pelo CPF, o cartão Paciente mostra o campo \"Unificar\". Ao digitar o nome (ou parte dele), a busca é automática e as opções aparecem embaixo no formato PRONTUÁRIO - NOME - NASCIMENTO (ex.: 00136 - JOSÉ CARLOS DE LIMA - 30/09/1956). Ao escolher, abre a comparação dos dois cadastros. Com a confirmação de que conferiu o documento e o motivo, o cadastro escolhido é incorporado ao principal: os campos vazios do principal são preenchidos com os dados do outro, e atendimentos, agendamentos, guias e histórico passam para o principal. Nada é apagado: o cadastro incorporado fica guardado, inativo e ligado ao principal (o prontuário é guardado por 20 anos, Lei 13.787/2018), e a unificação fica na auditoria com quem fez, quando e o motivo (LGPD). Só quem tem a permissão de unificar confirma; a recepção pesquisa, mas quem confirma é a gestão. Para testar, há dois cadastros duplicados de exemplo: \"Ana de Souza\" (do CPF 123.456.789-09) e \"José Carlos de Lima\" (do CPF 987.654.321-00).",
+  "t": "Crie o campo de  **UNIFICAR que permita "
+ }
+});
