@@ -6,9 +6,13 @@
    simulado, e tudo fica no localStorage deste navegador (chave deoclinic.tarefas.v1). Sem armazenamento,
    funciona só na memória. Dados fictícios. Prefixo tq / TQ_.
    Carrega antes de telas-fim.js (que marca as telas como prontas e chama route()).
+   2ª rodada (16/11, "Revisão de 16/11 (2ª parte)"): hierarquia (equipes, gestores, alcance, unidade central e
+   franquia), painel de desempenho (Tarefas > Painel) e consulta das tarefas de quem está no alcance.
+   A estrutura gravada mudou: chave nova deoclinic.tarefas.v2 (a v1 é descartada).
    ========================================================================== */
 
-const TQ_KEY='deoclinic.tarefas.v1';
+const TQ_KEY='deoclinic.tarefas.v2';
+try{localStorage.removeItem('deoclinic.tarefas.v1')}catch(e){}
 const TQ_ANX_MAX=1048576;      /* até 1 MB o conteúdo do anexo fica guardado (limite do localStorage) */
 const TQ_ANX_LIM=10485760;     /* 10 MB por arquivo, como na especificação */
 const tqH=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
@@ -23,9 +27,9 @@ const tqDH=iso=>{try{const d=new Date(iso);return d.toLocaleDateString('pt-BR')+
 const tqDHc=iso=>{try{const d=new Date(iso);const h=tqIsoDia(d)===tqHoje();return (h?'hoje':tqDM(tqIsoDia(d)))+' '+tqP2(d.getHours())+':'+tqP2(d.getMinutes())}catch(e){return ''}};
 const tqId=p=>(p||'x')+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 const tqTam=b=>b<1024?b+' B':b<1048576?(b/1024).toFixed(0)+' KB':(b/1048576).toFixed(1).replace('.',',')+' MB';
-const tqUnidNome=u=>{try{if(typeof UNIDS!=='undefined'&&UNIDS[u])return UNIDS[u]}catch(e){}return 'Unidade '+u};
+const tqUnidNome=u=>{const x=(tqS().unids||[]).find(z=>z.c===+u);if(x)return x.n;try{if(typeof UNIDS!=='undefined'&&UNIDS[u])return UNIDS[u]}catch(e){}return 'Unidade '+u};
 const tqUnidCurta=u=>tqUnidNome(u).split(' · ')[0];
-const tqUnids=()=>{try{if(typeof UNIDS!=='undefined')return Object.keys(UNIDS).map(Number)}catch(e){}return [10,12,14]};
+const tqUnids=()=>(tqS().unids||[]).map(z=>z.c);
 
 /* Ícones do cartão (traço, cor do texto) */
 const TQI={
@@ -36,6 +40,7 @@ const TQI={
  lista:'<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="m8 12 3 3 5-6"/></svg>',
  relogio:'<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
  sino:'<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 6 3 8 3 8H3s3-2 3-8M10 21a2 2 0 0 0 4 0"/></svg>',
+ volta:'<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>',
  pontos:'<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>',
  lixo:'<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
  quadro:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M15 4v10"/></svg>',
@@ -206,21 +211,43 @@ body.tq-arrastando,body.tq-arrastando *{cursor:grabbing!important;user-select:no
 </style>`);
 
 /* ---------- Dados ---------- */
-const TQ_SETORES0=[{id:'s1',n:'Recepção'},{id:'s2',n:'Laboratório'},{id:'s3',n:'Coleta'},{id:'s4',n:'Financeiro'},{id:'s5',n:'Gestão'}];
+const TQ_SETORES0=[{id:'s1',n:'Recepção'},{id:'s2',n:'Laboratório'},{id:'s3',n:'Coleta'},{id:'s4',n:'Financeiro'},{id:'s5',n:'Gestão'},{id:'s6',n:'Diretoria'},{id:'s7',n:'Jurídico'}];
+/* Unidades do módulo: as três do protótipo e uma franquia (só aqui, para a hierarquia). A central dá "Toda a empresa" a quem a administra. */
+const TQ_UNIDS0=[{c:10,n:'Unidade 10 · Central (matriz)',central:true},{c:12,n:'Posto 12 · Messejana'},{c:14,n:'Posto 14 · Aldeota'},{c:20,n:'Franquia 20 · Eusébio',franquia:true}];
+/* adm: unidades que a pessoa administra ('todas' = todas). alc: alcance escolhido (sem alc = padrão pela gestão de equipes). */
 const TQ_OPS0=[
- {id:'u1',n:'Paula Mendes',ini:'PM',unid:10,setor:'s1'},
- {id:'u2',n:'Rafael Sousa',ini:'RS',unid:10,setor:'s1'},
- {id:'u3',n:'Dra. Helena Brito',ini:'HB',unid:10,setor:'s2'},
- {id:'u4',n:'Tiago Lira',ini:'TL',unid:10,setor:'s2'},
- {id:'u5',n:'Sérgio Matos',ini:'SM',unid:10,setor:'s4'},
- {id:'u6',n:'Marta Queiroz',ini:'MQ',unid:12,setor:'s3'},
- {id:'u7',n:'Carla Nogueira',ini:'CN',unid:14,setor:'s1'},
- {id:'u8',n:'Lúcia Fernandes',ini:'LF',unid:14,setor:'s5'},
+ {id:'u0',n:'Augusto Leal',ini:'AL',unid:10,setor:'s6',cargo:'Diretor geral',adm:'todas'},
+ {id:'u9',n:'Renata Paiva',ini:'RP',unid:10,setor:'s5',cargo:'Gerente da Unidade 10'},
+ {id:'u1',n:'Paula Mendes',ini:'PM',unid:10,setor:'s1',cargo:'Coordenadora da recepção'},
+ {id:'u2',n:'Rafael Sousa',ini:'RS',unid:10,setor:'s1',cargo:'Recepcionista'},
+ {id:'u3',n:'Dra. Helena Brito',ini:'HB',unid:10,setor:'s2',cargo:'Bioquímica'},
+ {id:'u4',n:'Tiago Lira',ini:'TL',unid:10,setor:'s2',cargo:'Técnico de laboratório'},
+ {id:'u5',n:'Sérgio Matos',ini:'SM',unid:10,setor:'s4',cargo:'Gestor financeiro'},
+ {id:'u10',n:'Bianca Torres',ini:'BT',unid:10,setor:'s4',cargo:'Analista financeira'},
+ {id:'u11',n:'Diego Moura',ini:'DM',unid:10,setor:'s4',cargo:'Faturamento'},
+ {id:'u12',n:'Dra. Fernanda Lins',ini:'FL',unid:10,setor:'s7',cargo:'Gestora jurídica'},
+ {id:'u13',n:'Otávio Ramos',ini:'OR',unid:10,setor:'s7',cargo:'Assistente jurídico'},
+ {id:'u6',n:'Marta Queiroz',ini:'MQ',unid:12,setor:'s3',cargo:'Coletadora'},
+ {id:'u8',n:'Lúcia Fernandes',ini:'LF',unid:14,setor:'s5',cargo:'Gerente dos postos',adm:[12,14],alc:{modo:'unidades',unids:[12,14]}},
+ {id:'u7',n:'Carla Nogueira',ini:'CN',unid:14,setor:'s1',cargo:'Recepcionista'},
+ {id:'u14',n:'Gustavo Prado',ini:'GP',unid:20,setor:'s5',cargo:'Administrador da franquia',adm:[20]},
+ {id:'u15',n:'Lívia Campos',ini:'LC',unid:20,setor:'s1',cargo:'Recepcionista'},
+ {id:'u16',n:'Mateus Rocha',ini:'MR',unid:20,setor:'s3',cargo:'Coletador'},
+];
+const TQ_EQUIPES0=[
+ {id:'q1',n:'Diretoria',unid:10,gest:['u0'],memb:[],pai:null},
+ {id:'q2',n:'Atendimento · Unidade 10',unid:10,gest:['u9'],memb:['u3','u4'],pai:null},
+ {id:'q3',n:'Recepção Central',unid:10,gest:['u1'],memb:['u2'],pai:'q2'},
+ {id:'q4',n:'Financeiro',unid:10,gest:['u5'],memb:['u10','u11'],pai:null},
+ {id:'q5',n:'Jurídico',unid:10,gest:['u12'],memb:['u13'],pai:null},
+ {id:'q6',n:'Posto 14',unid:14,gest:['u8'],memb:['u7'],pai:null},
+ {id:'q7',n:'Franquia Eusébio',unid:20,gest:['u14'],memb:['u15','u16'],pai:null},
 ];
 function tqUserNovo(){return {cols:[{id:'c1',n:'A fazer'},{id:'c2',n:'Fazendo'},{id:'c3',n:'Feito',conclui:true}],pos:{},etq:[{id:'e1',n:'Importante',cor:'amarelo'}],tEtq:{},avisos:[],ger:{}}}
 function tqSeed(){
- const S={v:1,eu:'u1',setores:JSON.parse(JSON.stringify(TQ_SETORES0)),ops:JSON.parse(JSON.stringify(TQ_OPS0)),
-  com:{14:{modo:'selecionadas',unids:[10],limSet:false,setores:[]}},tarefas:[],user:{}};
+ const cp=x=>JSON.parse(JSON.stringify(x));
+ const S={v:2,eu:'u1',setores:cp(TQ_SETORES0),ops:cp(TQ_OPS0),unids:cp(TQ_UNIDS0),equipes:cp(TQ_EQUIPES0),
+  com:{14:{modo:'selecionadas',unids:[10],limSet:false,setores:[]},20:{modo:'selecionadas',unids:[10],limSet:false,setores:[]}},tarefas:[],user:{}};
  S.ops.forEach(o=>S.user[o.id]=tqUserNovo());
  const U=S.user;
  U.u1.cols=[{id:'c1',n:'A fazer'},{id:'c2',n:'Fazendo'},{id:'c4',n:'Aguardando retorno'},{id:'c3',n:'Feito',conclui:true}];
@@ -260,9 +287,10 @@ function tqSeed(){
  av('u7','atribuida','t3','Lúcia Fernandes incluiu você como acompanhante','u8',tqQuando(0,8,15));
  av('u2','atribuida','t5','Paula Mendes criou uma tarefa para você liderar','u1',tqQuando(-1,15,20));
  av('u6','mencao','t4','Tiago Lira mencionou você na conversa','u4',tqQuando(-1,11,2));
+ tqSeedHist(S);
  return S}
 let TQS=null;
-function tqLer(){try{const r=localStorage.getItem(TQ_KEY);if(r){const s=JSON.parse(r);if(s&&s.v===1&&Array.isArray(s.tarefas)&&s.user&&s.ops)return s}}catch(e){}return null}
+function tqLer(){try{const r=localStorage.getItem(TQ_KEY);if(r){const s=JSON.parse(r);if(s&&s.v===2&&Array.isArray(s.tarefas)&&s.user&&s.ops&&s.equipes&&s.unids)return s}}catch(e){}return null}
 function tqSalvar(){try{localStorage.setItem(TQ_KEY,JSON.stringify(TQS));return true}catch(e){return false}}
 function tqS(){if(!TQS){TQS=tqLer();if(!TQS){TQS=tqSeed();tqSalvar()}TQS.ops.forEach(o=>{if(!TQS.user[o.id])TQS.user[o.id]=tqUserNovo()})}return TQS}
 
@@ -307,7 +335,7 @@ const tqUrgentes=u=>tqVis(u).filter(t=>{const s=tqSit(t);return s==='atr'||s==='
 const tqCols=u=>tqU(u).cols.filter(c=>!c.arq);
 const tqColConclui=u=>tqCols(u).find(c=>c.conclui)||null;
 function tqGarantePos(u){const U=tqU(u),cs=tqCols(u);if(!cs.length){U.cols.push({id:tqId('c'),n:'A fazer'});return tqGarantePos(u)}
- tqVis(u).forEach(t=>{const p=U.pos[t.id];if(p&&cs.some(c=>c.id===p.c))return;const cc=tqColConclui(u),alvo=(t.concl&&t.lider===u&&cc)?cc:cs[0];
+ tqVis(u).forEach(t=>{const p=U.pos[t.id];if(p&&cs.some(c=>c.id===p.c))return;const cc=tqColConclui(u),alvo=(t.concl&&cc)?cc:cs[0];
   const os=Object.values(U.pos).filter(x=>x.c===alvo.id).map(x=>x.o);U.pos[t.id]={c:alvo.id,o:os.length?Math.max(...os)+1:0}})}
 function tqDaColuna(u,c){const U=tqU(u);return tqVis(u).filter(t=>U.pos[t.id]&&U.pos[t.id].c===c).sort((a,b)=>U.pos[a.id].o-U.pos[b.id].o)}
 function tqTopo(u,tid){const U=tqU(u),cs=tqCols(u);if(!cs.length)return;const c=cs[0].id,os=Object.values(U.pos).filter(x=>x.c===c).map(x=>x.o);U.pos[tid]={c,o:os.length?Math.min(...os)-1:0}}
@@ -331,20 +359,20 @@ function tqMudou(){tqSalvar();tqGerarPrazos();tqPinta();tqSinoSync();tqMenuSync(
 
 /* ---------- Menu, nomes e explicações ---------- */
 try{
- if(!MENU.some(g=>g[0]==='Tarefas')){const i=MENU.findIndex(g=>g[0]==='Início');MENU.splice(i>=0?i+1:0,0,['Tarefas',[['tarefas','Minhas tarefas']]])}
- const cad=MENU.find(g=>g[0]==='Cadastros');if(cad&&!cad[1].some(x=>x[0]==='comunicacao')){const i=cad[1].findIndex(x=>x[0]==='perfis');cad[1].splice(i>=0?i+1:cad[1].length,0,['comunicacao','Comunicação'])}
- NAMES.tarefas='Minhas tarefas';NAMES.comunicacao='Comunicação';
+ if(!MENU.some(g=>g[0]==='Tarefas')){const i=MENU.findIndex(g=>g[0]==='Início');MENU.splice(i>=0?i+1:0,0,['Tarefas',[['tarefas','Minhas tarefas'],['tarefas-painel','Painel']]])}
+ const cad=MENU.find(g=>g[0]==='Cadastros');if(cad&&!cad[1].some(x=>x[0]==='comunicacao')){const i=cad[1].findIndex(x=>x[0]==='perfis');cad[1].splice(i>=0?i+1:cad[1].length,0,['comunicacao','Comunicação'],['hierarquia','Hierarquia'])}
+ NAMES.tarefas='Minhas tarefas';NAMES.comunicacao='Comunicação';NAMES.hierarquia='Hierarquia';NAMES['tarefas-painel']='Painel de tarefas';
  if(typeof OPEN!=='undefined')OPEN.add('Tarefas');
  if(typeof GICON!=='undefined')GICON['Tarefas']=TQI.quadro;
- if(typeof DESC!=='undefined')Object.assign(DESC,{tarefas:'Seu quadro pessoal de tarefas, no estilo Trello: as que você lidera, acompanha ou criou, com colunas e etiquetas só suas.',comunicacao:'Configurações > Comunicação: setores, setor de cada pessoa e com quais unidades e setores cada unidade pode trocar tarefas. Só o Administrador.'});
+ if(typeof DESC!=='undefined')Object.assign(DESC,{tarefas:'Seu quadro pessoal de tarefas, no estilo Trello: as que você lidera, acompanha ou criou, com colunas e etiquetas só suas.',comunicacao:'Configurações > Comunicação: setores, setor de cada pessoa e com quais unidades e setores cada unidade pode trocar tarefas. O administrador de cada unidade cuida da sua.',hierarquia:'Configurações > Hierarquia: equipes de cada unidade, gestores, subequipes, unidade central e o alcance de cada pessoa no painel e nas tarefas dos outros.','tarefas-painel':'Painel de desempenho das tarefas do seu time: em aberto, atrasadas, concluídas, % no prazo e prazos perdidos, por pessoa e por dia.'});
  if(typeof GUIDES!=='undefined')Object.assign(GUIDES,{tarefas:['Escolha em "Testar como:" a pessoa simulada; cada uma tem o próprio quadro.','Arraste os cartões entre as colunas, ou use o botão ⋯ do cartão (ou Alt + setas) para mover pelo teclado.','Tarefas novas e menções piscam até você abrir.'],comunicacao:['Cadastre os setores e ligue cada pessoa ao seu setor.','Em cada unidade, escolha com quais unidades ela troca tarefas e, se quiser, limite aos setores.','Só aparece para escolher como líder ou acompanhante quem a regra permite.']});
 }catch(e){}
 
 /* ---------- Quadro ---------- */
 VIEWS.tarefas=function(){const S=tqS(),u=S.eu,o=tqOp(u);tqGerarPrazos();tqGarantePos(u);
- const opts=S.ops.map(x=>`<option value="${x.id}" ${x.id===u?'selected':''}>${tqH(x.n)} · ${tqH(tqSetorNome(x.setor))} · ${tqH(tqUnidCurta(x.unid))}</option>`).join('');
+
  return `${pageHead('Tarefas','Minhas tarefas','Seu quadro pessoal: as tarefas que você lidera, acompanha ou criou. As colunas e as etiquetas são só suas. Dados de exemplo.',`<button class="btn ghost" onclick="tqRestaurarDlg()">Restaurar dados de exemplo</button><button class="btn sec" onclick="tqEtqDlg()">Minhas etiquetas</button><button class="btn" onclick="tqNova()">${I.plus} Nova tarefa</button>`)}
-<div class="tq-sim" role="group" aria-label="Simulação de operador"><label for="tqEuSel">Testar como:</label><select class="in" id="tqEuSel" onchange="tqTrocaEu(this.value)">${opts}</select><small>Protótipo sem servidor: escolha a pessoa para ver o quadro dela. Crie uma tarefa para outra pessoa e troque para ela para ver a tarefa nova piscando.</small></div>
+${tqSimBar('Protótipo sem servidor: escolha a pessoa para ver o quadro dela. Crie uma tarefa para outra pessoa e troque para ela para ver a tarefa nova piscando.')}
 <div id="tqApp">${tqApp()}</div>`};
 function tqApp(){const u=tqEu();
  const tabs=`<div class="tabs" role="tablist" aria-label="Visões"><button class="tab ${TQ_V.aba==='quadro'?'active':''}" role="tab" aria-selected="${TQ_V.aba==='quadro'}" onclick="tqAba('quadro')">Quadro</button><button class="tab ${TQ_V.aba==='prazo'?'active':''}" role="tab" aria-selected="${TQ_V.aba==='prazo'}" onclick="tqAba('prazo')">Por prazo</button></div>`;
@@ -380,7 +408,7 @@ function tqPinta(){const app=document.getElementById('tqApp');if(!app)return;tqG
  const b2=document.getElementById('tqBoard');if(b2)b2.scrollLeft=sl;app.querySelectorAll('.tq-list').forEach(x=>{if(st[x.dataset.col])x.scrollTop=st[x.dataset.col]})}
 function tqAba(a){TQ_V.aba=a;tqPinta()}
 function tqFiltro(f){TQ_V.filtro=f;tqPinta()}
-function tqTrocaEu(u){const S=tqS();if(!S.ops.some(o=>o.id===u))return;S.eu=u;closeModal();tqMudou();const n=tqNaoLidos(u);toast(`Agora testando como ${tqH(tqNome(u))}${n?` · ${n} aviso${n>1?'s':''} não lido${n>1?'s':''}`:''}`)}
+function tqTrocaEu(u){const S=tqS();if(!S.ops.some(o=>o.id===u))return;S.eu=u;closeModal();tqMudou();if(['#comunicacao','#hierarquia','#tarefas-painel'].includes(location.hash))reView();const n=tqNaoLidos(u);toast(`Agora testando como ${tqH(tqNome(u))}${n?` · ${n} aviso${n>1?'s':''} não lido${n>1?'s':''}`:''}`)}
 function tqFocaCard(id){setTimeout(()=>{const b=document.querySelector(`#view .tq-card[data-id="${id}"] .tq-open`);if(b)b.focus()},0)}
 /* Teclado: Alt + setas move o cartão; M abre "Mover para" */
 function tqCardTecla(e,id){const u=tqEu(),U=tqU(u),p=U.pos[id];if(!p)return;
@@ -490,12 +518,14 @@ function tqNovaOk(){const u=tqEu(),tit=(document.getElementById('tqNT').value||'
 
 /* ---------- Detalhe da tarefa ---------- */
 const tqDetAberto=()=>{const b=document.getElementById('backdrop'),m=document.getElementById('modal');return !!(TQ_V.det&&b&&b.classList.contains('show')&&m&&m.classList.contains('tq-det-m'))};
-function tqAbrir(id){if(TQ_SUPRIME)return;const u=tqEu(),t=tqT(id);if(!t||!tqEnv(t,u)){toast('Você não participa desta tarefa','warn');return}
- if(location.hash!=='#tarefas'&&location.hash!=='#home'){TQ_V.abrir=id;location.hash='#tarefas';return}
+function tqAbrir(id,daLista){if(TQ_SUPRIME)return;const u=tqEu(),t=tqT(id);if(!t||!tqPodeVer(u,t)){toast('Você não participa desta tarefa','warn');return}
+ if(!tqEnv(t,u)){TQ_V.det={id,ed:{},rasc:'',ro:true,daLista:!!daLista};openModal(tqDetLeitura(),'wide tq-det-m');const m=document.getElementById('modal');if(m)m.setAttribute('aria-labelledby','tqDetT');return}
+ if(!['#tarefas','#home','#tarefas-painel'].includes(location.hash)){TQ_V.abrir=id;location.hash='#tarefas';return}
  let mud=false;tqU(u).avisos.forEach(a=>{if(a.t===id&&!a.lido){a.lido=true;mud=true}});
- TQ_V.det={id,ed:{},rasc:''};openModal(tqDetHtml(),'wide tq-det-m');if(mud){tqSalvar();tqPinta();tqSinoSync();tqHomeSync()}
+ TQ_V.det={id,ed:{},rasc:'',daLista:!!daLista};openModal(tqDetHtml(),'wide tq-det-m');if(mud){tqSalvar();tqPinta();tqSinoSync();tqHomeSync()}
  const m=document.getElementById('modal');if(m){m.setAttribute('aria-labelledby','tqDetT')}}
-function tqDetPinta(){const m=document.getElementById('modal');if(!m||!TQ_V.det)return;const t=tqT(TQ_V.det.id);if(!t||!tqEnv(t,tqEu())){closeModal();TQ_V.det=null;return}
+function tqDetPinta(){const m=document.getElementById('modal');if(!m||!TQ_V.det)return;const t=tqT(TQ_V.det.id);if(!t||!tqPodeVer(tqEu(),t)){closeModal();TQ_V.det=null;return}
+ if(!tqEnv(t,tqEu())){m.innerHTML=tqDetLeitura();return}
  const a=document.activeElement,k=a&&a.closest&&a.closest('#modal')?(a.dataset.k||a.id):'',st=m.scrollTop,ch=m.querySelector('.tq-chat'),cst=ch?ch.scrollTop:null;
  m.innerHTML=tqDetHtml();m.scrollTop=st;const ch2=m.querySelector('.tq-chat');if(ch2)ch2.scrollTop=cst==null?ch2.scrollHeight:cst;
  if(k){const el=m.querySelector(`[data-k="${k}"]`)||document.getElementById(k);if(el)el.focus()}}
@@ -532,7 +562,7 @@ ${perd.map((x,i)=>`<small class="prazo-err" style="display:block">${i+1}º prazo
 ${lid&&!t.concl&&(!p||atr)?(ed.prz?`<form class="field" onsubmit="event.preventDefault();tqPrazoOk()"><label for="tqPz">${p?'Novo prazo':'Prazo'}</label><input class="in" type="date" id="tqPz" data-k="pz" min="${tqHoje()}"><span class="msg">Depois de salvo, não pode ser alterado.</span><div class="tq-inl"><button class="btn sm" type="submit">Salvar prazo</button><button class="btn sm ghost" type="button" onclick="tqEd('prz',0)">Cancelar</button></div></form>`:`<button class="btn sm ${atr?'':'sec'}" data-k="bPz" onclick="tqEd('prz',1)">${p?'Definir novo prazo':'Definir prazo'}</button>`):p?`<small class="tl">O prazo não pode ser alterado.${lid&&!t.concl?' Se vencer, você poderá definir um novo prazo.':''}</small>`:lid?'':'<small class="tl">Só o líder define o prazo.</small>'}</div>`;
  const datas=`<div class="tq-side-b"><h4>Criação</h4><div>${tqDH(t.criada)}</div><small class="tl">por ${tqH(tqNome(t.criador))}</small></div>`;
  const fim=`<div class="tq-side-b"><h4>Conclusão</h4>${t.concl?`<div>Concluída por ${tqH(tqPrim(t.concl.por))} em ${tqDH(t.concl.em)}</div>${lid?`<button class="btn sm sec" data-k="bReab" onclick="tqReabrir()">Reabrir</button>`:''}`:lid?`<button class="btn" data-k="bConc" onclick="tqConcluir()">${I.check} Concluída</button><small class="tl">${tqColConclui(u)?`Ou mova para a sua coluna "${tqH(tqColConclui(u).n)}".`:''}</small>`:`<small class="tl">Só o líder conclui. Para você, mover para "Feito" só organiza o seu quadro.</small>`}</div>`;
- return `<div class="mh">${titulo}<button class="ibtn plain" aria-label="Fechar" onclick="closeModal()">${I.x}</button></div><div class="mb tq-det">${topo}<div class="tq-det-g"><div class="tq-det-main">${etq}${desc}${chk}${anx}${conv}${hist}</div><aside class="tq-det-side" aria-label="Pessoas e prazo">${lider}${acs}${prazo}${datas}${fim}<button class="btn sm ghost" onclick="tqMoverDlg('${t.id}',1)">Mover para outra posição</button></aside></div></div>`}
+ return `<div class="mh">${titulo}<button class="ibtn plain" aria-label="Fechar" onclick="closeModal()">${I.x}</button></div><div class="mb tq-det">${topo}<div class="tq-det-g"><div class="tq-det-main">${etq}${desc}${chk}${anx}${conv}${hist}</div><aside class="tq-det-side" aria-label="Pessoas e prazo">${D.daLista&&TQ_V.lista?`<button class="btn sm ghost" onclick="tqListaReabre()">${TQI.volta} Voltar à lista</button>`:''}${lider}${acs}${prazo}${datas}${fim}<button class="btn sm ghost" onclick="tqMoverDlg('${t.id}',1)">Mover para outra posição</button></aside></div></div>`}
 const tqDT=()=>tqT(TQ_V.det.id);
 function tqEd(k,on){TQ_V.det.ed[k]=!!on;tqDetPinta();const alvo={tit:'tqEdT',desc:'tqEdD',lid:'tqNovoLid',prz:'tqPz'}[k]||(k.startsWith('ren_')?'tqKr_'+k.slice(4):'');if(on&&alvo){const el=document.getElementById(alvo);if(el)el.focus()}
  if(on&&k==='ac'){const el=document.querySelector('#modal input[name=tqEA]');if(el)el.focus()}}
@@ -612,7 +642,7 @@ function tqMenuSync(){const el=document.querySelector('#side a[href="#tarefas"]'
 function tqHomeHtml(){const u=tqEu();tqGerarPrazos();const vis=tqVis(u),novas=vis.filter(t=>tqPiscaDe(u,t)),atr=vis.filter(t=>tqSit(t)==='atr'&&!novas.includes(t)),hoje=vis.filter(t=>tqSit(t)==='hoje').length;
  const row=(t,k)=>{const pis=tqPiscaDe(u,t),p=tqPrazo(t);return `<button class="tq-row ${pis?'tq-pisca':''}" onclick="tqAbrirDaHome('${t.id}')">${pis?`<span class="tq-flag ${pis==='mencao'?'men':''}">${pis==='mencao'?'Você foi mencionado':'Nova'}</span>`:k==='atr'?'<span class="tq-flag" style="color:var(--err);background:var(--err-soft)">Atrasada</span>':''}<b>${tqH(t.titulo)}</b>${p?`<span class="tq-b ${tqSit(t)==='atr'?'atr':tqSit(t)==='hoje'?'hoje':''}">${TQI.relogio}${tqPerdidos(t).length?'Novo prazo: ':''}${tqDM(p)}</span>`:''}<small class="tl">${tqH(tqPapelLinha(t,u))}</small></button>`};
  return `<section class="card at-card tq-home" id="tqHome" aria-label="Suas tarefas"><div class="inicio-tit" style="justify-content:space-between"><h3>Suas tarefas</h3><span class="tl">testando como ${tqH(tqNome(u))}${hoje?` · ${hoje} vence${hoje>1?'m':''} hoje`:''}</span><a class="btn sm sec" href="#tarefas">Abrir meu quadro</a></div>
-<div class="tq-home-l">${novas.length||atr.length?[...novas.map(t=>row(t,'nova')),...atr.map(t=>row(t,'atr'))].join(''):'<p class="tl" style="margin:0">Nada novo nem atrasado. Bom trabalho!</p>'}</div></section>`}
+<div class="tq-home-l">${novas.length||atr.length?[...novas.map(t=>row(t,'nova')),...atr.map(t=>row(t,'atr'))].slice(0,6).join('')+(novas.length+atr.length>6?`<a class="tl" href="#tarefas">e mais ${novas.length+atr.length-6} no seu quadro</a>`:''):'<p class="tl" style="margin:0">Nada novo nem atrasado. Bom trabalho!</p>'}</div></section>`}
 function tqAbrirDaHome(id){TQ_V.abrir=id;location.hash='#tarefas'}
 function tqHomeSync(){const el=document.getElementById('tqHome');if(el)el.outerHTML=tqHomeHtml()}
 {const _hm=VIEWS.home;VIEWS.home=function(){const h=_hm.apply(this,arguments);try{const b=tqHomeHtml();for(const m of ['<div class="r18r-home-bts">','<div class="inicio-grid">']){const i=h.indexOf(m);if(i>=0)return h.slice(0,i)+b+h.slice(i)}return h+b}catch(e){return h}}}
@@ -621,20 +651,7 @@ function tqHomeSync(){const el=document.getElementById('tqHome');if(el)el.outerH
 {const _pr=posRender;posRender=function(id){_pr.apply(this,arguments);try{tqSinoInstala();tqSinoSync();tqMenuSync();if(id==='tarefas'&&TQ_V.abrir){const a=TQ_V.abrir;TQ_V.abrir=null;setTimeout(()=>tqAbrir(a),30)}}catch(e){}}}
 
 /* ---------- Configurações > Comunicação (administrador) ---------- */
-VIEWS.comunicacao=function(){const S=tqS(),adm=typeof PERFIL==='undefined'||PERFIL==='admin',dis=adm?'':'disabled',us=tqUnids();
- const setores=`<section class="card at-card"><h3>Setores</h3><p class="tl" style="margin:0">Cada pessoa pertence a um setor. Os setores servem para limitar com quem cada unidade troca tarefas.</p><div class="tq-com-l">${S.setores.map(s=>{const n=S.ops.filter(o=>o.setor===s.id).length;return `<div class="tq-inl" style="margin:0"><input class="in" value="${tqH(s.n)}" maxlength="40" aria-label="Nome do setor" ${dis} onchange="tqSetRen('${s.id}',this.value)"><small class="tl" style="flex:0 0 auto">${n} pessoa${n!==1?'s':''}</small><button class="tq-x" aria-label="Apagar o setor ${tqH(s.n)}" ${dis||n?'disabled':''} title="${n?'Tire as pessoas do setor antes de apagar':'Apagar'}" onclick="tqSetDel('${s.id}')">${TQI.lixo}</button></div>`}).join('')}</div>
-<form class="tq-inl" onsubmit="event.preventDefault();tqSetNovo()"><input class="in" id="tqSetN" maxlength="40" placeholder="Novo setor" aria-label="Nome do novo setor" ${dis}><button class="btn sm" type="submit" ${dis}>Adicionar setor</button></form></section>`;
- const pessoas=`<section class="card at-card"><h3>Setor de cada pessoa</h3><p class="tl" style="margin:0">Pessoas fictícias do protótipo (as mesmas de "Testar como:").</p><div>${S.ops.map(o=>`<div class="tq-com-r"><div>${tqH(o.n)}<small>${tqH(tqUnidNome(o.unid))}</small></div><select class="in" aria-label="Setor de ${tqH(o.n)}" ${dis} onchange="tqOpSetor('${o.id}',this.value)">${S.setores.map(s=>`<option value="${s.id}" ${s.id===o.setor?'selected':''}>${tqH(s.n)}</option>`).join('')}</select></div>`).join('')}</div></section>`;
- const regras=`<section class="card at-card"><h3>Regras por unidade</h3><p class="tl" style="margin:0">A pessoa da unidade A pode escolher como líder ou acompanhante alguém da unidade B se a regra de A permitir B (a mesma unidade sempre pode) e, havendo limite, se o setor da pessoa estiver na lista. Sem regra, todos se comunicam.</p>${us.map(u=>{const r=S.com[u]||{modo:'todas',unids:[],limSet:false,setores:[]},sel=r.modo==='selecionadas';return `<div class="tq-com-u" role="group" aria-label="${tqH(tqUnidNome(u))}"><h4>${tqH(tqUnidNome(u))}</h4>
-<label><input type="radio" name="tqCm_${u}" ${!sel?'checked':''} ${dis} onchange="tqComModo(${u},'todas')"> Se comunica com todas as unidades</label>
-<label><input type="radio" name="tqCm_${u}" ${sel?'checked':''} ${dis} onchange="tqComModo(${u},'selecionadas')"> Só com estas unidades:</label>
-<div class="tq-sub">${us.map(v=>v===u?`<label><input type="checkbox" checked disabled> ${tqH(tqUnidCurta(v))} (a própria, sempre)</label>`:`<label><input type="checkbox" ${(r.unids||[]).includes(v)?'checked':''} ${dis||!sel?'disabled':''} onchange="tqComUnid(${u},${v},this.checked)"> ${tqH(tqUnidCurta(v))}</label>`).join('')}</div>
-<label><input type="checkbox" ${r.limSet?'checked':''} ${dis} onchange="tqComLim(${u},this.checked)"> Limitar aos setores escolhidos:</label>
-<div class="tq-sub">${S.setores.map(s=>`<label><input type="checkbox" ${(r.setores||[]).includes(s.id)?'checked':''} ${dis||!r.limSet?'disabled':''} onchange="tqComSet(${u},'${s.id}',this.checked)"> ${tqH(s.n)}</label>`).join('')}</div></div>`}).join('')}</section>`;
- const res=`<section class="card at-card"><h3>Quem cada pessoa pode escolher</h3><p class="tl" style="margin:0">Resultado das regras acima, para conferir.</p><div class="tq-com-res">${S.ops.map(o=>{const b=tqBloqueados(o.id);return `<div><b>${tqH(o.n)}</b> <small class="tl">(${tqH(tqSetorNome(o.setor))} · ${tqH(tqUnidCurta(o.unid))})</small><br>${b.length?`<span class="x">Não pode escolher: ${b.map(x=>tqH(x.n)).join(', ')}</span>`:'Pode escolher todas as pessoas.'}</div>`}).join('')}</div></section>`;
- return `${pageHead('Configurações','Comunicação','Com quais unidades e setores cada unidade pode trocar tarefas. Só aparece para escolher como líder ou acompanhante quem a regra permite. Dados de exemplo, guardados neste navegador.',`<button class="btn ghost" onclick="tqRestaurarDlg()">Restaurar dados de exemplo</button><a class="btn sec" href="#tarefas">Ir para Minhas tarefas</a>`)}
-${adm?'':'<div class="alert warn" role="note" style="margin-bottom:12px"><b>Só leitura</b><span>Só o perfil Administrador altera estas regras.</span></div>'}
-<div class="tq-com-g">${regras}<div style="display:flex;flex-direction:column;gap:16px">${setores}${pessoas}</div>${res}</div>`};
+/* VIEWS.comunicacao: ver a seção da 2ª rodada, no fim do arquivo (permissão pelo administrador de cada unidade). */
 const tqComR=u=>{const S=tqS();if(!S.com[u])S.com[u]={modo:'todas',unids:[],limSet:false,setores:[]};return S.com[u]};
 function tqComSalva(msg){tqSalvar();if(location.hash==='#comunicacao')reView();tqHomeSync();toast(msg||'Regra salva')}
 function tqComModo(u,m){tqComR(u).modo=m;tqComSalva(m==='todas'?tqUnidCurta(u)+' se comunica com todas as unidades':tqUnidCurta(u)+' só com as unidades marcadas')}
@@ -648,3 +665,264 @@ function tqOpSetor(o,s){const p=tqS().ops.find(x=>x.id===o);if(!p)return;p.setor
 
 /* Outra aba do navegador mudou os dados: recarrega */
 try{addEventListener('storage',e=>{if(e.key!==TQ_KEY)return;TQS=null;tqS();tqPinta();tqSinoSync();tqMenuSync();tqHomeSync();if(tqDetAberto())tqDetPinta()})}catch(e){}
+
+/* ==========================================================================
+   2ª rodada (16/11): hierarquia, alcance, consulta das tarefas dos outros e painel de desempenho
+   ========================================================================== */
+document.head.insertAdjacentHTML('beforeend',`<style>
+.tq-sim optgroup{font-weight:700}
+.tq-sim small b{color:var(--fg-strong)}
+.tq-filtros{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:flex-end;margin:0 0 14px}
+.tq-filtros .field{flex:0 1 220px}
+.tq-filtros select.in{height:38px}
+.tq-filtros .chips{display:flex;gap:6px}.tq-filtros .chip{white-space:nowrap}.tq-filtros .field.per{flex:0 0 auto}
+.tq-kpis{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin:0 0 16px}
+.tq-kpi{all:unset;box-sizing:border-box;cursor:pointer;border:1px solid var(--border);border-radius:14px;padding:12px 14px;background:var(--surface);display:flex;flex-direction:column;gap:2px}
+.tq-kpi:hover{border-color:var(--accent)}
+.tq-kpi:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.tq-kpi .lab{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--fg2)}
+.tq-kpi .num{font-size:26px;font-weight:800;color:var(--fg-strong);line-height:1.15}
+.tq-kpi .hint{font-size:12px;color:var(--fg2)}
+.tq-kpi.err .num{color:var(--err)}.tq-kpi.ok .num{color:var(--ok)}.tq-kpi.warn .num{color:var(--warn)}
+.tq-pg{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
+.tq-leg{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12.5px;color:var(--fg);align-items:center}
+.tq-leg span{display:inline-flex;align-items:center;gap:6px}
+.tq-leg i{width:18px;height:12px;border-radius:3px;display:inline-block}
+.tq-bars{display:flex;flex-direction:column;gap:8px}
+.tq-bar-r{display:grid;grid-template-columns:180px minmax(0,1fr);gap:10px;align-items:center}
+.tq-bar-n{all:unset;box-sizing:border-box;cursor:pointer;font-size:13.5px;font-weight:600;color:var(--fg-strong);border-radius:8px;padding:2px 4px;overflow-wrap:anywhere}
+.tq-bar-n small{display:block;font-weight:400;color:var(--fg2);font-size:11.5px}
+.tq-bar-n:hover{color:var(--accent)}.tq-bar-n:focus-visible{outline:3px solid var(--focus)}
+.tq-bar-t{min-width:0}
+.tq-bar-in{display:flex;gap:2px;max-width:100%;min-height:30px}
+.tq-sg{all:unset;box-sizing:border-box;cursor:pointer;min-width:30px;height:30px;display:grid;place-items:center;font-size:12.5px;font-weight:800;border-radius:6px;border:2px solid}
+.tq-sg:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.tq-sg:hover{filter:brightness(1.08)}
+.tq-sg.ab{background:var(--info-soft);border-color:var(--info);color:var(--info)}
+.tq-sg.atr{background:repeating-linear-gradient(45deg,var(--err-soft) 0 6px,var(--surface) 6px 9px);border-color:var(--err);color:var(--err)}
+.tq-sg.co{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.tq-leg i.ab{background:var(--info-soft);border:2px solid var(--info)}.tq-leg i.atr{background:repeating-linear-gradient(45deg,var(--err-soft) 0 4px,var(--surface) 4px 6px);border:2px solid var(--err)}.tq-leg i.co{background:var(--ok-soft);border:2px solid var(--ok)}
+.tq-leg i.cr{background:var(--accent)}.tq-leg i.cc{background:repeating-linear-gradient(90deg,var(--ok) 0 3px,var(--ok-soft) 3px 5px);border:1px solid var(--ok)}
+.tq-dias{overflow-x:auto;padding:18px 0 4px}
+.tq-dias-in{display:flex;align-items:stretch;gap:2px;height:170px}
+.tq-dia{all:unset;box-sizing:border-box;cursor:pointer;flex:1 1 0;min-width:8px;display:flex;flex-direction:column;align-items:stretch;border-radius:6px;padding:0 1px}
+.tq-dia:hover,.tq-dia:focus-visible{background:var(--surface2)}
+.tq-dia:focus-visible{outline:3px solid var(--focus)}
+.tq-dia-b{flex:1;display:flex;align-items:flex-end;justify-content:center;gap:2px;border-bottom:1px solid var(--border)}
+.tq-dia-b i{position:relative;display:block;flex:1 1 0;max-width:16px;min-height:0;border-radius:3px 3px 0 0}
+.tq-dia-b i.cr{background:var(--accent)}
+.tq-dia-b i.co{background:repeating-linear-gradient(90deg,var(--ok) 0 3px,var(--ok-soft) 3px 5px);border:1px solid var(--ok);border-bottom:0}
+.tq-dia-b em{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-style:normal;font-size:10.5px;font-weight:700;color:var(--fg-strong);line-height:1.4}
+.tq-dia-l{height:18px;font-size:10.5px;color:var(--fg2);text-align:center;white-space:nowrap;overflow:visible}
+table.tq-tab{min-width:620px}
+.tq-tab td,.tq-tab th{text-align:left}
+.tq-tab tr.tq-tot td{font-weight:800;border-top:2px solid var(--border)}
+.tq-cel{all:unset;box-sizing:border-box;cursor:pointer;min-width:36px;padding:4px 8px;border-radius:8px;font-weight:700;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.tq-cel:hover{background:var(--accent-soft)}.tq-cel:focus-visible{outline:3px solid var(--focus)}
+.tq-cel.err{color:var(--err)}
+.tq-ro{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.tq-hq-u{display:flex;flex-direction:column;gap:8px}
+.tq-eq{border:1px solid var(--border);border-radius:12px;padding:10px 12px;background:var(--surface2);font-size:13.5px;display:flex;flex-direction:column;gap:4px}
+.tq-eq.sub{margin-left:22px;border-left:4px solid var(--accent)}
+.tq-eq.sub2{margin-left:44px}
+.tq-eq-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tq-eq-h b{flex:1;min-width:0;color:var(--fg-strong);font-size:14.5px}
+.tq-eq span.k{color:var(--fg2)}
+.tq-alc-r{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,230px);gap:8px 12px;align-items:start;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px}
+.tq-alc-r:last-child{border-bottom:0}
+.tq-alc-r small{display:block;color:var(--fg2);font-size:12px}
+.tq-alc-r .in{height:36px;font-size:14px}
+.tq-alc-r .tq-sub{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:6px;font-size:13px}
+.tq-alc-r .tq-sub label{display:flex;gap:6px;align-items:center}
+.tq-alc-r input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent)}
+.tq-un-r{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px}
+.tq-un-r:last-child{border-bottom:0}
+.tq-un-r b{flex:1 1 200px;color:var(--fg-strong)}
+.tq-un-r label{display:flex;gap:6px;align-items:center;cursor:pointer}
+.tq-un-r input{width:18px;height:18px;accent-color:var(--accent)}
+@media (max-width:760px){.tq-bar-r{grid-template-columns:minmax(0,1fr)}.tq-alc-r{grid-template-columns:minmax(0,1fr)}.tq-eq.sub{margin-left:12px}.tq-eq.sub2{margin-left:24px}.tq-filtros .field{flex:1 1 100%}}
+</style>`);
+
+/* ---------- Dados de exemplo dos últimos 90 dias (para o painel) ---------- */
+function tqRnd(seed){return function(){seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const TQ_TIT={
+ s1:['Confirmar os agendamentos de amanhã','Atualizar o cadastro dos convênios no balcão','Organizar a fila de pré-agendamento','Ligar para quem faltou na semana','Conferir o caixa do turno da tarde','Repor os formulários de consentimento','Revisar o roteiro de atendimento telefônico','Responder as mensagens do WhatsApp pendentes'],
+ s2:['Revisar os controles internos da semana','Conferir a validade dos reagentes','Atualizar o POP de hematologia','Registrar a manutenção da centrífuga','Liberar os laudos pendentes de conferência','Calibrar a pipeta multicanal','Separar as amostras para o laboratório de apoio'],
+ s3:['Conferir o estoque de tubos da coleta','Organizar a rota da coleta domiciliar','Treinar a coleta infantil','Etiquetar as caixas de transporte','Registrar a temperatura da caixa térmica'],
+ s4:['Conciliar os recebimentos de cartão','Conferir o repasse médico do mês','Fechar o faturamento dos convênios','Cobrar as guias glosadas','Lançar as notas de fornecedores','Revisar as contas a pagar da semana','Enviar o relatório de inadimplência'],
+ s5:['Montar a escala do mês','Revisar os indicadores da unidade','Reunião com a equipe de atendimento','Aprovar as compras do estoque','Avaliar as reclamações da ouvidoria','Planejar o mutirão de sábado'],
+ s6:['Revisar o orçamento anual','Aprovar o plano de expansão','Reunião com os gerentes das unidades'],
+ s7:['Revisar o contrato com o laboratório de apoio','Responder a notificação do Procon','Atualizar o termo de consentimento LGPD','Analisar o contrato de locação','Revisar o contrato de franquia'],
+};
+function tqSeedHist(S){const r=tqRnd(20261116),pick=a=>a[Math.floor(r()*a.length)],ri=(a,b)=>a+Math.floor(r()*(b-a+1));
+ const eqDe=id=>S.equipes.find(e=>e.memb.includes(id))||S.equipes.find(e=>e.gest.includes(id));
+ let n=0;
+ S.ops.forEach(o=>{const k=o.id==='u0'?3:ri(6,9),tits=TQ_TIT[o.setor]||TQ_TIT.s5,eq=eqDe(o.id),gest=eq&&!eq.gest.includes(o.id)?eq.gest[0]:null,col=eq?[...eq.gest,...eq.memb].filter(x=>x!==o.id):[];
+  for(let i=0;i<k;i++){let c=ri(1,88),tipo=pick(['ok','ok','ok','ok','tarde','tarde','tarde','aberta','aberta','atrasada','atrasada','sem']);
+   if(tipo==='tarde'&&c<6)c=ri(10,60);if(tipo==='atrasada')c=ri(6,40);
+   const criador=gest&&r()<.5?gest:o.id,acomp=col.length&&r()<.35?[pick(col)]:[];
+   const cri=tqQuando(-c,ri(7,17),ri(0,59)),prazos=[],hist=[{em:cri,por:criador,t:'Criou a tarefa'}];let concl=null;
+   const pz=(d,defD)=>prazos.push({data:tqDia(d),def:tqQuando(defD,ri(8,17)),por:o.id});
+   if(tipo==='ok'){const dur=ri(3,14);pz(-c+dur,-c);const cd=Math.min(0,-c+ri(1,dur));concl={em:tqQuando(cd,ri(9,18),ri(0,59)),por:o.id}}
+   else if(tipo==='tarde'){const p1=-c+ri(2,Math.min(8,c-3));pz(p1,-c);if(r()<.5&&p1+2<0){const p2=Math.min(-1,p1+ri(2,5));pz(p2,p1+1);hist.push({em:tqQuando(p1+1,10),por:o.id,t:'Definiu novo prazo: '+tqDM(tqDia(p2))+' (prazo de '+tqDM(tqDia(p1))+' perdido)'})}
+    const cd=Math.min(0,(prazos.length>1?tqDiaN(prazos[1].data):p1)+ri(1,5));concl={em:tqQuando(Math.max(cd,p1+1),ri(9,18),ri(0,59)),por:o.id}}
+   else if(tipo==='aberta'){c=Math.min(c,30);pz(ri(1,14),-c)}
+   else if(tipo==='atrasada'){const p=-c+ri(2,Math.min(12,c-1));if(r()<.3&&p-3>-c){pz(p-3,-c);hist.push({em:tqQuando(p-2,10),por:o.id,t:'Definiu novo prazo: '+tqDM(tqDia(p))+' (prazo de '+tqDM(tqDia(p-3))+' perdido)'});pz(p,p-2)}else pz(p,-c)}
+   if(concl)hist.push({em:concl.em,por:o.id,t:'Concluiu a tarefa'});
+   const itens=r()<.35?Array.from({length:ri(2,4)},(_,j)=>({id:'i'+j,t:['Separar o material','Conferir com a equipe','Registrar no sistema','Avisar o gestor'][j],ok:!!concl||r()<.4})):null;
+   const t={id:'g'+(++n),titulo:pick(tits),desc:'',criador,lider:o.id,acomp:acomp.filter(x=>x!==o.id),criada:cri,prazos,concl,checklists:itens?[{id:'k1',n:'Passos',itens}]:[],anexos:[],msgs:[],hist};
+   S.tarefas.push(t);
+   if(o.id!=='u0'&&i===k-1&&!S.tarefas.some(x=>x.lider===o.id&&x.id[0]==='g'&&!x.concl&&x.prazos.length&&x.prazos[x.prazos.length-1].data<tqHoje())){
+    /* garante pelo menos uma atrasada por pessoa, para o painel ter o que mostrar */
+    const dd=ri(1,6);t.concl=null;t.criada=tqQuando(-dd-ri(4,12),ri(8,16));t.prazos=[{data:tqDia(-dd),def:t.criada,por:o.id}];t.hist=t.hist.filter(h=>h.t==='Criou a tarefa');t.hist[0].em=t.criada;if(t.checklists[0])t.checklists[0].itens.forEach((it,j)=>it.ok=j===0)}
+   const p=t.prazos.length?t.prazos[t.prazos.length-1].data:null;if(p&&!t.concl)[...new Set([criador,o.id,...t.acomp])].forEach(u=>{const U=S.user[u];if(U){U.ger['am:'+t.id+':'+p]=1;U.ger['at:'+t.id+':'+p]=1}})}})}
+const tqDiaN=s=>{const a=new Date(s+'T12:00:00'),b=new Date(tqHoje()+'T12:00:00');return Math.round((a-b)/864e5)};
+
+/* ---------- Hierarquia e alcance ---------- */
+const tqAdmDe=(u,c)=>{const o=tqOp(u);return o.adm==='todas'||(Array.isArray(o.adm)&&o.adm.includes(+c))};
+const tqAdmUnids=u=>tqUnids().filter(c=>tqAdmDe(u,c));
+const tqAdmAll=u=>tqUnids().every(c=>tqAdmDe(u,c));
+const tqCentral=()=>(tqS().unids.find(x=>x.central)||{}).c;
+const tqEq=id=>tqS().equipes.find(e=>e.id===id);
+function tqEqDesc(id,vis){vis=vis||new Set();if(vis.has(id))return [];vis.add(id);tqS().equipes.filter(e=>e.pai===id).forEach(e=>tqEqDesc(e.id,vis));return [...vis]}
+const tqEqPessoas=id=>[...new Set(tqEqDesc(id).flatMap(i=>{const e=tqEq(i);return e?[...e.gest,...e.memb]:[]}))];
+const tqGerencia=u=>tqS().equipes.filter(e=>e.gest.includes(u)).map(e=>e.id);
+const tqEqDaPessoa=u=>tqS().equipes.filter(e=>e.memb.includes(u)||e.gest.includes(u));
+const TQ_ALC_NOME={auto:'Padrão',minhas:'Só as minhas',equipes:'Equipes que gerencio',unidades:'Unidades escolhidas',empresa:'Toda a empresa'};
+const tqAlcForcado=u=>tqAdmAll(u)||(tqCentral()!=null&&tqAdmDe(u,tqCentral()));
+function tqAlcModo(u){if(tqAlcForcado(u))return 'empresa';const m=(tqOp(u).alc||{}).modo;if(m&&m!=='auto')return m;return tqGerencia(u).length?'equipes':'minhas'}
+function tqAlcance(u){const m=tqAlcModo(u),S=tqS();let l=[u];
+ if(m==='empresa')l=S.ops.map(o=>o.id);else if(m==='unidades'){const us=(tqOp(u).alc||{}).unids||[];l=[u,...S.ops.filter(o=>us.includes(o.unid)).map(o=>o.id)]}else if(m==='equipes')l=[u,...tqGerencia(u).flatMap(tqEqPessoas)];
+ return new Set(l)}
+const tqPodeVer=(u,t)=>{if(!t)return false;if(tqEnv(t,u))return true;const a=tqAlcance(u);return tqEnvolvidos(t).some(p=>a.has(p))};
+const tqOpUnidOrdem=()=>{const S=tqS();return tqUnids().flatMap(c=>S.ops.filter(o=>o.unid===c))};
+
+/* Barra "Testar como:" (todas as telas do módulo) */
+function tqSimBar(txt){const S=tqS(),u=S.eu,adm=tqAdmUnids(u),a=tqAlcance(u);
+ const grp=tqUnids().map(c=>`<optgroup label="${tqH(tqUnidNome(c))}">${S.ops.filter(x=>x.unid===c).map(x=>`<option value="${x.id}" ${x.id===u?'selected':''}>${tqH(x.n)} · ${tqH(x.cargo||tqSetorNome(x.setor))}</option>`).join('')}</optgroup>`).join('');
+ return `<div class="tq-sim" role="group" aria-label="Simulação de operador"><label for="tqEuSel">Testar como:</label><select class="in" id="tqEuSel" onchange="tqTrocaEu(this.value)">${grp}</select><small>${txt} <b>Alcance:</b> ${TQ_ALC_NOME[tqAlcModo(u)]} (${a.size} pessoa${a.size>1?'s':''}).${adm.length?` <b>Administra:</b> ${tqAdmAll(u)?'todas as unidades':adm.map(tqUnidCurta).join(', ')}.`:''}</small></div>`}
+
+/* ---------- Consulta (só leitura) de tarefa de quem está no alcance ---------- */
+function tqDetLeitura(){const D=TQ_V.det,t=tqT(D.id),p=tqPrazo(t),perd=tqPerdidos(t),s=tqSit(t),acomp=t.acomp.filter(x=>x!==t.lider);
+ const pess=(id,lid)=>{const o=tqOp(id);return `<div class="tq-pess"><span class="tq-av g ${lid?'lid':''}" aria-hidden="true">${tqH(o.ini)}</span><div>${tqH(o.n)}<small>${tqH(o.cargo||tqSetorNome(o.setor))} · ${tqH(tqUnidCurta(o.unid))}</small></div></div>`};
+ return `<div class="mh"><h3 id="tqDetT">${tqH(t.titulo)}</h3><button class="ibtn plain" aria-label="Fechar" onclick="closeModal()">${I.x}</button></div><div class="mb tq-det">
+<div class="alert info" role="note" style="cursor:default"><b>Só consulta</b><span>Você está vendo como gestor; só quem está na tarefa altera.</span></div>
+<div class="tq-det-topo">${t.concl?`<span class="badge ok">Concluída em ${tqDMY(tqIsoDia(new Date(t.concl.em)))}${t.prazos.length?(tqNoPrazo(t)?' · no prazo':' · fora do prazo'):''}</span>`:s==='atr'?'<span class="badge err">Atrasada</span>':s==='hoje'?'<span class="badge warn">Vence hoje</span>':'<span class="badge info">Em aberto</span>'}</div>
+<div class="tq-det-g"><div class="tq-det-main">
+<section class="tq-sec"><h4>${TQI.desc} Descrição</h4>${t.desc?`<p>${tqH(t.desc)}</p>`:'<p class="tl">Sem descrição.</p>'}</section>
+<section class="tq-sec"><h4>${TQI.lista} Listas de verificação</h4>${t.checklists.length?t.checklists.map(k=>{const n=k.itens.length,ok=k.itens.filter(i=>i.ok).length,pc=n?Math.round(ok*100/n):0;return `<div class="tq-chk"><div class="tq-chk-h"><b>${tqH(k.n)}</b></div><div class="tq-prog"><span>${pc}%</span><span class="b" role="progressbar" aria-label="Progresso de ${tqH(k.n)}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pc}"><i class="${n&&ok===n?'full':''}" style="width:${pc}%"></i></span><span>${ok}/${n}</span></div>${k.itens.map(i=>`<div class="tq-it ${i.ok?'ok':''}"><label style="cursor:default"><span aria-hidden="true">${i.ok?'☑':'☐'}</span><span>${tqH(i.t)}<span class="tq-sr">${i.ok?' (feito)':' (a fazer)'}</span></span></label></div>`).join('')}</div>`}).join(''):'<p class="tl">Nenhuma lista.</p>'}</section>
+<section class="tq-sec"><h4>${TQI.clip} Anexos</h4>${t.anexos.length?t.anexos.map(a=>`<div class="tq-anx"><span class="tq-ext" aria-hidden="true">${tqH((a.n.split('.').pop()||'').slice(0,4))}</span><div class="grow">${tqH(a.n)}<small>${tqTam(a.tam)} · ${tqH(tqPrim(a.por))} · ${tqDHc(a.em)}</small></div>${a.b64?`<button class="btn sm ghost" onclick="tqBaixar('${a.id}')">${I.dl} Baixar</button>`:''}</div>`).join(''):'<p class="tl">Nenhum anexo.</p>'}</section>
+<section class="tq-sec"><h4>${TQI.conv} Conversa</h4><div class="tq-chat">${t.msgs.length?t.msgs.map(m=>`<div class="tq-msg"><span class="tq-av g" aria-hidden="true">${tqH(tqOp(m.de).ini)}</span><div class="bl"><small>${tqH(tqNome(m.de))} · ${tqDHc(m.em)}</small>${tqMsgHtml(m.t,t)}</div></div>`).join(''):'<p class="tl" style="margin:0">Nenhuma mensagem.</p>'}</div></section>
+<details class="tq-sec"><summary style="cursor:pointer;font-weight:700;color:var(--fg-strong);font-size:14px">Histórico (${t.hist.length})</summary><div class="tq-hist" style="margin-top:8px">${t.hist.slice().reverse().map(h=>`<div><small>${tqDH(h.em)}</small><br><b>${tqH(tqNome(h.por))}</b>: ${tqH(h.t)}</div>`).join('')}</div></details>
+</div><aside class="tq-det-side" aria-label="Pessoas e prazo">${D.daLista&&TQ_V.lista?`<button class="btn sm ghost" onclick="tqListaReabre()">${TQI.volta} Voltar à lista</button>`:''}
+<div class="tq-side-b"><h4>Líder</h4>${pess(t.lider,true)}</div>
+<div class="tq-side-b"><h4>Acompanhantes</h4>${acomp.length?acomp.map(x=>pess(x)).join(''):'<span class="tl">Ninguém.</span>'}</div>
+<div class="tq-side-b"><h4>${TQI.relogio} Prazo</h4>${p?`<div><b class="${t.concl?'':s==='atr'?'prazo-err':s==='hoje'?'prazo-warn':''}">${perd.length?'Novo prazo: ':''}${tqDMY(p)}</b></div>`:'<span class="tl">Sem prazo.</span>'}${perd.map((x,i)=>`<small class="prazo-err" style="display:block">${i+1}º prazo perdido em ${tqDMY(x.data)}</small>`).join('')}</div>
+<div class="tq-side-b"><h4>Criação</h4><div>${tqDH(t.criada)}</div><small class="tl">por ${tqH(tqNome(t.criador))}</small></div>
+<div class="tq-side-b"><h4>Conclusão</h4>${t.concl?`<div>Concluída por ${tqH(tqPrim(t.concl.por))} em ${tqDH(t.concl.em)}</div>`:'<span class="tl">Em aberto.</span>'}</div></aside></div></div>`}
+
+/* ---------- Lista de tarefas (aberta pelo painel) ---------- */
+const tqDiaDe=iso=>tqIsoDia(new Date(iso));
+function tqNoPrazo(t){return !!(t.concl&&t.prazos.length===1&&tqDiaDe(t.concl.em)<=t.prazos[0].data)}
+function tqSitTexto(t){if(t.concl)return t.prazos.length?(tqNoPrazo(t)?['Concluída no prazo','ok']:['Concluída fora do prazo','hoje']):['Concluída (sem prazo)','ok'];const s=tqSit(t);return s==='atr'?['Atrasada','atr']:s==='hoje'?['Vence hoje','hoje']:s==='sem'?['Em aberto, sem prazo','']:['Em aberto, no prazo','']}
+function tqLista(tit,ids,sub){TQ_V.lista={tit,ids,sub:sub||''};tqListaReabre()}
+function tqListaReabre(){const L=TQ_V.lista;if(!L)return;const u=tqEu(),ts=L.ids.map(tqT).filter(t=>t&&tqPodeVer(u,t));
+ openModal(`${mh(tqH(L.tit)+' ('+ts.length+')')}<div class="mb">${L.sub?`<p class="tl" style="margin:0">${tqH(L.sub)}</p>`:''}<div class="tq-prz">${ts.length?ts.map(t=>{const [st,c]=tqSitTexto(t),p=tqPrazo(t),perd=tqPerdidos(t).length;return `<button class="tq-row" onclick="tqAbrir('${t.id}',1)"><b>${tqH(t.titulo)}</b><span class="tq-b ${c}">${st}</span><small>Líder ${tqH(tqNome(t.lider))} · criada ${tqDM(tqDiaDe(t.criada))}${p?` · ${perd?'novo prazo':'prazo'} ${tqDMY(p)}${perd?` (${perd} perdido${perd>1?'s':''})`:''}`:''}${t.concl?` · concluída ${tqDM(tqDiaDe(t.concl.em))}`:''}${tqEnv(t,u)?'':' · só consulta'}</small></button>`}).join(''):'<p class="tl">Nenhuma tarefa nesta situação.</p>'}</div></div><div class="mf"><button class="btn" onclick="closeModal()">Fechar</button></div>`,'wide')}
+
+/* ---------- Painel de desempenho ---------- */
+const TQ_P={dias:30,unid:'',eq:''};
+const tqPIni=()=>tqDia(-(TQ_P.dias-1));
+function tqPerdas(t,ini){const h=tqHoje(),out=[];tqPerdidos(t).forEach(x=>{if(x.data>=ini&&x.data<h)out.push(x.data)});const p=tqPrazo(t);
+ if(p&&p>=ini){if(t.concl){if(tqDiaDe(t.concl.em)>p)out.push(p)}else if(p<h)out.push(p)}return out}
+function tqStats(ts,ini){const h=tqHoje(),ab=ts.filter(t=>!t.concl),atr=ab.filter(t=>tqPrazo(t)&&tqPrazo(t)<h),noP=ab.filter(t=>!atr.includes(t)),conc=ts.filter(t=>t.concl&&tqDiaDe(t.concl.em)>=ini),cp=conc.filter(t=>t.prazos.length),ok=cp.filter(tqNoPrazo),fora=cp.filter(t=>!tqNoPrazo(t)),perdT=ts.filter(t=>tqPerdas(t,ini).length);
+ return {ab,atr,noP,conc,cp,ok,fora,perdT,perd:ts.reduce((s,t)=>s+tqPerdas(t,ini).length,0),pct:cp.length?Math.round(ok.length*100/cp.length):null}}
+function tqPPessoas(){const u=tqEu(),a=tqAlcance(u);let l=tqOpUnidOrdem().map(o=>o.id).filter(id=>a.has(id));
+ if(TQ_P.unid)l=l.filter(id=>tqOp(id).unid===+TQ_P.unid);if(TQ_P.eq){const ps=tqEqPessoas(TQ_P.eq);l=l.filter(id=>ps.includes(id))}return l}
+const tqPTarefas=ids=>tqS().tarefas.filter(t=>ids.includes(t.lider));
+const TQ_PK={todas:'Todas as tarefas',ab:'Em aberto',noP:'Em aberto no prazo',atr:'Atrasadas',conc:'Concluídas no período',ok:'Concluídas no prazo',fora:'Concluídas fora do prazo',cp:'Concluídas com prazo',perdT:'Com prazo perdido no período'};
+function tqPLista(quem,k){const ids=quem==='time'?tqPPessoas():[quem],ts=tqPTarefas(ids),st=tqStats(ts,tqPIni());
+ const l=k==='todas'?ts.filter(t=>!t.concl||tqDiaDe(t.concl.em)>=tqPIni()):(st[k]||[]);
+ tqLista(`${quem==='time'?'Time':tqNome(quem)} · ${TQ_PK[k]}`,l.sort((a,b)=>(tqPrazo(a)||'9').localeCompare(tqPrazo(b)||'9')).map(t=>t.id),`Período: últimos ${TQ_P.dias} dias. Conta pela pessoa que lidera a tarefa.`)}
+function tqPDia(d){const ids=tqPPessoas(),ts=tqPTarefas(ids),cr=ts.filter(t=>tqDiaDe(t.criada)===d),co=ts.filter(t=>t.concl&&tqDiaDe(t.concl.em)===d);
+ tqLista(`Dia ${tqDMY(d)}`,[...new Set([...cr,...co].map(t=>t.id))],`${cr.length} criada${cr.length!==1?'s':''} e ${co.length} concluída${co.length!==1?'s':''} neste dia.`)}
+function tqPFiltro(k,v){TQ_P[k]=k==='dias'?+v:v;if(k==='unid')TQ_P.eq='';reView()}
+VIEWS['tarefas-painel']=function(){const u=tqEu(),a=tqAlcance(u),modo=tqAlcModo(u),ini=tqPIni(),S=tqS();
+ if(TQ_P.unid&&![...a].some(id=>tqOp(id).unid===+TQ_P.unid))TQ_P.unid='';
+ const eqs=S.equipes.filter(e=>tqEqPessoas(e.id).some(id=>a.has(id))&&(!TQ_P.unid||e.unid===+TQ_P.unid));if(TQ_P.eq&&!eqs.some(e=>e.id===TQ_P.eq))TQ_P.eq='';
+ const pes=tqPPessoas(),ts=tqPTarefas(pes),st=tqStats(ts,ini),un=tqUnids().filter(c=>[...a].some(id=>tqOp(id).unid===c));
+ const escopo=modo==='minhas'?'Você vê só o seu desempenho. Gestores veem o time; a direção, a central e quem administra veem todos.':modo==='empresa'?'Você vê toda a empresa.':modo==='unidades'?'Você vê as pessoas das unidades escolhidas no seu alcance.':'Você vê as equipes que gerencia, com as subequipes.';
+ const kpi=(k,lab,num,hint,cls,tip)=>`<button class="tq-kpi ${cls||''}" onclick="tqPLista('time','${k}')" aria-label="${tqH(lab)}: ${tqH(String(num))}. ${tqH(tip)}"><span class="lab">${lab}</span><span class="num">${num}</span><span class="hint">${hint}</span></button>`;
+ const filtros=`<div class="tq-filtros"><div class="field per"><span style="font-size:13px;font-weight:600">Período</span><div class="chips" role="group" aria-label="Período">${[7,30,90].map(d=>`<button class="chip ${TQ_P.dias===d?'on':''}" aria-pressed="${TQ_P.dias===d}" onclick="tqPFiltro('dias',${d})">${d} dias</button>`).join('')}</div></div>
+<div class="field"><label for="tqPU">Unidade</label><select class="in" id="tqPU" onchange="tqPFiltro('unid',this.value)"><option value="">Todas do meu alcance</option>${un.map(c=>`<option value="${c}" ${+TQ_P.unid===c?'selected':''}>${tqH(tqUnidNome(c))}</option>`).join('')}</select></div>
+<div class="field"><label for="tqPE">Equipe</label><select class="in" id="tqPE" onchange="tqPFiltro('eq',this.value)"><option value="">Todas</option>${eqs.map(e=>`<option value="${e.id}" ${TQ_P.eq===e.id?'selected':''}>${tqH(e.n)}${e.pai?' (subequipe)':''}</option>`).join('')}</select></div></div>`;
+ const kpis=`<div class="tq-kpis">${kpi('ab','Em aberto',st.ab.length,`${st.noP.length} no prazo · ${st.atr.length} atrasadas`,'','Tarefas não concluídas, hoje.')}${kpi('atr','Atrasadas',st.atr.length,'prazo vencido, sem conclusão',st.atr.length?'err':'','Em aberto com o prazo vencido.')}${kpi('conc','Concluídas',st.conc.length,`nos últimos ${TQ_P.dias} dias`,'ok','Concluídas dentro do período.')}${kpi('cp','% no prazo',st.pct==null?'—':st.pct+'%',`${st.ok.length} de ${st.cp.length} com prazo`,st.pct!=null&&st.pct<70?'warn':'','Das concluídas no período que tinham prazo, quantas foram concluídas até o primeiro prazo.')}${kpi('perdT','Prazos perdidos',st.perd,`em ${st.perdT.length} tarefa${st.perdT.length!==1?'s':''}`,st.perd?'warn':'','Prazos que venceram no período sem a tarefa concluída: trocados por novo prazo, concluídos depois ou ainda atrasados.')}</div>`;
+ /* barras por pessoa */
+ const lin=pes.map(id=>{const s=tqStats(tqPTarefas([id]),ini);return {id,s,tot:s.noP.length+s.atr.length+s.conc.length}}),max=Math.max(1,...lin.map(x=>x.tot));
+ const seg=(id,k,v,cls,lab)=>v?`<button class="tq-sg ${cls}" style="flex-grow:${v}" onclick="tqPLista('${id}','${k}')" aria-label="${tqH(tqNome(id))}: ${v} ${lab}" title="${v} ${lab}">${v}</button>`:'';
+ const barras=`<section class="card at-card"><h3>Por pessoa</h3><p class="tl" style="margin:0">Pela pessoa que lidera a tarefa. Em aberto e atrasadas: situação de hoje. Concluídas: no período. Clique no nome, numa barra ou num pedaço da barra.</p><div class="tq-leg" aria-hidden="true"><span><i class="ab"></i>Em aberto no prazo</span><span><i class="atr"></i>Atrasadas (listrado)</span><span><i class="co"></i>Concluídas no período</span></div>
+<div class="tq-bars">${lin.map(({id,s,tot})=>`<div class="tq-bar-r"><button class="tq-bar-n" onclick="tqPLista('${id}','todas')">${tqH(tqNome(id))}<small>${tqH(tqOp(id).cargo||'')} · ${tot} tarefa${tot!==1?'s':''}</small></button><div class="tq-bar-t">${tot?`<div class="tq-bar-in" style="width:max(${(tot/max*100).toFixed(1)}%,${[s.noP.length,s.atr.length,s.conc.length].filter(Boolean).length*32}px)">${seg(id,'noP',s.noP.length,'ab','em aberto no prazo')}${seg(id,'atr',s.atr.length,'atr','atrasadas')}${seg(id,'conc',s.conc.length,'co','concluídas no período')}</div>`:'<span class="tl">Sem tarefas no período.</span>'}</div></div>`).join('')||'<p class="tl">Ninguém neste filtro.</p>'}</div></section>`;
+ /* criadas x concluídas por dia */
+ const N=TQ_P.dias,dias=Array.from({length:N},(_,i)=>tqDia(-(N-1-i))),cont=dias.map(d=>[ts.filter(t=>tqDiaDe(t.criada)===d).length,ts.filter(t=>t.concl&&tqDiaDe(t.concl.em)===d).length]),mx=Math.max(1,...cont.flat()),passo=N<=7?1:N<=30?5:15;
+ const tc=cont.reduce((s,x)=>s+x[0],0),tk=cont.reduce((s,x)=>s+x[1],0);
+ const diario=`<section class="card at-card"><h3>Criadas × concluídas por dia</h3><p class="tl" style="margin:0">No período: <b>${tc}</b> criadas e <b>${tk}</b> concluídas. Clique num dia para ver as tarefas.</p><div class="tq-leg" aria-hidden="true"><span><i class="cr"></i>Criadas</span><span><i class="cc"></i>Concluídas (listrado)</span></div>
+<div class="tq-dias"><div class="tq-dias-in" style="min-width:${N*(N>30?9:N>7?18:44)}px">${dias.map((d,i)=>{const [c,k]=cont[i];return `<button class="tq-dia" onclick="tqPDia('${d}')" aria-label="${tqDM(d)}: ${c} criada${c!==1?'s':''}, ${k} concluída${k!==1?'s':''}" title="${tqDM(d)}: ${c} criadas, ${k} concluídas"><span class="tq-dia-b"><i class="cr" style="height:${c/mx*100}%">${N<=30&&c?`<em>${c}</em>`:''}</i><i class="co" style="height:${k/mx*100}%">${N<=30&&k?`<em>${k}</em>`:''}</i></span><span class="tq-dia-l" aria-hidden="true">${i%passo===0||i===N-1?tqDM(d):''}</span></button>`}).join('')}</div></div></section>`;
+ /* tabela */
+ const cel=(id,k,v,cls)=>`<td><button class="tq-cel ${cls||''}" onclick="event.stopPropagation();tqPLista('${id}','${k}')" aria-label="${tqH(id==='time'?'Time':tqNome(id))}: ${TQ_PK[k]}, ${v}">${v}</button></td>`;
+ const row=(id,s,nome,eq,cls)=>`<tr class="${cls||''}" onclick="tqPLista('${id}','todas')" title="Clique para ver as tarefas"><td><b>${tqH(nome)}</b></td><td>${tqH(eq)}</td>${cel(id,'ab',s.ab.length)}${cel(id,'atr',s.atr.length,s.atr.length?'err':'')}${cel(id,'conc',s.conc.length)}${cel(id,'cp',s.pct==null?'—':s.pct+'%')}${cel(id,'perdT',s.perd)}</tr>`;
+ const tabela=`<section class="card at-card"><h3>Pessoas</h3><div style="overflow-x:auto"><table class="tq-tab"><thead><tr><th>Pessoa</th><th>Equipe</th><th>Em aberto</th><th>Atrasadas</th><th>Concluídas</th><th>% no prazo</th><th>Prazos perdidos</th></tr></thead><tbody>${lin.map(({id,s})=>row(id,s,tqNome(id),tqEqDaPessoa(id).map(e=>e.n).join(', ')||'Sem equipe')).join('')}${lin.length>1?row('time',st,'Total do time','','tq-tot'):''}</tbody></table></div></section>`;
+ return `${pageHead('Tarefas','Painel','Desempenho das tarefas do seu time. Dados de exemplo.',`<a class="btn sec" href="#tarefas">Minhas tarefas</a>`)}
+${tqSimBar('Troque a pessoa para ver o painel de cada uma: o diretor e a central veem tudo, o gerente vê o time dele, quem não gere ninguém vê só o próprio.')}
+<p class="tl" style="margin:0 0 10px">${escopo} As tarefas dos outros abrem só para consulta.</p>${filtros}${kpis}<div class="tq-pg">${barras}${diario}${tabela}</div>`};
+
+/* ---------- Configurações > Hierarquia ---------- */
+const tqPodeEq=uC=>tqAdmDe(tqEu(),uC);
+function tqEqArvore(unid){const S=tqS(),l=S.equipes.filter(e=>e.unid===unid),out=[];const vai=(pai,niv)=>l.filter(e=>(e.pai||null)===pai||(pai===null&&e.pai&&!l.some(x=>x.id===e.pai))).forEach(e=>{if(out.some(x=>x.e===e))return;out.push({e,niv});vai(e.id,niv+1)});vai(null,0);l.forEach(e=>{if(!out.some(x=>x.e===e))out.push({e,niv:0})});return out}
+VIEWS.hierarquia=function(){const S=tqS(),u=S.eu,all=tqAdmAll(u),mine=tqAdmUnids(u);
+ const aviso=mine.length?`<div class="alert info" role="note" style="cursor:default;margin-bottom:12px"><b>Você administra ${all?'todas as unidades':mine.map(tqUnidCurta).join(' e ')}</b><span>${all?'Pode montar as equipes de todas as unidades, marcar a central e dar "Toda a empresa".':'Monta as equipes e o alcance das pessoas dessas unidades. "Toda a empresa" só quem administra todas as unidades dá.'}</span></div>`:`<div class="alert warn" role="note" style="cursor:default;margin-bottom:12px"><b>Só consulta</b><span>${tqH(tqNome(u))} não administra nenhuma unidade. Troque para Augusto Leal (todas), Lúcia Fernandes (Postos 12 e 14) ou Gustavo Prado (franquia).</span></div>`;
+ const unids=`<section class="card at-card"><h3>Unidades</h3><p class="tl" style="margin:0">Quem administra a unidade central vê toda a empresa. Só quem administra todas as unidades troca a central.</p><div>${S.unids.map(x=>`<div class="tq-un-r"><b>${tqH(x.n)}</b>${x.franquia?'<span class="badge info">Franquia</span>':''}<small class="tl">${(n=>n+(n===1?' pessoa':' pessoas'))(S.ops.filter(o=>o.unid===x.c).length)} · ${(n=>n+(n===1?' equipe':' equipes'))(S.equipes.filter(e=>e.unid===x.c).length)} · administrada por ${S.ops.filter(o=>Array.isArray(o.adm)&&o.adm.includes(x.c)).map(o=>tqH(o.n)).concat(S.ops.filter(o=>o.adm==='todas').map(o=>tqH(o.n))).join(', ')}</small><label><input type="radio" name="tqCentral" ${x.central?'checked':''} ${all?'':'disabled'} onchange="tqCentralSet(${x.c})"> Central</label></div>`).join('')}</div></section>`;
+ const equipes=S.unids.map(x=>{const pode=tqPodeEq(x.c),arv=tqEqArvore(x.c);return `<section class="card at-card tq-hq-u"><div class="inicio-tit" style="justify-content:space-between"><h3>Equipes · ${tqH(x.n)}</h3>${pode?`<button class="btn sm sec" onclick="tqEqDlg(null,${x.c})">${I.plus} Nova equipe</button>`:''}</div>${arv.length?arv.map(({e,niv})=>`<div class="tq-eq ${niv?'sub':''} ${niv>1?'sub2':''}"><div class="tq-eq-h"><b>${tqH(e.n)}</b>${e.pai&&tqEq(e.pai)?`<small class="tl">dentro de ${tqH(tqEq(e.pai).n)}</small>`:''}${pode?`<button class="btn sm ghost" onclick="tqEqDlg('${e.id}',${x.c})" aria-label="Editar a equipe ${tqH(e.n)}">${I.edit} Editar</button><button class="tq-x" aria-label="Apagar a equipe ${tqH(e.n)}" onclick="tqEqDel('${e.id}')">${TQI.lixo}</button>`:''}</div><div><span class="k">Gestores:</span> ${e.gest.map(tqNome).map(tqH).join(', ')||'nenhum'}</div><div><span class="k">Membros:</span> ${e.memb.map(tqNome).map(tqH).join(', ')||'nenhum'}</div></div>`).join(''):'<p class="tl" style="margin:0">Nenhuma equipe.</p>'}</section>`}).join('');
+ const alc=`<section class="card at-card"><h3>Alcance de cada pessoa</h3><p class="tl" style="margin:0">O que a pessoa vê no painel e nas tarefas dos outros (só consulta). Padrão: gestor de alguma equipe vê as equipes que gerencia; os demais, só as próprias.</p><div>${tqOpUnidOrdem().map(o=>{const pode=tqAdmDe(u,o.unid),forc=tqAlcForcado(o.id),m=(o.alc&&o.alc.modo)||'auto',ef=tqAlcance(o.id).size,uni=all?tqUnids():mine;
+  return `<div class="tq-alc-r"><div>${tqH(o.n)}<small>${tqH(o.cargo||'')} · ${tqH(tqUnidCurta(o.unid))}</small><small>Vê: <b>${TQ_ALC_NOME[tqAlcModo(o.id)]}</b> (${ef} pessoa${ef>1?'s':''})</small></div><div>${forc?`<span class="tl">Toda a empresa: ${tqAdmAll(o.id)?'administra todas as unidades':'administra a unidade central'}.</span>`:`<select class="in" aria-label="Alcance de ${tqH(o.n)}" ${pode?'':'disabled'} onchange="tqAlcSet('${o.id}',this.value)">${['auto','minhas','equipes','unidades','empresa'].map(k=>`<option value="${k}" ${m===k?'selected':''} ${k==='empresa'&&!all?'disabled':''}>${k==='auto'?'Padrão ('+(tqGerencia(o.id).length?'Equipes que gerencio':'Só as minhas')+')':TQ_ALC_NOME[k]}${k==='empresa'&&!all?' (só quem administra todas)':''}</option>`).join('')}</select>${m==='unidades'?`<div class="tq-sub" role="group" aria-label="Unidades que ${tqH(o.n)} vê">${tqUnids().map(c=>`<label><input type="checkbox" ${((o.alc||{}).unids||[]).includes(c)?'checked':''} ${pode&&uni.includes(c)?'':'disabled'} onchange="tqAlcUnid('${o.id}',${c},this.checked)"> ${tqH(tqUnidCurta(c))}</label>`).join('')}</div>`:''}`}</div></div>`}).join('')}</div></section>`;
+ return `${pageHead('Configurações','Hierarquia','Equipes de cada unidade, gestores, subequipes e o alcance de cada pessoa. O administrador de cada unidade cuida da sua. Dados de exemplo, guardados neste navegador.',`<a class="btn sec" href="#comunicacao">Comunicação</a><a class="btn sec" href="#tarefas-painel">Painel</a>`)}
+${tqSimBar('Escolha um administrador para alterar: Augusto Leal (todas as unidades), Lúcia Fernandes (Postos 12 e 14) ou Gustavo Prado (franquia).')}${aviso}
+<div class="tq-com-g">${unids}${alc}</div><div class="tq-com-g" style="margin-top:16px">${equipes}</div>`};
+function tqHqSalva(msg){tqSalvar();reView();tqHomeSync();toast(msg)}
+function tqCentralSet(c){if(!tqAdmAll(tqEu())){toast('Só quem administra todas as unidades troca a central','warn');return}tqS().unids.forEach(x=>x.central=x.c===c);tqHqSalva(tqUnidCurta(c)+' agora é a central')}
+function tqAlcSet(id,m){const o=tqOp(id);if(!tqAdmDe(tqEu(),o.unid)){toast('Só o administrador da unidade altera','warn');return}if(m==='empresa'&&!tqAdmAll(tqEu())){toast('"Toda a empresa" só quem administra todas as unidades dá','warn');reView();return}
+ o.alc={modo:m,unids:(o.alc||{}).unids||(m==='unidades'?[o.unid]:[])};if(m==='unidades'&&!o.alc.unids.length)o.alc.unids=[o.unid];tqHqSalva(`Alcance de ${tqH(o.n)}: ${TQ_ALC_NOME[m]==='Padrão'?'padrão':TQ_ALC_NOME[m]}`)}
+function tqAlcUnid(id,c,on){const o=tqOp(id),eu=tqEu();if(!tqAdmDe(eu,o.unid)||!(tqAdmAll(eu)||tqAdmDe(eu,c)))return;const l=(o.alc&&o.alc.unids)||[];o.alc={modo:'unidades',unids:on?[...new Set([...l,c])]:l.filter(x=>x!==c)};tqHqSalva('Unidades do alcance atualizadas')}
+function tqEqDlg(id,unid){if(!tqPodeEq(unid)){toast('Só o administrador da unidade altera','warn');return}const S=tqS(),e=id?tqEq(id):{n:'',gest:[],memb:[],pai:null},ps=S.ops.filter(o=>o.unid===unid),desc=id?tqEqDesc(id):[],pais=S.equipes.filter(x=>x.unid===unid&&!desc.includes(x.id));
+ const pick=(nm,sel)=>`<div class="tq-pick" role="group">${ps.map(o=>`<label><input type="checkbox" name="${nm}" value="${o.id}" ${sel.includes(o.id)?'checked':''}> <span>${tqH(o.n)} <small>· ${tqH(o.cargo||'')}</small></span></label>`).join('')}</div>`;
+ openModal(`${mh(id?'Editar equipe':'Nova equipe')}<form onsubmit="event.preventDefault();tqEqOk(${id?`'${id}'`:'null'},${unid})" novalidate><div class="mb"><p class="tl" style="margin:0">${tqH(tqUnidNome(unid))}. Só pessoas desta unidade.</p>
+<div class="field" id="tqEqNf"><label for="tqEqN">Nome da equipe <span class="req">*</span></label><input class="in" id="tqEqN" maxlength="60" value="${tqH(e.n)}"></div>
+<div class="field"><span style="font-size:13px;font-weight:600">Gestores <span class="req">*</span></span>${pick('tqEqG',e.gest)}<span class="msg">Um ou mais. Quem gere vê o desempenho da equipe e das subequipes.</span></div>
+<div class="field"><span style="font-size:13px;font-weight:600">Membros</span>${pick('tqEqM',e.memb)}</div>
+<div class="field"><label for="tqEqP">Equipe de cima</label><select class="in" id="tqEqP"><option value="">Nenhuma</option>${pais.map(x=>`<option value="${x.id}" ${e.pai===x.id?'selected':''}>${tqH(x.n)}</option>`).join('')}</select><span class="msg">Opcional. Quem gere a equipe de cima vê também esta.</span></div>
+</div><div class="mf"><button type="button" class="btn ghost" onclick="closeModal()">Cancelar</button><button class="btn" type="submit">Salvar equipe</button></div></form>`);setTimeout(()=>{const x=document.getElementById('tqEqN');if(x)x.focus()},0)}
+function tqEqOk(id,unid){if(!tqPodeEq(unid))return;const n=(document.getElementById('tqEqN').value||'').trim(),g=[...document.querySelectorAll('input[name=tqEqG]:checked')].map(x=>x.value),m=[...document.querySelectorAll('input[name=tqEqM]:checked')].map(x=>x.value).filter(x=>!g.includes(x)),pai=document.getElementById('tqEqP').value||null;
+ if(!n){document.getElementById('tqEqNf').classList.add('err');document.getElementById('tqEqN').focus();toast('Escreva o nome da equipe','warn');return}if(!g.length){toast('Escolha pelo menos um gestor','warn');return}
+ const S=tqS();if(id){Object.assign(tqEq(id),{n,gest:g,memb:m,pai})}else S.equipes.push({id:tqId('q'),n,unid,gest:g,memb:m,pai});closeModal();tqHqSalva(id?'Equipe atualizada':'Equipe criada')}
+function tqEqDel(id){const e=tqEq(id);if(!e||!tqPodeEq(e.unid))return;openModal(`${mh('Apagar equipe')}<div class="mb"><p style="margin:0">Apagar a equipe <b>${tqH(e.n)}</b>? As subequipes ficam sem equipe de cima. As tarefas não mudam.</p></div><div class="mf"><button class="btn ghost" onclick="closeModal()">Cancelar</button><button class="btn danger" onclick="tqEqDelOk('${id}')">Apagar</button></div>`,'danger')}
+function tqEqDelOk(id){const S=tqS(),e=tqEq(id);if(!e||!tqPodeEq(e.unid))return;S.equipes=S.equipes.filter(x=>x.id!==id);S.equipes.forEach(x=>{if(x.pai===id)x.pai=null});closeModal();tqHqSalva('Equipe "'+tqH(e.n)+'" apagada')}
+
+/* ---------- Configurações > Comunicação: o administrador de cada unidade cuida da sua ---------- */
+VIEWS.comunicacao=function(){const S=tqS(),eu=S.eu,all=tqAdmAll(eu),mine=tqAdmUnids(eu),us=tqUnids();
+ const setores=`<section class="card at-card"><h3>Setores</h3><p class="tl" style="margin:0">Os setores são da empresa: só quem administra todas as unidades cria, renomeia ou apaga.</p><div class="tq-com-l">${S.setores.map(s=>{const n=S.ops.filter(o=>o.setor===s.id).length;return `<div class="tq-inl" style="margin:0"><input class="in" value="${tqH(s.n)}" maxlength="40" aria-label="Nome do setor" ${all?'':'disabled'} onchange="tqSetRen('${s.id}',this.value)"><small class="tl" style="flex:0 0 auto">${n} pessoa${n!==1?'s':''}</small><button class="tq-x" aria-label="Apagar o setor ${tqH(s.n)}" ${!all||n?'disabled':''} title="${n?'Tire as pessoas do setor antes de apagar':'Apagar'}" onclick="tqSetDel('${s.id}')">${TQI.lixo}</button></div>`}).join('')}</div>
+${all?`<form class="tq-inl" onsubmit="event.preventDefault();tqSetNovo()"><input class="in" id="tqSetN" maxlength="40" placeholder="Novo setor" aria-label="Nome do novo setor"><button class="btn sm" type="submit">Adicionar setor</button></form>`:''}</section>`;
+ const pessoas=`<section class="card at-card"><h3>Setor de cada pessoa</h3><p class="tl" style="margin:0">O administrador de cada unidade liga as pessoas da sua unidade ao setor.</p><div>${tqOpUnidOrdem().map(o=>{const d=tqAdmDe(eu,o.unid)?'':'disabled';return `<div class="tq-com-r"><div>${tqH(o.n)}<small>${tqH(o.cargo||'')} · ${tqH(tqUnidCurta(o.unid))}</small></div><select class="in" aria-label="Setor de ${tqH(o.n)}" ${d} onchange="tqOpSetor('${o.id}',this.value)">${S.setores.map(s=>`<option value="${s.id}" ${s.id===o.setor?'selected':''}>${tqH(s.n)}</option>`).join('')}</select></div>`}).join('')}</div></section>`;
+ const regras=`<section class="card at-card"><h3>Regras por unidade</h3><p class="tl" style="margin:0">A pessoa da unidade A pode escolher como líder ou acompanhante alguém da unidade B se a regra de A permitir B (a mesma unidade sempre pode) e, havendo limite, se o setor da pessoa estiver na lista. Sem regra, todos se comunicam. Cada administrador escolhe com quais unidades a sua se comunica.</p>${us.map(u=>{const r=S.com[u]||{modo:'todas',unids:[],limSet:false,setores:[]},sel=r.modo==='selecionadas',dis=tqAdmDe(eu,u)?'':'disabled';return `<div class="tq-com-u" role="group" aria-label="${tqH(tqUnidNome(u))}"><h4>${tqH(tqUnidNome(u))}${dis?' <small class="tl">(só consulta)</small>':''}</h4>
+<label><input type="radio" name="tqCm_${u}" ${!sel?'checked':''} ${dis} onchange="tqComModo(${u},'todas')"> Se comunica com todas as unidades</label>
+<label><input type="radio" name="tqCm_${u}" ${sel?'checked':''} ${dis} onchange="tqComModo(${u},'selecionadas')"> Só com estas unidades:</label>
+<div class="tq-sub">${us.map(v=>v===u?`<label><input type="checkbox" checked disabled> ${tqH(tqUnidCurta(v))} (a própria, sempre)</label>`:`<label><input type="checkbox" ${(r.unids||[]).includes(v)?'checked':''} ${dis||!sel?'disabled':''} onchange="tqComUnid(${u},${v},this.checked)"> ${tqH(tqUnidCurta(v))}</label>`).join('')}</div>
+<label><input type="checkbox" ${r.limSet?'checked':''} ${dis} onchange="tqComLim(${u},this.checked)"> Limitar aos setores escolhidos:</label>
+<div class="tq-sub">${S.setores.map(s=>`<label><input type="checkbox" ${(r.setores||[]).includes(s.id)?'checked':''} ${dis||!r.limSet?'disabled':''} onchange="tqComSet(${u},'${s.id}',this.checked)"> ${tqH(s.n)}</label>`).join('')}</div></div>`}).join('')}</section>`;
+ const res=`<section class="card at-card"><h3>Quem cada pessoa pode escolher</h3><p class="tl" style="margin:0">Resultado das regras acima, para conferir.</p><div class="tq-com-res">${tqOpUnidOrdem().map(o=>{const b=tqBloqueados(o.id);return `<div><b>${tqH(o.n)}</b> <small class="tl">(${tqH(tqSetorNome(o.setor))} · ${tqH(tqUnidCurta(o.unid))})</small><br>${b.length?`<span class="x">Não pode escolher: ${b.map(x=>tqH(x.n)).join(', ')}</span>`:'Pode escolher todas as pessoas.'}</div>`}).join('')}</div></section>`;
+ const aviso=mine.length?'':`<div class="alert warn" role="note" style="cursor:default;margin-bottom:12px"><b>Só consulta</b><span>${tqH(tqNome(eu))} não administra nenhuma unidade. Troque para Augusto Leal (todas), Lúcia Fernandes (Postos 12 e 14) ou Gustavo Prado (franquia).</span></div>`;
+ return `${pageHead('Configurações','Comunicação','Com quais unidades e setores cada unidade pode trocar tarefas. Só aparece para escolher como líder ou acompanhante quem a regra permite. Dados de exemplo, guardados neste navegador.',`<button class="btn ghost" onclick="tqRestaurarDlg()">Restaurar dados de exemplo</button><a class="btn sec" href="#hierarquia">Hierarquia</a>`)}
+${tqSimBar('O administrador de cada unidade escolhe com quais unidades a sua se comunica.')}${aviso}
+<div class="tq-com-g">${regras}<div style="display:flex;flex-direction:column;gap:16px">${setores}${pessoas}</div>${res}</div>`};
+{const nega=()=>toast('Só o administrador desta unidade altera','warn');const g=(f,ok)=>function(){if(!ok.apply(null,arguments)){nega();if(location.hash==='#comunicacao')reView();return}return f.apply(this,arguments)};
+ const porUnid=u=>tqAdmDe(tqEu(),u),todas=()=>tqAdmAll(tqEu());
+ tqComModo=g(tqComModo,porUnid);tqComUnid=g(tqComUnid,porUnid);tqComLim=g(tqComLim,porUnid);tqComSet=g(tqComSet,porUnid);
+ tqSetNovo=g(tqSetNovo,todas);tqSetRen=g(tqSetRen,todas);tqSetDel=g(tqSetDel,todas);tqOpSetor=g(tqOpSetor,o=>tqAdmDe(tqEu(),tqOp(o).unid))}
+{const _r=tqRestaurar;tqRestaurar=function(){_r.apply(this,arguments);if(['#hierarquia','#tarefas-painel'].includes(location.hash))reView()}}
