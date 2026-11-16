@@ -1640,3 +1640,292 @@ window.DEO_ATENDIDAS=Object.assign(window.DEO_ATENDIDAS||{},{
   "t": "TIRE ESSE CAMPO DA AREA DE FICHAS."
  }
 });
+
+/* Rodada 26 (16/11/2026): notas 710 a 766 */
+window.DEO_ATENDIDAS=Object.assign(window.DEO_ATENDIDAS||{},{
+ "710": {
+  "st": "atendida",
+  "r": "Feito: em \"Fechar conciliação de novembro\", cada lançamento mostra o nome inteiro numa linha e, embaixo, o valor, a situação e o \"resolver\", sem apertar o texto.",
+  "t": "Deixar as informações dentro do box mais"
+ },
+ "711": {
+  "st": "atendida",
+  "r": "Feito: em Acerto entre postos, o período agora filtra a lista (Hoje, Semana, Mês, Ano ou Intervalo). Aparecem os períodos de fatura que caem no intervalo escolhido.",
+  "t": "Não está filtrão."
+ },
+ "712": {
+  "st": "atendida",
+  "r": "Feito: o botão \"Abrir PDF\" saiu da janela da fatura. Ficaram Imprimir e Enviar ao posto.",
+  "t": "remover esse botão"
+ },
+ "713": {
+  "st": "atendida",
+  "r": "Feito: o botão \"Abrir PDF\" saiu da janela da fatura. Ficaram Imprimir e Enviar ao posto.",
+  "t": "remover este botão."
+ },
+ "714": {
+  "st": "atendida",
+  "r": "Feito: depois de responder a contestação, a situação muda para \"Aguardando retorno do posto\", e o botão vira \"Ver contestação\". A mudança fica na auditoria.",
+  "t": "quando responder a contestação mudar o s"
+ },
+ "715": {
+  "st": "atendida",
+  "r": "Feito: quando a fatura está paga, a linha tem dois botões: \"Ver fatura\" e \"Comprovante\". A janela da fatura paga também tem \"Ver comprovante\".",
+  "t": "ter um botão onde é possível visualizar "
+ },
+ "716": {
+  "st": "atendida",
+  "r": "Feito: na lateral do período pago entrou o botão \"Comprovante de pagamento\", junto de \"Ver PDF da fatura\" e \"Exportar demonstrativo\".",
+  "t": "incluir o botão de comprovante aqui quan"
+ },
+ "717": {
+  "st": "atendida",
+  "r": "Feito: ao fechar o período, a situação vira \"Fechado\" e o botão passa a mostrar \"Período já fechado\" (desligado), até haver outro período em aberto para aquele posto.",
+  "t": "quando fechar o período esse botão deve "
+ },
+ "718": {
+  "st": "atendida",
+  "r": "Feito: o botão \"Guia de remessa\" abre a guia do lote, com os tubos, os pacientes, os exames, a temperatura e os campos de assinatura, e o botão de imprimir.",
+  "t": "mostrar as guias."
+ },
+ "719": {
+  "st": "atendida",
+  "r": "Feito: o botão \"Etiquetas\" mostra todas as etiquetas do lote. Dá para marcar uma, várias ou todas e reimprimir. A reimpressão fica registrada.",
+  "t": "mostrar todas as etiquetas e depois a te"
+ },
+ "720": {
+  "st": "atendida",
+  "r": "Feito: o botão \"Guia de remessa\" abre a guia do lote, com os tubos, os pacientes, os exames, a temperatura e os campos de assinatura, e o botão de imprimir.",
+  "t": "mostrar as guias."
+ },
+ "721": {
+  "st": "atendida",
+  "r": "Feito: as etiquetas aparecem uma a uma, com \"Selecionar todas\", \"Reimprimir selecionadas\" e \"Reimprimir todas\". A reimpressão fica registrada.",
+  "t": "mostrar as etiquetas e a opção de seleci"
+ },
+ "722": {
+  "st": "atendida",
+  "r": "Feito: o quadro \"Enviados no mês\" agora é clicável e abre a lista dos atendimentos enviados ao apoio. Clicando em um, abre o atendimento.",
+  "t": "clicar nessa dashboard e levar para os a"
+ },
+ "723": {
+  "st": "atendida",
+  "r": "Feito: \"Contestar diferenças\" abre um campo para escrever os motivos (obrigatório). Os motivos vão junto com a contestação e ficam no histórico.",
+  "t": "deve abrir um obs para incluir os motivo"
+ },
+ "724": {
+  "st": "atendida",
+  "r": "Feito: a busca filtra enquanto você digita: pelo número do lote, pelo nome do paciente ou pelos números do tubo. Quando acha pelo paciente, o nome aparece embaixo do lote.",
+  "t": "filtro não está funcionando, quero que q"
+ },
+ "725": {
+  "st": "atendida",
+  "r": "Feito: o campo \"Nome da mãe\" saiu do pedido. O nome da mãe vem do cadastro do paciente, com a grafia de lá, aparece no topo (cartão Paciente) e vai para o resultado. Ele continua obrigatório no cadastro (decisão D13): no cadastro novo há o campo, e se o paciente não tiver o nome da mãe, aparece um aviso com o botão \"Completar o cadastro\", e não dá para autorizar nem continuar até completar.",
+  "t": "Retirar o campo \"Nome da mãe\", pois essa"
+ },
+ "726": {
+  "st": "atendida",
+  "r": "Feito: em Solicitante entrou o botão \"Cadastrar solicitante\" (nome, conselho, UF, número, especialidade e telefone). Ao salvar, ele já fica vinculado à ficha e passa a aparecer na busca do campo \"Médico solicitante\" nos próximos atendimentos, preenchendo o conselho sozinho.",
+  "t": "Preciso da possibilidade de cadastrar um"
+ },
+ "727": {
+  "st": "atendida",
+  "r": "Feito: no Pagamento dá para dividir o valor em várias formas (ex.: metade no Pix e metade no cartão). No cartão de crédito escolhe-se o número de parcelas, e todo cartão pede o código de autorização, que fica guardado no pagamento. O desconto acima do limite pede a senha do gestor. Só conclui quando a soma dos pagamentos fecha o valor final.",
+  "t": "Preciso de campos para informar a quanti"
+ },
+ "728": {
+  "st": "atendida",
+  "r": "Feito: ao concluir, o sistema já leva para as Fichas do paciente, com o protocolo em destaque. Na tela \"Atendimento concluído\" também entrou o botão \"Abrir as fichas do paciente\".",
+  "t": "Possibilidade de acessar a tela de ficha"
+ },
+ "729": {
+  "st": "atendida",
+  "r": "Feito: no Painel de tarefas, os quadros de números ficaram com rótulo pequeno em cima, número grande e uma dica discreta embaixo, com a mesma altura e um filete de cor à esquerda. As barras de \"Por pessoa\" viraram barras arredondadas sobre um trilho, com o número dentro de cada pedaço, o total da pessoa à direita e a linha destacada ao passar o mouse.",
+  "t": "esses retângulos estão feios. melhore el"
+ },
+ "730": {
+  "st": "atendida",
+  "r": "Feito: no Painel de tarefas, os quadros de números ficaram com rótulo pequeno em cima, número grande e uma dica discreta embaixo, com a mesma altura e um filete de cor à esquerda. As barras de \"Por pessoa\" viraram barras arredondadas sobre um trilho, com o número dentro de cada pedaço, o total da pessoa à direita e a linha destacada ao passar o mouse.",
+  "t": "esses retângulos estão feios. melhore el"
+ },
+ "731": {
+  "st": "atendida",
+  "r": "Feito: no Painel de tarefas, os quadros de números ficaram com rótulo pequeno em cima, número grande e uma dica discreta embaixo, com a mesma altura e um filete de cor à esquerda. As barras de \"Por pessoa\" viraram barras arredondadas sobre um trilho, com o número dentro de cada pedaço, o total da pessoa à direita e a linha destacada ao passar o mouse.",
+  "t": "esses retângulos estão feios. melhore el"
+ },
+ "732": {
+  "st": "atendida",
+  "r": "Feito: no Painel de tarefas, os quadros de números ficaram com rótulo pequeno em cima, número grande e uma dica discreta embaixo, com a mesma altura e um filete de cor à esquerda. As barras de \"Por pessoa\" viraram barras arredondadas sobre um trilho, com o número dentro de cada pedaço, o total da pessoa à direita e a linha destacada ao passar o mouse.",
+  "t": "esses retângulos estão feios. melhore el"
+ },
+ "733": {
+  "st": "atendida",
+  "r": "Feito: no Painel de tarefas, os quadros de números ficaram com rótulo pequeno em cima, número grande e uma dica discreta embaixo, com a mesma altura e um filete de cor à esquerda. As barras de \"Por pessoa\" viraram barras arredondadas sobre um trilho, com o número dentro de cada pedaço, o total da pessoa à direita e a linha destacada ao passar o mouse.",
+  "t": "esses retângulos estão feios. melhore el"
+ },
+ "734": {
+  "st": "atendida",
+  "r": "Feito: no Painel de tarefas, os quadros de números ficaram com rótulo pequeno em cima, número grande e uma dica discreta embaixo, com a mesma altura e um filete de cor à esquerda. As barras de \"Por pessoa\" viraram barras arredondadas sobre um trilho, com o número dentro de cada pedaço, o total da pessoa à direita e a linha destacada ao passar o mouse.",
+  "t": "esses retângulos estão feios. melhore el"
+ },
+ "735": {
+  "st": "atendida",
+  "r": "Feito: no Painel de tarefas, os quadros de números ficaram com rótulo pequeno em cima, número grande e uma dica discreta embaixo, com a mesma altura e um filete de cor à esquerda. As barras de \"Por pessoa\" viraram barras arredondadas sobre um trilho, com o número dentro de cada pedaço, o total da pessoa à direita e a linha destacada ao passar o mouse.",
+  "t": "esses retângulos estão feios. melhore el"
+ },
+ "736": {
+  "st": "atendida",
+  "r": "Feito: no Painel de tarefas, os quadros de números ficaram com rótulo pequeno em cima, número grande e uma dica discreta embaixo, com a mesma altura e um filete de cor à esquerda. As barras de \"Por pessoa\" viraram barras arredondadas sobre um trilho, com o número dentro de cada pedaço, o total da pessoa à direita e a linha destacada ao passar o mouse.",
+  "t": "esses retângulos estão feios. melhore el"
+ },
+ "737": {
+  "st": "atendida",
+  "r": "Feito: no Painel de tarefas, os quadros de números ficaram com rótulo pequeno em cima, número grande e uma dica discreta embaixo, com a mesma altura e um filete de cor à esquerda. As barras de \"Por pessoa\" viraram barras arredondadas sobre um trilho, com o número dentro de cada pedaço, o total da pessoa à direita e a linha destacada ao passar o mouse.",
+  "t": "esses retângulos estão feios. melhore el"
+ },
+ "738": {
+  "st": "atendida",
+  "r": "Feito: na aba Dados do cartão Paciente, as informações ficam em cartões, separadas em Identificação (nome, CPF, nascimento, sexo, nome da mãe) e Contato (telefone, e-mail e responsável). O nome fica em destaque, e o que falta aparece em vermelho.",
+  "t": "organize as informações de dados dos pac"
+ },
+ "739": {
+  "st": "atendida",
+  "r": "Feito: a aba Fichas virou o histórico do paciente, com tudo o que foi autorizado, recebido e faturado (ficha, procedimentos, plano e situação). O botão \"Abrir as fichas do paciente\" abre a tela completa, com filtros por situação, valores e forma de pagamento.",
+  "t": "dentro do campo de fichas de Atendimento"
+ },
+ "740": {
+  "st": "atendida",
+  "r": "Feito: \"Fichas de atendimento\" nos detalhes do agendamento agora abre direto as Fichas do paciente, a mesma tela de Pacientes.",
+  "t": "ao clicar em \"fichas de atendimento\" , m"
+ },
+ "741": {
+  "st": "atendida",
+  "r": "Feito: em Autorizar atendimento, os blocos Paciente e Atendimento viraram cartões separados, com borda de destaque, título com marcador e mais espaço entre os campos.",
+  "t": "Destaque esses cards. Organize o layout "
+ },
+ "742": {
+  "st": "atendida",
+  "r": "Feito: no gráfico \"Entradas e saídas · 6 meses\", ao passar o mouse (ou o foco do teclado) num mês, aparecem as entradas, as saídas e o saldo daquele mês.",
+  "t": "Quando passar o mouse por cima mostrar o"
+ },
+ "743": {
+  "st": "atendida",
+  "r": "Feito: a frase saiu do topo de Pacientes.",
+  "t": "Retirar a frase “Localize o cadastro por"
+ },
+ "744": {
+  "st": "atendida",
+  "r": "Feito: o \"Recepção\" saiu do topo de Pacientes, e o título e o botão Novo Paciente ficaram alinhados na mesma linha.",
+  "t": "Retirar o nome “Recepção” e centralizar "
+ },
+ "745": {
+  "st": "atendida",
+  "r": "Feito: a frase saiu do topo de Pacientes.",
+  "t": "Retirar frase."
+ },
+ "746": {
+  "st": "atendida",
+  "r": "Feito: ao clicar em \"Confirmar autorização\", abre uma janela de faturamento, sem sair da tela. Ela traz o valor total a faturar (soma do autorizado), o desconto (em reais ou em porcentagem), o ajuste em porcentagem, o valor ajustado calculado sozinho e uma ou mais formas de pagamento (com parcelas e código de autorização no cartão). Os cálculos se atualizam a cada mudança, e não dá para concluir enquanto houver diferença entre o devido e o recebido. Se precisar, dá para faturar depois: fica pendente nas Fichas do paciente.",
+  "t": "Ao clicar no botão “confirmar autorizaçã"
+ },
+ "747": {
+  "st": "atendida",
+  "r": "Feito: ao localizar um cliente com e-ticket (pago e agendado, sem ficha) ou com pendência (pago, agendado e com ficha), o sistema já faz o check-in e abre um aviso na tela. No e-ticket, o aviso diz que ele foi validado e que o paciente está em espera. Na pendência, diz que os procedimentos foram retirados da pendência e encaminhados para a espera.",
+  "t": "Quando um cliente tiver um e-ticket (pro"
+ },
+ "748": {
+  "st": "retida",
+  "r": "Não feito por enquanto: o texto lembra a prioridade garantida em lei (Lei 10.048/2000, Estatuto da Pessoa Idosa e Lei 13.466/2017) e avisa que gestante e pessoa com deficiência precisam ser marcadas à mão. Como é um aviso legal, mantivemos. Dá para encurtar e deixar só no ícone \"i\", se preferir.",
+  "t": "Isso já uma diretriz da empresa, como to"
+ },
+ "749": {
+  "st": "atendida",
+  "r": "Feito: nos detalhes do agendamento, os campos ficaram em dois blocos: Paciente (nome, nascimento e telefone) e Atendimento (plano e procedimento), alinhados e com o mesmo espaçamento.",
+  "t": "organize o layout desses campos."
+ },
+ "750": {
+  "st": "retida",
+  "r": "Não feito: o código da senha (ex.: AJ-005) evita chamar o paciente só pelo nome completo na TV, para expor o mínimo de dados pessoais (LGPD, princípio da necessidade). Ele também diferencia pessoas com o mesmo nome. Se o problema for o tamanho, dá para mostrar o código menor, ao lado do primeiro nome.",
+  "t": "Como o Painel de Senhas lê apenas o nome"
+ },
+ "751": {
+  "st": "atendida",
+  "r": "Feito: depois da terceira rechamada sem resposta, a senha volta para Aguardando e a tela muda sozinha para a aba Aguardando.",
+  "t": "Ao realizar a rechamada três vezes, o si"
+ },
+ "752": {
+  "st": "atendida",
+  "r": "Feito: em Entradas e saídas, a validade agora é digitada (só os números: dia, mês e ano), sem precisar do calendário. Se a data já passou, o sistema avisa.",
+  "t": "ser possível digitar a data;"
+ },
+ "753": {
+  "st": "atendida",
+  "r": "Feito: em Reagendar entrou o campo Profissional, que mostra só quem é da mesma especialidade e atende aquele procedimento. Ao trocar, o calendário e os horários passam a ser da agenda do profissional escolhido. Para testar, há uma segunda médica de clínica médica (Dra. Lorena Matos), com agenda à tarde.",
+  "t": "permita que eu consiga reagendar para ou"
+ },
+ "754": {
+  "st": "atendida",
+  "r": "Feito: ao clicar em Iniciar, o sistema já abre a tela de atendimento com o cadastro do paciente, sem precisar clicar em outro botão.",
+  "t": "Ao iniciar o atendimento, já devo ser di"
+ },
+ "755": {
+  "st": "atendida",
+  "r": "Feito: o bloco \"Planos e pacotes\" saiu. Os CPFs de teste ficaram no guia da tela (botão ?).",
+  "t": "Retirar"
+ },
+ "756": {
+  "st": "atendida",
+  "r": "Feito: o bloco \"Para testar, digite um destes CPFs\" saiu. Os CPFs de teste ficaram no guia da tela (botão ?).",
+  "t": "Retirar."
+ },
+ "757": {
+  "st": "atendida",
+  "r": "Feito: a chave \"Configuração: CPF, nascimento e telefone obrigatórios\" saiu da tela. A regra continua valendo e é mudada em Configurações.",
+  "t": "Retirar."
+ },
+ "758": {
+  "st": "atendida",
+  "r": "Feito: \"Atendimento\" abre o cadastro do paciente já localizado, sem pedir o CPF de novo. Se a senha foi gerada só com o nome e a pessoa ainda não tem cadastro, abre o cadastro já com o nome preenchido.",
+  "t": "Esse fluxo deve direcionar automaticamen"
+ },
+ "759": {
+  "st": "atendida",
+  "r": "Feito: a aba \"Concluídos\" saiu da Listagem de Senhas. As senhas continuam nos relatórios e na auditoria.",
+  "t": "Retirar."
+ },
+ "760": {
+  "st": "atendida",
+  "r": "Feito: a aba \"Cancelados\" saiu da Listagem de Senhas. As senhas continuam nos relatórios e na auditoria, com o motivo.",
+  "t": "Retirar."
+ },
+ "761": {
+  "st": "atendida",
+  "r": "Feito: o questionário agora é um só para todos os procedimentos do atendimento. Ele junta as perguntas configuradas em cada procedimento, e pergunta repetida aparece uma vez só. Cada pergunta mostra para quais procedimentos ela é pedida. \"Imprimir questionário\" imprime esse questionário único.",
+  "t": "Quando houver mais de um procedimento vi"
+ },
+ "762": {
+  "st": "atendida",
+  "r": "Feito: a vaga de encaixe fica diferente na agenda: linha com fundo laranja-claro, faixa lateral, etiqueta \"Encaixe\" e a situação \"Vaga de encaixe\".",
+  "t": "diferencie as vagas que for aberta de en"
+ },
+ "763": {
+  "st": "atendida",
+  "r": "Feito em parte: o questionário passou a ser montado sozinho pela configuração dos procedimentos e fica fechado, numa linha só, que abre ao clicar. Não tiramos de vez porque nele ficam os medicamentos, as doenças crônicas e os dados clínicos, que o laboratório precisa registrar (RDC 978/2025). Se houver pergunta obrigatória sem resposta, ele abre sozinho.",
+  "t": "Retirar, pois o questionário será gerado"
+ },
+ "764": {
+  "st": "atendida",
+  "r": "Feito: o desconto pode ser informado em reais (valor fixo) ou em porcentagem: é só escolher R$ ou % ao lado do campo.",
+  "t": "O desconto precisa permitir ser informad"
+ },
+ "765": {
+  "st": "retida",
+  "r": "Não feito: em Entrega do resultado ficam o canal de envio, a autorização do paciente para receber o PDF, os terceiros autorizados a retirar e como o paciente autorizou. São registros exigidos pela LGPD e pela RDC 978/2025 (sigilo na liberação do resultado). Uma alternativa é deixar o cartão fechado, numa linha só, já preenchido com o padrão (link com senha pelo WhatsApp), abrindo só quando for mudar. Se quiser, eu faço.",
+  "t": "Retirar"
+ },
+ "766": {
+  "st": "atendida",
+  "r": "Feito: ao concluir o atendimento, o sistema leva direto para as Fichas do paciente. O atendimento concluído aparece em destaque, com Comprovante, Declaração e Novo atendimento. As outras opções das fichas entram depois, como combinado.",
+  "t": "Dessa guia, após finalizar o faturamento"
+ }
+});

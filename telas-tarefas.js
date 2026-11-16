@@ -676,32 +676,39 @@ document.head.insertAdjacentHTML('beforeend',`<style>
 .tq-filtros .field{flex:0 1 220px}
 .tq-filtros select.in{height:38px}
 .tq-filtros .chips{display:flex;gap:6px}.tq-filtros .chip{white-space:nowrap}.tq-filtros .field.per{flex:0 0 auto}
-.tq-kpis{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin:0 0 16px}
-.tq-kpi{all:unset;box-sizing:border-box;cursor:pointer;border:1px solid var(--border);border-radius:14px;padding:12px 14px;background:var(--surface);display:flex;flex-direction:column;gap:2px}
-.tq-kpi:hover{border-color:var(--accent)}
+.tq-kpis{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr));margin:0 0 16px}
+.tq-kpi{all:unset;box-sizing:border-box;cursor:pointer;position:relative;overflow:hidden;border:1px solid var(--border);border-radius:16px;padding:16px 16px 14px 20px;background:var(--surface);display:flex;flex-direction:column;gap:4px;min-height:112px;transition:border-color .15s,box-shadow .15s}
+.tq-kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent)}
+.tq-kpi.err::before{background:var(--err)}.tq-kpi.ok::before{background:var(--ok)}.tq-kpi.warn::before{background:var(--warn)}
+.tq-kpi:hover{border-color:var(--accent);box-shadow:var(--shadow)}
 .tq-kpi:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-.tq-kpi .lab{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--fg2)}
-.tq-kpi .num{font-size:26px;font-weight:800;color:var(--fg-strong);line-height:1.15}
-.tq-kpi .hint{font-size:12px;color:var(--fg2)}
+.tq-kpi .lab{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--fg2)}
+.tq-kpi .num{font-size:30px;font-weight:800;color:var(--fg-strong);line-height:1.1;margin-top:2px}
+.tq-kpi .hint{font-size:12px;color:var(--fg2);margin-top:auto;line-height:1.35}
 .tq-kpi.err .num{color:var(--err)}.tq-kpi.ok .num{color:var(--ok)}.tq-kpi.warn .num{color:var(--warn)}
 .tq-pg{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
 .tq-leg{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:12.5px;color:var(--fg);align-items:center}
 .tq-leg span{display:inline-flex;align-items:center;gap:6px}
-.tq-leg i{width:18px;height:12px;border-radius:3px;display:inline-block}
-.tq-bars{display:flex;flex-direction:column;gap:8px}
-.tq-bar-r{display:grid;grid-template-columns:180px minmax(0,1fr);gap:10px;align-items:center}
+.tq-leg i{width:22px;height:12px;border-radius:999px;display:inline-block}
+.tq-bars{display:flex;flex-direction:column;gap:2px}
+.tq-bar-r{display:grid;grid-template-columns:200px minmax(0,1fr) 44px;gap:12px;align-items:center;padding:8px 10px;border-radius:12px}
+.tq-bar-r:hover{background:var(--surface2)}
+.tq-bar-tot{font-size:15px;font-weight:800;color:var(--fg-strong);text-align:right}.tq-bar-tot small{display:block;font-size:10.5px;font-weight:600;color:var(--fg2)}
 .tq-bar-n{all:unset;box-sizing:border-box;cursor:pointer;font-size:13.5px;font-weight:600;color:var(--fg-strong);border-radius:8px;padding:2px 4px;overflow-wrap:anywhere}
 .tq-bar-n small{display:block;font-weight:400;color:var(--fg2);font-size:11.5px}
 .tq-bar-n:hover{color:var(--accent)}.tq-bar-n:focus-visible{outline:3px solid var(--focus)}
-.tq-bar-t{min-width:0}
-.tq-bar-in{display:flex;gap:2px;max-width:100%;min-height:30px}
-.tq-sg{all:unset;box-sizing:border-box;cursor:pointer;min-width:30px;height:30px;display:grid;place-items:center;font-size:12.5px;font-weight:800;border-radius:6px;border:2px solid}
+.tq-bar-t{min-width:0;background:var(--surface2);border-radius:999px;padding:3px}
+.tq-bar-in{display:flex;gap:3px;max-width:100%;height:28px}
+.tq-sg{all:unset;box-sizing:border-box;cursor:pointer;min-width:30px;height:28px;display:grid;place-items:center;font-size:12.5px;font-weight:800;border-radius:999px;transition:filter .15s,transform .15s}
 .tq-sg:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-.tq-sg:hover{filter:brightness(1.08)}
-.tq-sg.ab{background:var(--info-soft);border-color:var(--info);color:var(--info)}
-.tq-sg.atr{background:repeating-linear-gradient(45deg,var(--err-soft) 0 6px,var(--surface) 6px 9px);border-color:var(--err);color:var(--err)}
-.tq-sg.co{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
-.tq-leg i.ab{background:var(--info-soft);border:2px solid var(--info)}.tq-leg i.atr{background:repeating-linear-gradient(45deg,var(--err-soft) 0 4px,var(--surface) 4px 6px);border:2px solid var(--err)}.tq-leg i.co{background:var(--ok-soft);border:2px solid var(--ok)}
+.tq-sg:hover{filter:brightness(1.08);transform:translateY(-1px)}
+:root{--tq-ab:#2563EB;--tq-atr:#C62828;--tq-co:#15803D;--tq-sgt:#fff}
+:root[data-theme="dark"]{--tq-ab:var(--info);--tq-atr:var(--err);--tq-co:var(--ok);--tq-sgt:#0F1B20}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--tq-ab:var(--info);--tq-atr:var(--err);--tq-co:var(--ok);--tq-sgt:#0F1B20}}
+.tq-sg.ab{background:var(--tq-ab);color:var(--tq-sgt)}
+.tq-sg.atr{background:var(--tq-atr);color:var(--tq-sgt);background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.18) 0 5px,transparent 5px 10px)}
+.tq-sg.co{background:var(--tq-co);color:var(--tq-sgt)}
+.tq-leg i.ab{background:var(--tq-ab)}.tq-leg i.atr{background:var(--tq-atr);background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.25) 0 3px,transparent 3px 6px)}.tq-leg i.co{background:var(--tq-co)}
 .tq-leg i.cr{background:var(--accent)}.tq-leg i.cc{background:repeating-linear-gradient(90deg,var(--ok) 0 3px,var(--ok-soft) 3px 5px);border:1px solid var(--ok)}
 .tq-dias{overflow-x:auto;padding:18px 0 4px}
 .tq-dias-in{display:flex;align-items:stretch;gap:2px;height:170px}
@@ -740,7 +747,7 @@ table.tq-tab{min-width:860px}.tq-pos{display:inline-block;min-width:26px;font-si
 .tq-un-r b{flex:1 1 200px;color:var(--fg-strong)}
 .tq-un-r label{display:flex;gap:6px;align-items:center;cursor:pointer}
 .tq-un-r input{width:18px;height:18px;accent-color:var(--accent)}
-@media (max-width:760px){.tq-bar-r{grid-template-columns:minmax(0,1fr)}.tq-alc-r{grid-template-columns:minmax(0,1fr)}.tq-eq.sub{margin-left:12px}.tq-eq.sub2{margin-left:24px}.tq-filtros .field{flex:1 1 100%}}
+@media (max-width:760px){.tq-bar-r{grid-template-columns:minmax(0,1fr) 40px}.tq-bar-r .tq-bar-n{grid-column:1/-1}.tq-alc-r{grid-template-columns:minmax(0,1fr)}.tq-eq.sub{margin-left:12px}.tq-eq.sub2{margin-left:24px}.tq-filtros .field{flex:1 1 100%}}
 </style>`);
 
 /* ---------- Dados de exemplo dos últimos 90 dias (para o painel) ---------- */
@@ -882,7 +889,7 @@ VIEWS['tarefas-painel']=function(){const u=tqEu(),a=tqAlcance(u),modo=tqAlcModo(
  const lin=tqPLinhas(ini),max=Math.max(1,...lin.map(x=>x.tot));
  const seg=(id,k,v,cls,lab)=>v?`<button class="tq-sg ${cls}" style="flex-grow:${v}" onclick="tqPLista('${id}','${k}')" aria-label="${tqH(tqNome(id))}: ${v} ${lab}" title="${v} ${lab}">${v}</button>`:'';
  const barras=`<section class="card at-card"><h3>Por pessoa</h3><p class="tl" style="margin:0">${TQ_P.ord==='vol'?'Ordenado pelo volume de tarefas.':'Ordenado pelo % no prazo (ranking).'} Pela pessoa que lidera a tarefa. Em aberto e atrasadas: situação de hoje. Concluídas: no período. Clique no nome, numa barra ou num pedaço da barra.</p><div class="tq-leg" aria-hidden="true"><span><i class="ab"></i>Em aberto no prazo</span><span><i class="atr"></i>Atrasadas (listrado)</span><span><i class="co"></i>Concluídas no período</span></div>
-<div class="tq-bars">${lin.map(({id,s,tot,pos})=>`<div class="tq-bar-r"><button class="tq-bar-n" onclick="tqPLista('${id}','todas')"><span class="tq-pos" title="Posição no ranking">${pos}º</span> ${tqH(tqNome(id))}<small>${s.pct==null?'sem concluídas com prazo':s.pct+'% no prazo'} · ${tot} tarefa${tot!==1?'s':''}${s.acp.length?` · acompanha ${s.acp.length}`:''}</small></button><div class="tq-bar-t">${tot?`<div class="tq-bar-in" style="width:max(${(tot/max*100).toFixed(1)}%,${[s.noP.length,s.atr.length,s.conc.length].filter(Boolean).length*32}px)">${seg(id,'noP',s.noP.length,'ab','em aberto no prazo')}${seg(id,'atr',s.atr.length,'atr','atrasadas')}${seg(id,'conc',s.conc.length,'co','concluídas no período')}</div>`:'<span class="tl">Sem tarefas no período.</span>'}</div></div>`).join('')||'<p class="tl">Ninguém neste filtro.</p>'}</div></section>`;
+<div class="tq-bars">${lin.map(({id,s,tot,pos})=>`<div class="tq-bar-r"><button class="tq-bar-n" onclick="tqPLista('${id}','todas')"><span class="tq-pos" title="Posição no ranking">${pos}º</span> ${tqH(tqNome(id))}<small>${s.pct==null?'sem concluídas com prazo':s.pct+'% no prazo'} · ${tot} tarefa${tot!==1?'s':''}${s.acp.length?` · acompanha ${s.acp.length}`:''}</small></button><div class="tq-bar-t">${tot?`<div class="tq-bar-in" style="width:max(${(tot/max*100).toFixed(1)}%,${[s.noP.length,s.atr.length,s.conc.length].filter(Boolean).length*32}px)">${seg(id,'noP',s.noP.length,'ab','em aberto no prazo')}${seg(id,'atr',s.atr.length,'atr','atrasadas')}${seg(id,'conc',s.conc.length,'co','concluídas no período')}</div>`:'<span class="tl" style="padding:0 10px;line-height:28px">Sem tarefas no período.</span>'}</div><span class="tq-bar-tot" aria-hidden="true">${tot}<small>tarefa${tot!==1?'s':''}</small></span></div>`).join('')||'<p class="tl">Ninguém neste filtro.</p>'}</div></section>`;
  /* tabela */
  const cel=(id,k,v,cls)=>`<td><button class="tq-cel ${cls||''}" onclick="event.stopPropagation();tqPLista('${id}','${k}')" aria-label="${tqH(id==='time'?'Time':tqNome(id))}: ${TQ_PK[k]}, ${v}">${v}</button></td>`;
  const row=(id,s,nome,eq,cls,pos)=>`<tr class="${cls||''}" onclick="tqPLista('${id}','todas')" title="Clique para ver as tarefas"><td>${pos||''}</td><td><b>${tqH(nome)}</b></td><td>${tqH(eq)}</td>${cel(id,'ab',s.ab.length)}${cel(id,'atr',s.atr.length,s.atr.length?'err':'')}${cel(id,'acp',s.acp.length)}${cel(id,'conc',s.conc.length)}${cel(id,'ok',s.ok.length)}${cel(id,'fora',s.fora.length)}${cel(id,'cp',s.pct==null?'—':s.pct+'%')}${cel(id,'perdT',s.perd)}</tr>`;
