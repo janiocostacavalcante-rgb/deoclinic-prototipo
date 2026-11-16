@@ -451,3 +451,31 @@ if(typeof VIEWS['estoque-lancar']==='function'){const _v=VIEWS['estoque-lancar']
 /* 753: uma segunda médica de clínica médica (fictícia), com agenda à tarde, para dar para reagendar entre profissionais da mesma especialidade */
 try{if(typeof PROFISSIONAIS!=='undefined'&&!PROFISSIONAIS.some(p=>p.id==='p26'))PROFISSIONAIS.push({id:'p26',n:'Dra. Lorena Matos',ini:'LM',cons:'CRM-CE 21.450',esp:'Clínica médica',unids:[10],cor:'#7C3AED',repasse:'60% particular · 70% convênio',ativo:true})}catch(e){}
 if(typeof rc==='function'){const _rc=rc;rc=function(){const r=_rc.apply(this,arguments);try{if(typeof RC!=='undefined'&&RC&&RC.agendas&&!RC.r26){RC.r26=true;const b=RC.agendas.find(a=>a.id==='ag1');if(b&&!RC.agendas.some(a=>a.prof==='p26'))RC.agendas.push({...b,id:'ag26',nome:'DRA LORENA MATOS',prof:'p26',ini:'13:00',fim:'17:00',dias:[1,2,3,4,5],obs:''})}}catch(e){}return r}}
+
+/* ==========================================================================
+   Alternativas aprovadas pelo Jânio para as notas retidas 748, 750 e 765
+   ========================================================================== */
+try{document.head.insertAdjacentHTML('beforeend',`<style>
+.rc-tvv .nm.r26-tvn{font-size:9vw;line-height:1.05;display:flex;align-items:baseline;gap:2vw;flex-wrap:wrap}
+.rc-tvv .r26-cod{font-size:3.4vw;font-weight:800;opacity:.85;letter-spacing:.04em;border:2px solid rgba(255,255,255,.5);border-radius:1vw;padding:.2vw 1vw}
+.cl-tv .nm.r26-tvn{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;justify-content:center}
+.cl-tv .r26-cod{font-size:.45em;font-weight:800;opacity:.85;border:1.5px solid currentColor;border-radius:8px;padding:1px 8px;letter-spacing:.04em}
+details.r26-ent>summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+details.r26-ent>summary::-webkit-details-marker{display:none}
+details.r26-ent>summary h3{margin:0}
+details.r26-ent[open]>summary{margin-bottom:10px}
+</style>`)}catch(e){}
+/* 750: no painel (TV e prévia), o primeiro nome em destaque e o código da senha menor ao lado. O código continua: evita expor o nome completo e separa homônimos. */
+const r26Prim=n=>{const p=String(n||'').trim().split(/\s+/).filter(Boolean);if(!p.length)return '';return /^(dra?|sr|sra)\.?$/i.test(p[0])&&p[1]?p[0]+' '+p[1]:p[0]};
+if(typeof VIEWS['painel-tv']==='function'){const _v=VIEWS['painel-tv'];VIEWS['painel-tv']=function(){return String(_v.apply(this,arguments)).replace(/<div class="sn">([^<]*)<\/div><div class="nm">([^<]*)<\/div>/,(m,num,n)=>{const p=r26Prim(n);return p?`<div class="nm r26-tvn">${esc(p)} <span class="r26-cod" aria-label="senha ${num}">${num}</span></div>`:m})}}
+if(typeof VIEWS['painel-senhas']==='function'){const _v=VIEWS['painel-senhas'];VIEWS['painel-senhas']=function(){return String(_v.apply(this,arguments)).replace(/<span class="sn">([^<]*)<\/span><span class="nm">([^<]*)<\/span>/,(m,num,n)=>{const p=n==='Sem identificação'?'':r26Prim(n);return p?`<span class="nm r26-tvn">${esc(p)} <span class="r26-cod" aria-label="senha ${num}">${num}</span></span>`:m})}}
+/* 748: o aviso das leis de prioridade vai para um ícone "i" (abre ao passar o mouse, ao clicar ou pelo teclado; o leitor de tela lê o texto) */
+if(typeof VIEWS['pre-atendimento']==='function'){const _v=VIEWS['pre-atendimento'];VIEWS['pre-atendimento']=function(){return String(_v.apply(this,arguments)).replace(/<h4 style="margin:10px 0 6px">Peso do atendimento<\/h4><p class="tl rc21-pa-lei">([^<]*)<\/p>/,(m,t)=>`<h4 style="margin:10px 0 6px" class="rc21-pa-lei">Peso do atendimento ${info(t)}</h4>`)}}
+/* 765: "Entrega do resultado" recolhido numa linha, já no padrão (link com senha); abre ao clicar. Os registros continuam todos lá dentro. */
+let R26_ENT_ABERTO=false;
+function r26EntResumo(){const c=[NA.wa&&'WhatsApp',NA.em&&'e-mail',NA.sms&&'SMS'].filter(Boolean),t=(NA.terc||[]).filter(x=>x&&String(x.n||'').trim()).length;
+ return `${c.length?c.join(' e '):'sem canal'} · ${NA.pdf?'PDF direto (autorizado)':'só o link com senha'}${NA.balcao!==false?' · retirada no balcão':''}${t?` · ${t} terceiro${t>1?'s':''} autorizado${t>1?'s':''}`:''}`}
+if(typeof naP3==='function'){const _p=naP3;naP3=function(){const h=String(_p.apply(this,arguments));if(!NA||NA.modo!=='atendimento')return h;const ini='<div class="card at-card"><h3>Entrega do resultado</h3>',i=h.indexOf(ini);if(i<0)return h;const j=h.indexOf('<div class="at-end">',i);if(j<0)return h;
+ const card=h.slice(i,j),k=card.lastIndexOf('</div>');if(k<0)return h;const semCanal=!NA.wa&&!NA.em&&!NA.sms&&NA.balcao===false,ab=R26_ENT_ABERTO||semCanal;
+ return h.slice(0,i)+`<details class="card at-card r26-ent" ${ab?'open':''} ontoggle="R26_ENT_ABERTO=this.open"><summary><h3>Entrega do resultado</h3><span class="tl">${esc(r26EntResumo())} · ${ab?'fechar':'abrir para mudar'}</span></summary>`+card.slice(ini.length,k)+'</details>'+card.slice(k+6)+h.slice(j)}}
+if(typeof naConcluir==='function'){const _c=naConcluir;naConcluir=function(){if(NA&&NA.modo==='atendimento'&&!NA.wa&&!NA.em&&!NA.sms&&NA.balcao===false){R26_ENT_ABERTO=true;try{const d=document.querySelector('details.r26-ent');if(d)d.open=true}catch(e){}}return _c.apply(this,arguments)}}

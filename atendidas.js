@@ -1834,8 +1834,8 @@ window.DEO_ATENDIDAS=Object.assign(window.DEO_ATENDIDAS||{},{
   "t": "Quando um cliente tiver um e-ticket (pro"
  },
  "748": {
-  "st": "retida",
-  "r": "Não feito por enquanto: o texto lembra a prioridade garantida em lei (Lei 10.048/2000, Estatuto da Pessoa Idosa e Lei 13.466/2017) e avisa que gestante e pessoa com deficiência precisam ser marcadas à mão. Como é um aviso legal, mantivemos. Dá para encurtar e deixar só no ícone \"i\", se preferir.",
+  "st": "atendida",
+  "r": "Feito em parte: o aviso das leis de prioridade foi para o ícone \"i\" ao lado de \"Peso do atendimento\". Abre ao passar o mouse, ao clicar ou pelo teclado. Não saiu da tela porque é um aviso legal (Lei 10.048, Estatuto da Pessoa Idosa e Lei 13.466).",
   "t": "Isso já uma diretriz da empresa, como to"
  },
  "749": {
@@ -1844,8 +1844,8 @@ window.DEO_ATENDIDAS=Object.assign(window.DEO_ATENDIDAS||{},{
   "t": "organize o layout desses campos."
  },
  "750": {
-  "st": "retida",
-  "r": "Não feito: o código da senha (ex.: AJ-005) evita chamar o paciente só pelo nome completo na TV, para expor o mínimo de dados pessoais (LGPD, princípio da necessidade). Ele também diferencia pessoas com o mesmo nome. Se o problema for o tamanho, dá para mostrar o código menor, ao lado do primeiro nome.",
+  "st": "atendida",
+  "r": "Feito em parte: no painel, aparece o primeiro nome em destaque e o código da senha menor, ao lado. O código não saiu porque evita mostrar o nome completo na TV (LGPD) e separa pessoas com o mesmo nome.",
   "t": "Como o Painel de Senhas lê apenas o nome"
  },
  "751": {
@@ -1919,8 +1919,8 @@ window.DEO_ATENDIDAS=Object.assign(window.DEO_ATENDIDAS||{},{
   "t": "O desconto precisa permitir ser informad"
  },
  "765": {
-  "st": "retida",
-  "r": "Não feito: em Entrega do resultado ficam o canal de envio, a autorização do paciente para receber o PDF, os terceiros autorizados a retirar e como o paciente autorizou. São registros exigidos pela LGPD e pela RDC 978/2025 (sigilo na liberação do resultado). Uma alternativa é deixar o cartão fechado, numa linha só, já preenchido com o padrão (link com senha pelo WhatsApp), abrindo só quando for mudar. Se quiser, eu faço.",
+  "st": "atendida",
+  "r": "Feito em parte: o cartão \"Entrega do resultado\" fica fechado numa linha só, já no padrão (link com senha), e abre ao clicar. Não saiu porque guarda o canal, a autorização do PDF, os terceiros autorizados e como o paciente autorizou, registros exigidos pela LGPD e pela RDC 978/2025.",
   "t": "Retirar"
  },
  "766": {
