@@ -1927,5 +1927,290 @@ window.DEO_ATENDIDAS=Object.assign(window.DEO_ATENDIDAS||{},{
   "st": "atendida",
   "r": "Feito: ao concluir o atendimento, o sistema leva direto para as Fichas do paciente. O atendimento concluído aparece em destaque, com Comprovante, Declaração e Novo atendimento. As outras opções das fichas entram depois, como combinado.",
   "t": "Dessa guia, após finalizar o faturamento"
+ },
+ "767": {
+  "st": "atendida",
+  "r": "Feito: o CPF continua travado na edição comum, para evitar troca por engano. Agora há o botão \"Corrigir CPF\" ao lado do campo. Ele libera o campo e pede o motivo. O sistema confere os números, não aceita CPF que já é de outro cadastro e guarda no histórico o CPF antigo, o novo, o motivo, quem fez e quando (a LGPD garante ao paciente a correção dos dados).",
+  "t": "Impossibilidade de editar o campo de CPF"
+ },
+ "768": {
+  "st": "atendida",
+  "r": "Feito: no filtro da coluna Contrato você digita só os números (ex.: 0907) e a lista encontra o contrato CT-0907. Letras são ignoradas.",
+  "t": "Na coluna de contrato, buscar apenas os "
+ },
+ "769": {
+  "st": "atendida",
+  "r": "Feito: o texto explicativo saiu da prévia das etiquetas. Ficaram só as etiquetas e os botões.",
+  "t": "Retire essas informações."
+ },
+ "770": {
+  "st": "atendida",
+  "r": "Feito: o URGENTE fica vermelho, sem piscar.",
+  "t": "Não piscar"
+ },
+ "771": {
+  "st": "atendida",
+  "r": "Feito: na busca do topo, quando você digita a data de nascimento só com números, o sistema já coloca as barras (12041988 vira 12/04/1988). Se o número for de CPF ou telefone, ele não mexe.",
+  "t": "Ao digitar a data de nascimento automáti"
+ },
+ "772": {
+  "st": "atendida",
+  "r": "Feito: o URGENTE parou de piscar em todas as telas (Mapa, Transporte, Digitação, Conferência, Imagem e as outras). Ele continua vermelho, para a urgência continuar fácil de ver.",
+  "t": "Não piscar, aplicar a todos os ícones de"
+ },
+ "773": {
+  "st": "atendida",
+  "r": "Feito: ao escolher a bancada, o mapa muda de verdade: cada bancada (Hematologia, Bioquímica, Hormônios, Urinálise e Coagulação) mostra os próprios tubos, controles e urgências, e o resumo da rodada acompanha.",
+  "t": "Ao filtrar por bancada não muda nada, co"
+ },
+ "774": {
+  "st": "atendida",
+  "r": "Feito: ao restaurar uma coluna arquivada, o sistema mostra as tarefas que estavam nela e pergunta: \"Restaurar com as tarefas\" ou \"Restaurar só a coluna\".",
+  "t": "Quando restaurar, recuperar as tarefas q"
+ },
+ "775": {
+  "st": "atendida",
+  "r": "Feito: na janela da coluna entrou o botão \"Excluir coluna\" (também na lista de colunas arquivadas). As tarefas da coluna não são apagadas: vão para outra coluna do seu quadro. O sistema pede confirmação antes.",
+  "t": "Incluir opção de Excluir coluna."
+ },
+ "776": {
+  "st": "atendida",
+  "r": "Feito: na janela de digitação, os botões Recusar, Recoleta, Excluir, Parcial e Salvar ficam todos na mesma linha, com a mesma altura. A opção \"Ir para o próximo ao salvar\" fica na linha de cima.",
+  "t": "Coloque o botão de salvar alinhado aos d"
+ },
+ "777": {
+  "st": "atendida",
+  "r": "Feito: o botão \"Digitar\" saiu da lista. Clicar na linha do exame já abre a digitação.",
+  "t": "Retire esse item de digitar, já que ai c"
+ },
+ "778": {
+  "st": "atendida",
+  "r": "Feito: os filtros da Digitação (período, unidade, bancada, exame e urgência) ficam todos numa linha só.",
+  "t": "Deixe esse ícones de filtro todos alinha"
+ },
+ "779": {
+  "st": "atendida",
+  "r": "Feito: quando o exame com crítica já está aberto na tela de conferência, \"Liberar\" libera direto, sem abrir a mesma tela de novo. O aviso de valor crítico ao médico continua saindo sozinho e a revisão fica registrada no exame. Na liberação em lote (\"Liberar todos\"), cada exame com crítica ainda abre a janela, porque ali o resultado não foi visto antes.",
+  "t": "Ao liberar o exame com crítica abre nova"
+ },
+ "780": {
+  "st": "atendida",
+  "r": "Feito: com o exame aberto na conferência, apertar Enter aciona o botão Liberar. O botão mostra \"(Enter)\" para lembrar. Se você estiver digitando numa observação, o Enter não libera.",
+  "t": "O botão liberar deve ser selecionado ao "
+ },
+ "781": {
+  "st": "atendida",
+  "r": "Feito: em Minhas tarefas entrou a aba \"Por etiqueta\", ao lado de Quadro e Por prazo. As tarefas aparecem agrupadas por etiqueta, e as que não têm etiqueta ficam em \"Sem etiqueta\".",
+  "t": "Ter a opção de ver por etiquetas tbm."
+ },
+ "782": {
+  "st": "atendida",
+  "r": "Feito: na janela de cada coluna há a opção \"Só entra nesta coluna depois da avaliação de um responsável\", com a escolha de quem avalia. Quem move a tarefa para essa coluna envia um pedido de avaliação; a tarefa fica \"Aguardando avaliação\" até o responsável aprovar ou devolver no detalhe da tarefa.",
+  "t": "Incluir um campo de configuração de regr"
+ },
+ "783": {
+  "st": "atendida",
+  "r": "Feito: em Nova tarefa entrou o campo Repetir: todo dia, toda semana ou todo mês num dia fixo (ex.: todo dia 5). Quando a tarefa é concluída, a próxima é criada sozinha com o novo prazo. Dá para parar a repetição no detalhe da tarefa.",
+  "t": "Incluir um campo de tarefa recorrente, p"
+ },
+ "784": {
+  "st": "atendida",
+  "r": "Feito: em Minhas tarefas entrou o botão \"Tarefas automáticas\". Nele ficam as regras que criam tarefas sozinhas. Já vem a regra: quando um caixa é fechado, abre uma tarefa para o gerente da unidade conferir. Dá para criar outras regras (estoque abaixo do mínimo, orçamento vencido) e ligar ou desligar cada uma. Para testar, feche um caixa ou use \"Simular fechamento\".",
+  "t": "Ser criadas tarefas de sugestão tipo lem"
+ },
+ "785": {
+  "st": "atendida",
+  "r": "Feito: a janela Editar cadastro ficou em três cartões, Dados pessoais, Contato e Endereço. Cada cartão tem borda verde acinzentada e o título em negrito sobre uma faixa verde clara. Os campos continuam com fundo branco e borda discreta.",
+  "t": "Organize o formulário separando e destac"
+ },
+ "786": {
+  "st": "atendida",
+  "r": "Feito: a janela Editar cadastro ficou em três cartões, Dados pessoais, Contato e Endereço. Cada cartão tem borda verde acinzentada e o título em negrito sobre uma faixa verde clara. Os campos continuam com fundo branco e borda discreta.",
+  "t": "Organize o formulário separando e destac"
+ },
+ "787": {
+  "st": "atendida",
+  "r": "Feito: os cartões do cadastro têm borda verde acinzentada, no padrão de cores do sistema.",
+  "t": "Bordas dos cards em verde acinzentado, s"
+ },
+ "788": {
+  "st": "atendida",
+  "r": "Feito: no Novo atendimento, as abas Dados e Agendamentos mostram só as informações do paciente. O pedido (plano, procedimentos, solicitante e questionário) agora aparece só na aba Orçamentos, que já abre sozinha quando você entra no paciente.",
+  "t": "Estas informações não têm funcionalidade"
+ },
+ "789": {
+  "st": "atendida",
+  "r": "Feito: no Novo atendimento, as abas Dados e Agendamentos mostram só as informações do paciente. O pedido (plano, procedimentos, solicitante e questionário) agora aparece só na aba Orçamentos, que já abre sozinha quando você entra no paciente.",
+  "t": "Estas informações não têm funcionalidade"
+ },
+ "790": {
+  "st": "atendida",
+  "r": "Feito: no Novo atendimento, as abas Dados e Agendamentos mostram só as informações do paciente. O pedido (plano, procedimentos, solicitante e questionário) agora aparece só na aba Orçamentos, que já abre sozinha quando você entra no paciente. Na aba Agendamentos fica só o histórico de agendamentos.",
+  "t": "Estas informações não têm funcionalidade"
+ },
+ "791": {
+  "st": "atendida",
+  "r": "Feito: no Novo atendimento, as abas Dados e Agendamentos mostram só as informações do paciente. O pedido (plano, procedimentos, solicitante e questionário) agora aparece só na aba Orçamentos, que já abre sozinha quando você entra no paciente. Na aba Agendamentos fica só o histórico de agendamentos.",
+  "t": "Estas informações não têm funcionalidade"
+ },
+ "792": {
+  "st": "atendida",
+  "r": "Feito: na aba Agendamentos do paciente, cada agendamento é clicável e leva direto para os detalhes daquele agendamento na agenda.",
+  "t": "permita que eu consiga clicar neste camp"
+ },
+ "793": {
+  "st": "atendida",
+  "r": "Feito: na lista de fornecedores do Novo item entrou \"+ Cadastrar fornecedor que não está na lista\". Abre na mesma janela os campos nome, CNPJ, telefone e prazo de entrega. O fornecedor novo entra como \"em qualificação\", porque o laboratório precisa qualificar os fornecedores (exigência da RDC 978/2025 e do PALC); a qualidade aprova depois.",
+  "t": "Ter  opção de adicionar um fornecedor qu"
+ },
+ "794": {
+  "st": "atendida",
+  "r": "Feito: a coluna Paciente ID saiu do Painel da Fidelidade.",
+  "t": "Retirar coluna."
+ },
+ "795": {
+  "st": "atendida",
+  "r": "Feito no protótipo: os contratos ficam ligados ao cadastro do paciente. Na lista de contratos, cada linha tem \"Cadastro\" (abre o cadastro e as fichas) ou, quando o contrato ainda não tem cadastro, \"Vincular ao cadastro\" (busca por nome, CPF ou prontuário, ou cria o cadastro com os dados do contrato). O contrato aparece em Pacientes (selo Fidelidade), nas Fichas do paciente e no Novo atendimento, onde o desconto do plano entra sozinho. No Novo contrato dá para cadastrar o paciente na hora. A ligação com o sistema Fidelidade que vocês já usam (banco de dados ou API) fica para o sistema definitivo: aqui ela é simulada.",
+  "t": "Considerando nossa necessidade e a estru"
+ },
+ "796": {
+  "st": "atendida",
+  "r": "Feito: em Entradas e saídas, ao digitar o código ou o nome, aparece uma lista própria do sistema, com código, nome e unidade, logo abaixo do campo. Dá para escolher com o mouse ou com as setas e Enter.",
+  "t": "mostrar as sugestões como uma lista, pq "
+ },
+ "797": {
+  "st": "atendida",
+  "r": "Feito: o botão Imprimir dos Relatórios do estoque abre antes uma prévia do relatório, com a escolha do modelo (A4 em pé ou deitada) e se mostra os valores em reais. Depois é só clicar em Imprimir.",
+  "t": "abrir um modelo antes da impressão."
+ },
+ "798": {
+  "st": "atendida",
+  "r": "Feito: ao trocar o profissional do procedimento, o valor muda sozinho para o preço daquele profissional (no particular). Os valores por profissional ficam no cadastro do procedimento, na nova parte \"Valor por profissional\". Sem valor próprio, vale o da tabela. Para testar: Consulta em consultório com a Dra. Camila (R$ 180,00) e com a Dra. Renata (R$ 250,00).",
+  "t": "O valor precisa mudar ao trocar de profi"
+ },
+ "799": {
+  "st": "atendida",
+  "r": "Feito: o botão do orçamento agora é \"Autorizar e faturar\": ele autoriza e leva direto ao faturamento. Ao concluir o faturamento, o sistema volta sozinho para o paciente, na aba Fichas, com a ficha nova aberta.",
+  "t": "Ao clicar em Autorizar Orçamento, o sist"
+ },
+ "800": {
+  "st": "atendida",
+  "r": "Feito: na forma de pagamento Cartão de crédito entrou o campo \"Acréscimo (%)\". O sistema calcula o acréscimo, mostra o valor a cobrar no cartão e o valor final a faturar. Nas outras formas não há acréscimo. A tela lembra de avisar o paciente antes (Lei 13.455/2017), e o acréscimo entra no comprovante, na ficha e na nota fiscal.",
+  "t": "Preciso de uma forma de adicionar acrésc"
+ },
+ "801": {
+  "st": "atendida",
+  "r": "Feito: a tomografia computadorizada com contraste ganhou o questionário digital completo, numa etapa só: identificação (vem do cadastro), as 15 perguntas (com os campos que abrem quando a resposta é Sim, a lista de doenças com várias opções e as perguntas de gravidez e amamentação só para mulheres), a autorização do contraste iodado, o consentimento e as assinaturas do paciente (na tela, com o dedo ou o mouse) e do profissional. No Novo atendimento aparece o cartão \"Questionário digital\" com a situação (pendente ou completo), e dá para imprimir. Em Triagem e questionários, qualquer procedimento pode usar esse modelo. Atenção: o texto do termo chegou cortado na anotação; deixamos o começo e um aviso para a clínica colar o texto completo. A assinatura na tela é simulada; no sistema definitivo será assinatura eletrônica (Lei 14.063/2020).",
+  "t": "Possibilitar essa configuração: A ideia "
+ },
+ "802": {
+  "st": "atendida",
+  "r": "Feito: o botão \"Abrir as fichas do paciente\" saiu. A aba Fichas já mostra todas as fichas do paciente.",
+  "t": "Não precisa ter esse campo. Ao clicar na"
+ },
+ "803": {
+  "st": "atendida",
+  "r": "Feito: no Cartão de crédito há o campo \"Acréscimo (%)\". Exemplo: R$ 255,00 com 10% dá taxa de R$ 25,50 e valor final de R$ 280,50, calculado sozinho. Nas outras formas o valor fica o original. O paciente precisa ser avisado antes (Lei 13.455/2017); o acréscimo entra no comprovante e na nota fiscal.",
+  "t": "Ao selecionar a forma de pagamento Cartã"
+ },
+ "804": {
+  "st": "atendida",
+  "r": "Feito: depois de concluir o atendimento, o sistema volta para o paciente, que já está carregado; o botão \"Novo atendimento\" (nas Fichas do paciente e no fim do atendimento) abre direto no paciente, sem pedir o CPF de novo, igual ao caminho de Pacientes.",
+  "t": "Esse “Atendimento” precisa direcionar pa"
+ },
+ "805": {
+  "st": "atendida",
+  "r": "Feito: ao concluir o faturamento, o sistema volta sozinho para o cadastro do paciente (aba Fichas, com a ficha nova aberta), sem precisar clicar em nada. O aviso de atendimento concluído tem Comprovante e Declaração.",
+  "t": "ao concluir a etapa de faturamento, me r"
+ },
+ "806": {
+  "st": "atendida",
+  "r": "Feito: entendemos que o campo era o balão \"Dr. Deo diz\" no topo do Atendimento, e ele saiu. Se era outro campo, por favor marque de novo em cima dele.",
+  "t": "TIRE ESSE CAMPO"
+ },
+ "807": {
+  "st": "atendida",
+  "r": "Feito: os títulos da lista de pacientes (Prontuário, Nome completo, CPF etc.) estão em negrito, com cor mais forte e um fundo de destaque.",
+  "t": "DEIXE OS TITULOS COMO:  PRONTUARIO, NOME"
+ },
+ "808": {
+  "st": "atendida",
+  "r": "Feito: a janela Editar cadastro ficou em três cartões, Dados pessoais, Contato e Endereço. Cada cartão tem borda verde acinzentada e o título em negrito sobre uma faixa verde clara. Os campos continuam com fundo branco e borda discreta. O espaço entre os cartões e entre os campos também aumentou.",
+  "t": "Organize a tela de edição de cadastro se"
+ },
+ "809": {
+  "st": "atendida",
+  "r": "Feito: a tela de Atendimento ganhou revisão visual: cada cartão tem borda verde acinzentada e mais espaço interno, os títulos ficaram maiores e em negrito, os campos ficaram mais espaçados e alinhados, e a barra de botões do fim fica separada por uma linha. As cores continuam as do sistema.",
+  "t": "Quero que você faça uma revisão visual e"
+ },
+ "810": {
+  "st": "atendida",
+  "r": "Feito: na aba Fichas, cada ficha aparece fechada, com o número, a data e a hora em que foi gerada (e a situação e o valor). Ao clicar, ela abre e mostra todos os procedimentos daquela ficha, o plano e o pagamento.",
+  "t": "Quero que cada ficha seja apresentada em"
+ },
+ "811": {
+  "st": "atendida",
+  "r": "Feito: o balão \"Dr. Deo diz\" saiu do Novo atendimento.",
+  "t": "retire isso."
+ },
+ "812": {
+  "st": "atendida",
+  "r": "Feito: na aba Orçamentos, clicar no orçamento abre a lista dos procedimentos dele, com o valor de cada um e o total. Clicando de novo, fecha.",
+  "t": "permita que eu consiga clicar para ver o"
+ },
+ "813": {
+  "st": "atendida",
+  "r": "Feito: em Currículo Médico entrou o botão \"Novo currículo\" (para gestão e administração). Ele pede nome, especialidade, conselho, UF e número do registro, cria o currículo e já abre o perfil para preencher as informações.",
+  "t": "adicione um campo para criar um novo cur"
+ },
+ "814": {
+  "st": "atendida",
+  "r": "Feito: no perfil do profissional, os botões de editar estavam quase invisíveis; agora aparecem como \"Editar\" em cada informação e no RQE. Entrou também \"Editar dados do profissional\" (nome, especialidade e registro). Quem edita é a gestão ou a administração.",
+  "t": "permita fazer edição neste campo."
+ },
+ "815": {
+  "st": "atendida",
+  "r": "Feito: as abas Informações e Dúvidas frequentes ficaram centralizadas, com fundo de destaque. A aba escolhida fica preenchida com a cor do sistema.",
+  "t": "Quero centralizar e dar maior destaque v"
+ },
+ "816": {
+  "st": "atendida",
+  "r": "Feito: o botão do WhatsApp na agenda abre uma janela com os padrões de mensagem: Confirmação de atendimento, Mudança de horário, Desmarcar atendimento e Remarcar para outra data. Cada um já vem preenchido com o nome do paciente, o dia, a hora, o profissional e a unidade (na mudança e na remarcação, você escolhe o novo horário e a nova data). Dá para ler e editar o texto antes de abrir o WhatsApp. A mensagem não cita exame nem procedimento, para proteger os dados de saúde (LGPD).",
+  "t": "Ao clicar no ícone do WhatsApp localizad"
+ },
+ "817": {
+  "st": "atendida",
+  "r": "Feito: entendemos que o campo era o balão \"Dr. Deo diz\" no topo de Pacientes, e ele saiu. Se era outro campo, por favor marque de novo em cima dele.",
+  "t": "REMOVA ESSE CAMPO"
+ },
+ "818": {
+  "st": "atendida",
+  "r": "Feito: no orçamento, cada procedimento médico (ou que depende de autorização do convênio) tem o botão \"Agendar este procedimento\". Ele abre os profissionais, os dias e os horários livres, e o agendamento é criado ligado ao orçamento, sem duplicar: um registro do agendamento e um do orçamento. Depois de agendado, o item mostra a data e a hora, e \"Ver agendamento\". No convênio, o agendamento fica como \"aguardando autorização\".",
+  "t": "Quando for um procedimento médico que de"
+ },
+ "819": {
+  "st": "atendida",
+  "r": "Feito: no cadastro do procedimento entrou a opção \"Este procedimento não tem questionário\". Marcada, a lista de perguntas some e o procedimento fica sem questionário.",
+  "t": "Um procedimento pode não ter questionári"
+ },
+ "820": {
+  "st": "atendida",
+  "r": "Feito: entrou o botão \"Salvar orçamento\", que salva o orçamento e mostra a confirmação; ele fica na aba Orçamentos do paciente e em Orçamentos. Ao lado fica \"Autorizar e faturar\", que leva ao faturamento.",
+  "t": "SALVAR O ORCAMENTO, COLCOR. ESSE NOME."
+ },
+ "821": {
+  "st": "atendida",
+  "r": "Feito: quando o valor está todo pago, aparece \"Totalmente faturado\". O botão de adicionar outra forma de pagamento fica desligado e o sistema não deixa lançar valor acima do valor final (só o dinheiro pode passar, para dar troco).",
+  "t": "Quando o subtotal estiver faturado, deve"
+ },
+ "822": {
+  "st": "atendida",
+  "r": "Feito: quando o valor está todo pago, aparece \"Totalmente faturado\". O botão de adicionar outra forma de pagamento fica desligado e o sistema não deixa lançar valor acima do valor final (só o dinheiro pode passar, para dar troco).",
+  "t": "Quando o subtotal estiver faturado, deve"
+ },
+ "823": {
+  "st": "atendida",
+  "r": "Feito: o texto \"Protocolo… vai para a fila; entrega por…\" saiu do aviso de atendimento concluído. Ficaram o título e os botões Comprovante e Declaração.",
+  "t": "Retirar."
  }
 });
